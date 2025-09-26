@@ -80,29 +80,155 @@ In the design of the application \textbf{GetClasses}, object-oriented concepts a
 
 \newpage
 \section{User Stories}
-Here are the main user stories of the platform.
 
-\subsection*{Tutor}
+\subsection*{User Story 1 – Tutor Registration}
+\textbf{User Story:}  
+As a tutor (professional or advanced student),  
+I want to register and create a profile with my expertise areas, academic level, hourly rate, and personal introduction,  
+so that students can know my skills and contact me.  
+
+\textbf{Acceptance Criteria:}  
 \begin{itemize}
-    \item As a tutor, I want to register and create a profile with my expertise areas, academic level, hourly rate, and personal introduction, so that students can know my skills and contact me.
-    \item As a tutor, I want to upload a profile picture so that students can recognize me easily.
-    \item As a tutor, I want to rate students after a class, so that I can provide feedback on their participation and punctuality.
-    \item As a tutor, I want to set an auto-responder when unavailable, so students get notified automatically.
+    \item Given that I am on the tutor registration page,
+    \item When I fill in my details and click “Create Account”,
+    \item Then my profile is created and I can access the platform as a tutor.
 \end{itemize}
 
-\subsection*{Student}
+---
+
+\subsection*{User Story 2 – Tutor Profile Picture}
+\textbf{User Story:}  
+As a tutor,  
+I want to upload a profile picture,  
+so that students can easily recognize me.  
+
+\textbf{Acceptance Criteria:}  
 \begin{itemize}
-    \item As a student, I want to search tutors by subject, level and price, so I can find the best fit.
-    \item As a student, I want to view tutor profiles in a list with photo, name, subjects and hourly rate, so I can compare them.
-    \item As a student, I want to chat with tutors to coordinate lessons.
-    \item As a student, I want to rate tutors after a class, so I can evaluate their clarity and performance.
+    \item Given that I am on my profile page,
+    \item When I upload a valid image,
+    \item Then the picture appears on my profile and is visible to students.
 \end{itemize}
 
-\subsection*{General Users}
+---
+
+\subsection*{User Story 3 – Tutor Search}
+\textbf{User Story:}  
+As a student,  
+I want to filter tutors by subject, academic level, and price range,  
+so that I can quickly find the most suitable tutor for me.  
+
+\textbf{Acceptance Criteria:}  
 \begin{itemize}
-    \item As a user, I want to view my ratings and comments in my profile, so I can know my reputation.
-    \item As a user, I want to contact support/admin, so I can solve technical or account issues.
+    \item Given that I am on the tutor search page,
+    \item When I select filters and click “Search”,
+    \item Then the system shows tutors that match those criteria.
 \end{itemize}
+
+---
+
+\subsection*{User Story 4 – Tutor Listing}
+\textbf{User Story:}  
+As a student,  
+I want to see tutor profiles in a list with photo, name, title, subjects, and hourly rate,  
+so that I can compare them easily before selecting one.  
+
+\textbf{Acceptance Criteria:}  
+\begin{itemize}
+    \item Given that I have applied filters,
+    \item When the results are displayed,
+    \item Then the system shows a list of tutors with their basic information.
+\end{itemize}
+
+---
+
+\subsection*{User Story 5 – Chat with Tutor}
+\textbf{User Story:}  
+As a student,  
+I want to chat with the tutor through the platform,  
+so that I can coordinate lessons, ask questions, and stay in direct contact.  
+
+\textbf{Acceptance Criteria:}  
+\begin{itemize}
+    \item Given that I have selected a tutor,
+    \item When I access the “Chat” option,
+    \item Then I can send and receive real-time messages with that tutor.
+\end{itemize}
+
+---
+
+\subsection*{User Story 6 – Tutor Rates Student}
+\textbf{User Story:}  
+As a tutor,  
+I want to rate the student after a tutoring session,  
+so that I can leave feedback about their participation, punctuality, and commitment.  
+
+\textbf{Acceptance Criteria:}  
+\begin{itemize}
+    \item Given that a tutoring session has ended,
+    \item When the tutor selects “Rate Student”,
+    \item Then they can assign a score and a comment that will appear on the student’s profile.
+\end{itemize}
+
+---
+
+\subsection*{User Story 7 – Student Rates Tutor}
+\textbf{User Story:}  
+As a student,  
+I want to rate the tutor after a tutoring session,  
+so that I can evaluate their performance, clarity, and punctuality.  
+
+\textbf{Acceptance Criteria:}  
+\begin{itemize}
+    \item Given that I have completed a tutoring session,
+    \item When I select “Rate Tutor”,
+    \item Then I can assign a score and a comment that will appear on the tutor’s profile.
+\end{itemize}
+
+---
+
+\subsection*{User Story 8 – View Ratings and Reviews}
+\textbf{User Story:}  
+As a user (student or tutor),  
+I want to view ratings and comments on my personal profile,  
+so that I can know my reputation and receive feedback.  
+
+\textbf{Acceptance Criteria:}  
+\begin{itemize}
+    \item Given that I am on my profile page,
+    \item When I access the “Ratings” section,
+    \item Then I can see my average score and all comments left by other users.
+\end{itemize}
+
+---
+
+\subsection*{User Story 9 – Tutor Auto-Responder}
+\textbf{User Story:}  
+As a tutor,  
+I want to have an auto-responder when I am unavailable,  
+so that students receive an automatic reply informing them of my status and don’t feel ignored.  
+
+\textbf{Acceptance Criteria:}  
+\begin{itemize}
+    \item Given that a student sends me a message while I am offline or marked as “unavailable”,
+    \item When the system triggers the auto-response,
+    \item Then the student sees a predefined message indicating I will reply later.
+\end{itemize}
+
+---
+
+\subsection*{User Story 10 – Contact Support/Admin}
+\textbf{User Story:}  
+As a user (student or tutor),  
+I want to have a section to contact an administrator or support,  
+so that I can solve technical issues, ask questions, or report problems on the platform.  
+
+\textbf{Acceptance Criteria:}  
+\begin{itemize}
+    \item Given that I am logged into my account,
+    \item When I go to the “Support” section and send a message,
+    \item Then the system forwards my request to the administrator and I receive confirmation that it was registered.
+\end{itemize}
+
 
 \newpage
 \section{Mockups}
@@ -111,13 +237,13 @@ Below are some initial sketches of the application screens.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{mockup1.png}
-    \caption{Main dashboard mockup}
+    \caption{Login Page}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{mockup2.png}
-    \caption{Tutor listing mockup}
+    \caption{Main page}
 \end{figure}
 
 
@@ -125,20 +251,20 @@ Below are some initial sketches of the application screens.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{mockup3.png}
-    \caption{Main dashboard mockup}
+    \caption{Tutor Perfil}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{mockup4.png}
-    \caption{Tutor listing mockup}
+    \caption{User Perfil}
 \end{figure}
 
 \newpage
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{mockup5.png}
-    \caption{Main dashboard mockup}
+    \caption{char Page}
 \end{figure}
 
 
@@ -180,7 +306,7 @@ Responsibilities:
 \end{itemize}
 Collaborators: Tutor, Student.
 
-\subsection*{Rating System}
+\subsection*{Reviews}
 Responsibilities:
 \begin{itemize}
     \item Store and manage ratings for both tutors and students.
@@ -188,7 +314,7 @@ Responsibilities:
 \end{itemize}
 Collaborators: Tutor, Student, Profile.
 
-\subsection*{Admin/Support}
+\subsection*{Administrator}
 Responsibilities:
 \begin{itemize}
     \item Receive and resolve support requests.
@@ -203,7 +329,7 @@ Below are CRC cards represented as images.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{crc1.jpeg}
-    \caption{CRC Card - Tutor}
+    \caption{CRC Card - User}
 \end{figure}
 
 \begin{figure}[h!]
@@ -215,50 +341,50 @@ Below are CRC cards represented as images.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{crc3.jpeg}
-    \caption{CRC Card - Profile}
+    \caption{CRC Card - Tutor}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{crc4.jpeg}
-    \caption{CRC Card - Chat}
+    \caption{CRC Card - Administrator}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{crc5.jpeg}
-    \caption{CRC Card - Rating System}
+    \caption{CRC Card - Schedule}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{crc6.jpeg}
-    \caption{CRC Card - Admin/Support}
+    \caption{CRC Card - PaymentSystem}
 \end{figure}
 
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{crc7.jpeg}
-    \caption{CRC Card - Rating System}
+    \caption{CRC Card - Appointment}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{crc8.jpeg}
-    \caption{CRC Card - Admin/Support}
+    \caption{CRC Card - Message}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{crc9.jpeg}
-    \caption{CRC Card - Rating System}
+    \caption{CRC Card - Chat}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{crc10.jpeg}
-    \caption{CRC Card - Admin/Support}
+    \caption{CRC Card - Reviews}
 \end{figure}
 
 
@@ -277,4 +403,9 @@ Below are CRC cards represented as images.
 During this first stage, the main challenge was defining clear user interactions and ensuring the platform covered both tutor and student needs. Decisions were made to prioritize usability, security, and scalability for future growth.
 
 \end{document}
+
+
+
+
+
 
