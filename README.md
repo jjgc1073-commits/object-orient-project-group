@@ -2,7 +2,7 @@
 students name and code of group:
 ├── 20251020087 Jhon Gonzalez 
 ├── 20251020102 Sebastian Zambrano 
-└── 20251020094 Alejandro Escobar
+└── 20251020094 Alejandro Escobar 
 
  # GetClasses - Object-Oriented Design (Workshop 1)
 
@@ -22,10 +22,10 @@ The goal of this workshop is to design a **transactional application** using obj
 ---
 
 ## 📂 Repository Structure
-├── /images # Folder containing mockups and CRC card images
-├── Workshop_1.pdf # Compiled final version of the workshop
-├── Workshop_1.tex # LaTeX source code of the final document
-└── README.md # This file
+├── /images # Folder containing mockups and CRC card images 
+├── Workshop_1.pdf # Compiled final version of the workshop 
+├── Workshop_1.tex # LaTeX source code of the final document 
+└── README.md # This file 
 
 
 ---
