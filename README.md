@@ -24,7 +24,7 @@ The goal of this workshop is to design a **transactional application** using obj
 ## 📂 Repository Structure
 - **/images** # Folder containing mockups and CRC card images
 - **Workshop_1.pdf** # Compiled final version of the workshop
-- **Workshop_1.tex** # LaTeX source code of the final document
+- **Workshop_1.txt** # LaTeX source code of the final document
 - **README.md** # This file
 
 
