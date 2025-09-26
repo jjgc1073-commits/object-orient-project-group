@@ -1,0 +1,280 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{graphicx}
+\geometry{a4paper, margin=1in}
+
+\title{Object-Oriented Programming \\ Semester 2025-III \\ \vspace{0.5cm} Workshop No. 1 — Object-Oriented Design}
+\author{Alejandro Escobar \\ Jhon Gonzales \\ Sebastián Zambrano \\ \\ Computer Engineering Program \\ Universidad Distrital Francisco José de Caldas}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+\section{Object-Oriented Concepts}
+In the design of the application \textbf{GetClasses}, object-oriented concepts are used to structure the system into classes/objects that represent roles, operations, and data.
+
+\subsection*{Main Entities (Classes)}
+\begin{itemize}
+    \item Student
+    \item Tutor
+    \item Administrator
+    \item Academic Profile
+    \item Scheduling
+    \item Virtual Class
+    \item Payment System
+    \item Chat/Message
+    \item Review
+\end{itemize}
+
+\newpage
+\subsection*{Main Operations}
+\begin{itemize}
+    \item Student: register, log in, search tutors, book class, pay, leave review.
+    \item Tutor: register, manage profile, accept/reject requests, teach classes, receive payments.
+    \item Administrator: validate identities, solve disputes, supervise reviews and transactions.
+    \item Payment System: process payments, transfers, refunds.
+    \item Scheduling: show availability, reserve slots, notify users.
+    \item Chat/Message: send, receive, and store messages.
+\end{itemize}
+
+\subsection*{Data Flows (Simplified)}
+\begin{enumerate}
+    \item Registration/Login: Student/Tutor enters data → System validates → Access granted.
+    \item Search and Booking: Student searches → selects slot → Scheduling confirms.
+    \item Payment: Student pays → Payment System processes → Tutor receives balance.
+    \item Virtual Class: Scheduling starts session → Virtual Class connects both.
+    \item Review: Student leaves feedback → Stored in Tutor Profile.
+    \item Support: Administrator intervenes in case of disputes.
+\end{enumerate}
+
+\newpage
+\section{Requirements Documentation}
+
+\subsection*{Functional Requirements}
+\begin{enumerate}
+    \item Registration and login for students and tutors.
+    \item Profile management including experience, degrees, rate, and availability.
+    \item Tutor search with filters by subject, rate, language, and country.
+    \item Scheduling with notifications.
+    \item Secure payments (credit card, e-wallet).
+    \item Virtual classes with video call, screen sharing, and whiteboard.
+    \item Chat and messaging between users.
+    \item Reviews and ratings after sessions.
+    \item Dispute management by the administrator.
+\end{enumerate}
+
+\subsection*{Non-Functional Requirements}
+\begin{itemize}
+    \item \textbf{Performance:} Search responses in less than 3s, support 1000 concurrent users.
+    \item \textbf{Usability:} Intuitive interface, available on web and mobile, multilingual (EN/ES).
+    \item \textbf{Security:} Encrypted data and credentials, PCI DSS compliance, tutor identity validation.
+    \item \textbf{Availability:} 99\% uptime, daily backups.
+    \item \textbf{Scalability:} Architecture prepared for new services (e.g., group classes).
+\end{itemize}
+
+\newpage
+\section{User Stories}
+Here are the main user stories of the platform.
+
+\subsection*{Tutor}
+\begin{itemize}
+    \item As a tutor, I want to register and create a profile with my expertise areas, academic level, hourly rate, and personal introduction, so that students can know my skills and contact me.
+    \item As a tutor, I want to upload a profile picture so that students can recognize me easily.
+    \item As a tutor, I want to rate students after a class, so that I can provide feedback on their participation and punctuality.
+    \item As a tutor, I want to set an auto-responder when unavailable, so students get notified automatically.
+\end{itemize}
+
+\subsection*{Student}
+\begin{itemize}
+    \item As a student, I want to search tutors by subject, level and price, so I can find the best fit.
+    \item As a student, I want to view tutor profiles in a list with photo, name, subjects and hourly rate, so I can compare them.
+    \item As a student, I want to chat with tutors to coordinate lessons.
+    \item As a student, I want to rate tutors after a class, so I can evaluate their clarity and performance.
+\end{itemize}
+
+\subsection*{General Users}
+\begin{itemize}
+    \item As a user, I want to view my ratings and comments in my profile, so I can know my reputation.
+    \item As a user, I want to contact support/admin, so I can solve technical or account issues.
+\end{itemize}
+
+\newpage
+\section{Mockups}
+Below are some initial sketches of the application screens.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{mockup1.png}
+    \caption{Main dashboard mockup}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{mockup2.png}
+    \caption{Tutor listing mockup}
+\end{figure}
+
+
+\newpage
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{mockup3.png}
+    \caption{Main dashboard mockup}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{mockup4.png}
+    \caption{Tutor listing mockup}
+\end{figure}
+
+\newpage
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{mockup5.png}
+    \caption{Main dashboard mockup}
+\end{figure}
+
+
+\newpage
+\section{CRC Cards (Textual)}
+\subsection*{Tutor}
+Responsibilities:
+\begin{itemize}
+    \item Register and manage profile.
+    \item Manage availability and pricing.
+    \item Teach classes, rate students.
+    \item Enable auto-responder when unavailable.
+\end{itemize}
+Collaborators: Profile, Student, Chat, Rating System.
+
+\subsection*{Student}
+Responsibilities:
+\begin{itemize}
+    \item Search and filter tutors.
+    \item View tutor profiles.
+    \item Schedule and attend classes.
+    \item Rate tutors.
+\end{itemize}
+Collaborators: Tutor, Chat, Rating System, Support.
+
+\subsection*{Profile}
+Responsibilities:
+\begin{itemize}
+    \item Show tutor and student information.
+    \item Display ratings and reviews.
+\end{itemize}
+Collaborators: Tutor, Student, Rating System.
+
+\subsection*{Chat}
+Responsibilities:
+\begin{itemize}
+    \item Enable real-time communication.
+    \item Provide auto-responses if tutor unavailable.
+\end{itemize}
+Collaborators: Tutor, Student.
+
+\subsection*{Rating System}
+Responsibilities:
+\begin{itemize}
+    \item Store and manage ratings for both tutors and students.
+    \item Display reviews on profiles.
+\end{itemize}
+Collaborators: Tutor, Student, Profile.
+
+\subsection*{Admin/Support}
+Responsibilities:
+\begin{itemize}
+    \item Receive and resolve support requests.
+    \item Supervise disputes and transactions.
+\end{itemize}
+Collaborators: Tutor, Student.
+
+\newpage
+\section{CRC Cards (Visual)}
+Below are CRC cards represented as images.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{crc1.jpeg}
+    \caption{CRC Card - Tutor}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{crc2.jpeg}
+    \caption{CRC Card - Student}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{crc3.jpeg}
+    \caption{CRC Card - Profile}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{crc4.jpeg}
+    \caption{CRC Card - Chat}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{crc5.jpeg}
+    \caption{CRC Card - Rating System}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{crc6.jpeg}
+    \caption{CRC Card - Admin/Support}
+\end{figure}
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{crc7.jpeg}
+    \caption{CRC Card - Rating System}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{crc8.jpeg}
+    \caption{CRC Card - Admin/Support}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{crc9.jpeg}
+    \caption{CRC Card - Rating System}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{crc10.jpeg}
+    \caption{CRC Card - Admin/Support}
+\end{figure}
+
+
+\newpage
+\clearpage
+\section*{Notes and Reflection}
+\begin{itemize}
+    \item All documentation is in English.
+    \item References should be cited if external resources were used.
+    \item This is a draft, subject to improvement in future workshops.
+\end{itemize}
+
+\bigskip
+\noindent
+\textbf{Reflection:}  
+During this first stage, the main challenge was defining clear user interactions and ensuring the platform covered both tutor and student needs. Decisions were made to prioritize usability, security, and scalability for future growth.
+
+\end{document}
+
