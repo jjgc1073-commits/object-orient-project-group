@@ -7,7 +7,7 @@
 \geometry{a4paper, margin=1in}
 
 \title{Object-Oriented Programming \\ Semester 2025-III \\ \vspace{0.5cm} Workshop No. 1 — Object-Oriented Design}
-\author{Alejandro Escobar \\ Jhon Gonzales \\ Sebastián Zambrano \\ \\ Computer Engineering Program \\ Universidad Distrital Francisco José de Caldas}
+\author{Alejandro Escobar \\ Jhon Gonzalez \\ Sebastián Zambrano \\ \\ Computer Engineering Program \\ Universidad Distrital Francisco José de Caldas}
 \date{}
 
 \begin{document}
@@ -403,6 +403,7 @@ Below are CRC cards represented as images.
 During this first stage, the main challenge was defining clear user interactions and ensuring the platform covered both tutor and student needs. Decisions were made to prioritize usability, security, and scalability for future growth.
 
 \end{document}
+
 
 
 
