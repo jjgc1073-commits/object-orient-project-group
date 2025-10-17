@@ -26,7 +26,7 @@ The goal of this workshop is to design a **transactional application** using obj
 - **Workshop_1.pdf** # Compiled final version of the workshop
 - **Workshop_1.txt** # LaTeX source code of the final document
 - **Workshop_2.pdf** # Compiled final version of the workshop
-- **Workshop_2** # LaTeX source code of the final document
+- **Workshop_2.txt** # LaTeX source code of the final document
 - **README.md** # This file
 
 
