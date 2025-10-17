@@ -1,0 +1,254 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\geometry{a4paper, margin=1in}
+
+\title{Object-Oriented Programming \\ Semester 2025-III \\ \vspace{0.5cm} Workshop No. 2 — Object-Oriented Design (Updated Version)}
+\author{Alejandro Escobar 20251020094\\ Jhon Gonzalez 20251020087 \\ Sebastián Zambrano 20251020102\\ \\ Computer Engineering Program \\ Universidad Distrital Francisco José de Caldas}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+\section{Introduction}
+The \textbf{GetClasses} project is an online platform designed to connect students and tutors in a smooth, intuitive and secure learning environment. The system aims to create an ecosystem where students can easily find qualified tutors according to subject, price, or location, while tutors can promote their academic skills and manage their teaching schedules.
+
+The motivation for this project arises from the growing demand for remote learning solutions that offer accessibility and trust. The main objective of GetClasses is to facilitate academic connection, communication, and payment between users within a unified platform. The scope includes web operations, multilingual support, and user management for tutors and students.
+\newpage
+\section{Technical Design (UML Diagrams)}
+The following UML class diagram represents the conceptual structure of the \textbf{GetClasses} system. It illustrates inheritance relationships, attributes, methods, and associations between main entities.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{UML.png}
+\caption{UML class diagram showing inheritance, composition, and relationships among system classes.}
+\end{figure}
+
+The diagram highlights class hierarchies where the base class \texttt{User} acts as the parent of specialized subclasses \texttt{StudentUser}, \texttt{TutorUser}, and \texttt{AdminUser}. Each subclass extends the base behavior to meet specific user needs, demonstrating OOP principles such as inheritance, polymorphism, and encapsulation.
+\newpage
+\section{OOP Principles in Action}
+\subsection*{Inheritance}
+The \texttt{User} class defines shared attributes like \texttt{id}, \texttt{name}, \texttt{email}, and \texttt{password}, and methods like \texttt{login()} and \texttt{logout()}. Subclasses such as \texttt{StudentUser}, \texttt{TutorUser}, and \texttt{AdminUser} inherit these and add their own properties and behaviors:
+\begin{itemize}
+    \item \textbf{StudentUser:} Adds \texttt{level}, \texttt{bookClass()}, and \texttt{sendReview()}.
+    \item \textbf{TutorUser:} Adds \texttt{specialty}, \texttt{availability}, and \texttt{createClass()}.
+    \item \textbf{AdminUser:} Includes \texttt{manageUsers()} and \texttt{reviewReports()}.
+\end{itemize}
+
+\subsection*{Polymorphism}
+Polymorphism allows functions to treat subclass instances as generic \texttt{User} objects. For example, \texttt{showProfile(User u)} can call subclass-specific implementations.
+
+\subsection*{Encapsulation}
+Private and protected attributes ensure controlled access using getters and setters, maintaining security and consistency.
+
+\subsection*{System Overview}
+The \textbf{GetClasses} system is composed of several entities that interact to support its core functionalities. These entities include users (students and tutors), administrators, and subsystems for scheduling, payments, messaging, and reviews. 
+
+The relationships among these entities can be observed in the following system overview diagram:
+
+\bigskip
+This modular design allows flexibility in maintaining and scaling the platform, ensuring each module can evolve independently while maintaining integration with the overall architecture.
+
+\subsection*{System Behavior and Data Flow}
+In \textbf{GetClasses}, the system’s main operations are driven by user interactions. Students can create accounts, search for tutors, book classes, and complete payments through integrated modules. Tutors, in turn, manage their profiles, set availability, and interact with students through chat and virtual sessions. The administrator ensures compliance and resolves disputes.
+
+The data flow of the platform is summarized as follows: users enter their data through web forms, which are processed and validated by the backend. Once authenticated, the system stores user information, manages session scheduling, and logs transaction records. Notifications are automatically triggered to keep users informed of bookings, payments, and reviews.
+
+\newpage
+\section{Requirements Documentation}
+
+\subsection*{Functional Requirements}
+\begin{enumerate}
+    \item Registration and login for students and tutors.
+    \item Profile management including experience, degrees, rate, and availability.
+    \item Tutor search with filters by subject, rate, language, and country.
+    \item Scheduling with notifications.
+    \item Secure payments (credit card, e-wallet).
+    \item Virtual classes with video call, screen sharing, and whiteboard.
+    \item Chat and messaging between users.
+    \item Reviews and ratings after sessions.
+    \item Dispute management by the administrator.
+\end{enumerate}
+
+\subsection*{Non-Functional Requirements}
+\begin{itemize}
+    \item \textbf{Performance:} The system must respond to search queries in less than three seconds to ensure smooth navigation and usability. It should support at least 1000 concurrent users without degradation in performance.
+    \item \textbf{Usability:} A clean and intuitive interface accessible from both web and mobile devices, supporting multiple languages (English/Spanish), to guarantee accessibility for diverse users.
+    \item \textbf{Security:} Data encryption, credential protection, and tutor identity verification to ensure user trust and compliance with PCI DSS standards.
+    \item \textbf{Availability:} 99\% uptime is required for service reliability, supported by automated daily backups and error recovery systems.
+    \item \textbf{Flexibility:} The architecture should allow integration of future features (e.g., group sessions or additional payment methods) without major structural changes.
+\end{itemize}
+
+
+\newpage
+\section{User Stories}
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{0.8cm}|p{4cm}|p{2cm}|p{2cm}|p{5cm}|}
+\hline
+\textbf{ID} & \textbf{User Story} & \textbf{Priority} & \textbf{Effort (hrs)} & \textbf{Acceptance Criteria} \\
+\hline
+1 & Tutor Registration & High & 6 & The tutor account is created after entering valid data. \\
+\hline
+2 & Tutor Profile Picture & Medium & 3 & The image appears correctly on the profile. \\
+\hline
+3 & Tutor Search & High & 8 & Tutors matching filters are shown correctly. \\
+\hline
+4 & Tutor Listing & High & 5 & A list with tutor info is displayed. \\
+\hline
+5 & Chat with Tutor & High & 6 & Real-time messaging works. \\
+\hline
+6 & Tutor Rates Student & Medium & 3 & The tutor can rate the student after class. \\
+\hline
+7 & Student Rates Tutor & Medium & 3 & The student can rate the tutor after class. \\
+\hline
+8 & View Ratings & Medium & 3 & Ratings and comments are visible. \\
+\hline
+9 & Tutor Auto-Responder & Low & 2 & Sends auto message when unavailable. \\
+\hline
+10 & Contact Support/Admin & High & 4 & Support requests are sent and confirmed. \\
+\hline
+\end{tabular}
+\caption{Summary of user stories with priorities and effort.}
+\end{table}
+\newpage
+\section{CRC Cards (Tabular Format)}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{3cm}|p{7cm}|p{4cm}|}
+\hline
+\textbf{Class} & \textbf{Responsibilities} & \textbf{Collaborators} \\
+\hline
+Tutor & Manage profile, availability, pricing, and classes. & Profile, Student, Chat, Reviews. \\
+\hline
+Student & Search tutors, schedule, rate tutors. & Tutor, Chat, Reviews, Support. \\
+\hline
+Profile & Display user info and ratings. & Tutor, Student, Reviews. \\
+\hline
+Chat & Real-time communication. & Tutor, Student. \\
+\hline
+Reviews & Show all the teacher's review. & Tutor, Student, Review. \\
+\hline
+Review & Write a review and rate. & Tutor, Student, Reviews. \\
+\hline
+ClassRequest & Request a class at a specific time, choose time, date and subject. & Tutor, Student, schedule, appointment. \\
+\hline
+Appointment & Accept or decline class request, add to the teacher's schedule. & ClassRequest, Schedule. \\
+\hline
+TeacherSearch & Search teachers with filters. & Tutor, Student. \\
+\hline
+PaymentSystem & Save banking information and redirect to the banking page. & Tutor, Student. \\
+\hline
+\end{tabular}
+\caption{CRC cards summary.}
+\end{table}
+
+\newpage
+\section{Mockups}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{LoginScreen.png}
+\caption{Login Page}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{RegisterScreen.png}
+\caption{Register Page}
+\end{figure}
+        
+\newpage
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{MainScreen.png}
+\caption{Main Page}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{ProfileTutorScreen.png}
+\caption{tutor profile Page}
+\end{figure}
+
+\newpage
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{ProfileStudentScreen.png}
+\caption{Student Profile Page}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{ReviewsScreen.png}
+\caption{Review List Page}
+\end{figure}
+
+\newpage
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{ReviewScreen.png}
+\caption{Make Review page}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8 \textwidth]{ChatScreen.png}
+\caption{Chat Page}
+\end{figure}
+
+\newpage
+
+\section*{Notes and Reflection}
+\subsection*{Conceptual Design Updates}
+This updated version incorporates feedback and development from Workshop No. 1. The following updates were made:
+
+\begin{itemize}
+    \item \textbf{Requirements:} Functional and non-functional requirements were refined to better represent real-time communication and secure payment handling.
+    \item \textbf{CRC Cards:} Relationships between classes such as \texttt{User}, \texttt{StudentUser}, \texttt{TutorUser}, and \texttt{AdminUser} were added to emphasize inheritance and responsibilities.
+    \item \textbf{User Stories:} Acceptance criteria were expanded, and effort and priority estimations were added for each story.
+    \item \textbf{Design Decisions:} After planning discussions, inheritance hierarchies and encapsulated attributes were introduced to promote modularity and code reuse.
+\end{itemize}
+\subsection*{Notes}
+\begin{itemize}
+    \item All documentation is written in English for consistency.
+    \item References should be added if external resources are used.
+    \item The current version serves as a foundation for future refinement.
+\end{itemize}
+
+\bigskip
+\noindent
+\textbf{Reflection:}  
+During this workshop, the main focus was to define the system architecture and ensure consistency between user requirements and class design. The process strengthened our understanding of software modeling through object-oriented principles. Future improvements will include advanced UML diagrams, a more refined GUI prototype, and validation testing to verify usability and flexibility in real scenarios.
+
+
+\newpage
+\section*{References}
+
+\begin{itemize}
+    \item Overleaf. (2024). \textit{LaTeX tutorial: Learn LaTeX step by step}. Retrieved from \url{https://www.overleaf.com/learn}
+    \item Lamport, L. (1994). \textit{LaTeX: A Document Preparation System}. Addison-Wesley.
+    \item Lucidchart. (2023). \textit{UML Diagram Tutorial: Learn How to Draw UML Diagrams}. Retrieved from \url{https://www.lucidchart.com/pages/uml-diagram}
+    \item Ambler, S. W. (2023). \textit{Agile Modeling: UML Diagrams and Class Design}. Retrieved from \url{http://www.agilemodeling.com/artifacts/classDiagram.htm}
+    \item Beck, K., \& Fowler, M. (2000). \textit{Planning Extreme Programming}. Addison-Wesley. (User Stories methodology)
+    \item Mountain Goat Software. (2022). \textit{User Stories and How to Write Them}. Retrieved from \url{https://www.mountaingoatsoftware.com/agile/user-stories}
+    \item Coad, P., Yourdon, E. (1991). \textit{Object-Oriented Design}. Prentice Hall. (CRC Cards introduction)
+    \item Sommerville, I. (2015). \textit{Software Engineering} (10th ed.). Pearson. (System modeling and UML principles)
+    \item Visual Paradigm. (2023). \textit{CRC Cards Tutorial and Examples}. Retrieved from \url{https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-crc-card/}
+    \item IEEE. (2023). \textit{Guide to Software Design Documentation (IEEE 1016-2020)}. IEEE Standards Association.
+\end{itemize}
+
+\end{document}
