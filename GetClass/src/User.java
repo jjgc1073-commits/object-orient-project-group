@@ -1,6 +1,9 @@
 import java.lang.invoke.StringConcatFactory;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.Period;
 
 // Parent class creation (User)
 
@@ -9,34 +12,34 @@ public class User {
     // assignment of general attributes of every subclass
 
     public String name;
-    private String password;
-    protected int id;
-    protected String email;
-    protected int age;
     public String aboutMe;
-    protected Double raiting;
+    public int age;
+    private int id;
+    protected String email;
+    private String password;
     protected String levelToAccess;
+    private double raiting;
+    private LocalDate birthDate;
 
     // constructor method
 
-    public User(String name, String password, String email, int age, Double raiting, String aboutMe, String levelToAccess) {
-
+public User(String name, String password, String email, LocalDate birthDate, double raiting, String aboutMe, String levelToAccess) {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.age = age;
+        this.birthDate = birthDate;
         this.setRating(raiting);
         this.aboutMe = aboutMe;
         this.levelToAccess = levelToAccess;
+        this.age = calcularEdad();
+
 
     }
 
     // Show information method
 
-    public String ShowInfo(){
-
-        return name + " " + String.valueOf(raiting) + " " + aboutMe + " ";
-        
+    public String ShowInfo() {
+        return name + " | " + raiting + "⭐ | " + aboutMe + " | Edad: " + age + " años";
     }
 
     public void setRating(double newRating){
@@ -51,10 +54,26 @@ public class User {
 
         }
 
-
-
-
     }
+
+    public int calcularEdad() {
+        if (birthDate == null) {
+            return 0;
+        }
+        LocalDate hoy = LocalDate.now();
+        return Period.between(birthDate, hoy).getYears();
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+        this.age = calcularEdad();
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+
 
 
 
