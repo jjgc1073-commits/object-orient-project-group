@@ -34,6 +34,7 @@ public class User {
 
     /**
      * constructor method of the parent class
+     * 
      * @param name
      * @param password
      * @param email
@@ -60,6 +61,7 @@ public class User {
 
     /**
      * Show information method
+     * 
      * @return
      */
 
@@ -81,9 +83,9 @@ public class User {
 
     }
 
-
     /**
      * This method calculates the age of the user
+     * 
      * @return
      */
     public int calcularEdad() {
@@ -101,6 +103,16 @@ public class User {
 
     public LocalDate getBirthDate() {
         return birthDate;
+    }
+
+    // Devuelve el nombre del usuario
+    public String getName() {
+        return this.name;
+    }
+
+    // Devuelve el correo electrónico del usuario
+    public String getEmail() {
+        return this.email;
     }
 
 }

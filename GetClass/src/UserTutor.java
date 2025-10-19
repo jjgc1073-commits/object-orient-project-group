@@ -8,6 +8,8 @@
  */
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserTutor extends User {
 
@@ -85,5 +87,31 @@ public class UserTutor extends User {
      */
     public double calculateWeeklyIncome(int hoursPerWeek) {
         return hourlyRate * hoursPerWeek;
+    }
+
+    private List<Appointment> appointments = new ArrayList<>(); // Lista de clases aceptadas por el tutor
+
+    /** */
+
+    // Método para agregar una cita a la lista del tutor
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
+    }
+
+    // Método para obtener todas las citas del tutor
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    // Método para mostrar el horario del tutor
+    public void showSchedule() {
+        System.out.println("📅 Horario del tutor " + getName() + ":");
+        if (appointments.isEmpty()) {
+            System.out.println("No hay clases programadas.");
+        } else {
+            for (Appointment a : appointments) {
+                System.out.println(" - " + a);
+            }
+        }
     }
 }

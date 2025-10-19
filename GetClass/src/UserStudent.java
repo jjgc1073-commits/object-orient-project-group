@@ -8,6 +8,7 @@
  */
 
 import java.lang.invoke.StringConcatFactory;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -21,6 +22,7 @@ public class UserStudent extends User { // Creating the UserStudent subclass tha
 
     /**
      * Student constructor
+     * 
      * @param name
      * @param password
      * @param email
@@ -41,15 +43,38 @@ public class UserStudent extends User { // Creating the UserStudent subclass tha
 
     }
 
-
-
-    /** 
+    /**
      * This method shows the students info
      */
     public String ShowInfo() {
 
         return super.ShowInfo();
 
+    }
+
+    /** */
+    private List<Appointment> appointments = new ArrayList<>(); // Lista de clases del estudiante
+
+    // Método para agregar una cita al horario del estudiante
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
+    }
+
+    // Método para obtener todas las citas del estudiante
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    // Método para mostrar el horario del estudiante
+    public void showSchedule() {
+        System.out.println("📅 Horario del estudiante " + getName() + ":");
+        if (appointments.isEmpty()) {
+            System.out.println("No hay clases programadas.");
+        } else {
+            for (Appointment a : appointments) {
+                System.out.println(" - " + a);
+            }
+        }
     }
 
 }
