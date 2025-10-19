@@ -7,20 +7,26 @@
  * Sebastian Zambrano 20251020102
  * 
  */
-import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
+import java.time.LocalTime;
+import java.time.LocalDate;
 
 public class Schedule {
     // assignment of general attributes
-    private int Id;
-    protected double Price;
-    protected Date D_ate;
-    protected Time StartTime;
-    protected Time FinishTime;
-    // *classes: list(Appoiment)------falta
-    public String Subject;
-    public String NameTutor;
+    private int id;
+    protected double price;
+    protected LocalDate date;
+    protected LocalTime startTime;
+    protected LocalTime finishTime;
+    // *classes: list(RequestClass)------falta
+    public String subject;
+    public String nameTutor;
     public boolean available;
+
+
+    // se necesitan crear las listas para esto, y tengo perezita :D
+
+
+
 
 }

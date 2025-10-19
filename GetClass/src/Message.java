@@ -1,4 +1,3 @@
-
 /*
  * Name Project: getClasses
  * Members group:
@@ -10,41 +9,44 @@
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.LocalDate;
 
 public class Message {
-    // assignment of general attributes
-    protected Date d_ate;
-    protected Date Day;
-    protected Date Month;
-    protected Date Year;
-    protected Time Hour;
-    protected Time Minute;
-    protected Time Second;
-    protected String Text;
+    protected LocalDate date;
+    protected LocalTime time;
+    protected String text;
+    
+/**
+ * This is the message constructor
+ * @param text
+ */
 
+    public Message(String text){
+
+        this.text = text;
+        this.date = LocalDate.now();
+        this.time = LocalTime.now().truncatedTo(java.time.temporal.ChronoUnit.SECONDS);
+        
+    }
+    
     /**
-     * This method return the hour, minutes, and second when u send or receive the
+     * This method return the hour, minutes, and second when you send or receive the
      * message
      * 
-     * @return
+     * @return time
      */
-    private String setHour() {
-        LocalDateTime LocalHour = LocalDateTime.now();
-        int Hour = LocalHour.getHour();
-        int Minute = LocalHour.getMinute();
-        int Second = LocalHour.getSecond();
-        return "[" + Hour + ":" + Minute + ":" + Second + "]";
+    private LocalTime getHour() {
+        return time;
     }
 
     /**
      * This method return the date when u send or receive the message
      * 
-     * @return
+     * @return date
      */
-    private String setDate() {
-        LocalDate LocalD_ate = LocalDate.now();
-        return "[ " + LocalD_ate + " ]";
+    private LocalDate getDate() {
+        return date;
     }
 
 }

@@ -14,21 +14,38 @@ import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class UserStudent extends User { // Creating the UserStudebt subclass that inherints the attributes of the parent
+public class UserStudent extends User { // Creating the UserStudent subclass that inherints the attributes of the parent
                                         // class User
 
     public String levelAcademic;
 
-    // Constructor
+    /**
+     * Student constructor
+     * @param name
+     * @param password
+     * @param email
+     * @param birthDate
+     * @param raiting
+     * @param aboutMe
+     * @param levelToAccess
+     * @param levelAcademic
+     * @param typeId
+     * @param idNumber
+     */
 
     public UserStudent(String name, String password, String email, LocalDate birthDate, double raiting, String aboutMe,
-            String levelToAccess, String levelAcademic) {
+            int levelToAccess, String levelAcademic, String typeId, int idNumber) {
 
-        super(name, password, email, birthDate, raiting, aboutMe, levelToAccess);
+        super(name, password, email, birthDate, raiting, aboutMe, levelToAccess, typeId, idNumber);
         this.levelAcademic = levelAcademic;
 
     }
 
+
+
+    /** 
+     * This method shows the students info
+     */
     public String ShowInfo() {
 
         return super.ShowInfo();

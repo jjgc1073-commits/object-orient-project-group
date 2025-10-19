@@ -26,14 +26,25 @@ public class User {
     private int id;
     protected String email;
     private String password;
-    protected String levelToAccess;
+    protected int levelToAccess;
     private double raiting;
     private LocalDate birthDate;
+    private String typeId;
+    private int idNumber;
 
-    // constructor method
+    /**
+     * constructor method of the parent class
+     * @param name
+     * @param password
+     * @param email
+     * @param birthDate
+     * @param raiting
+     * @param aboutMe
+     * @param levelToAccess
+     */
 
     public User(String name, String password, String email, LocalDate birthDate, double raiting, String aboutMe,
-            String levelToAccess) {
+            int levelToAccess, String typeId, int idNumber) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -42,10 +53,15 @@ public class User {
         this.aboutMe = aboutMe;
         this.levelToAccess = levelToAccess;
         this.age = calcularEdad();
+        this.typeId = typeId;
+        this.idNumber = idNumber;
 
     }
 
-    // Show information method
+    /**
+     * Show information method
+     * @return
+     */
 
     public String ShowInfo() {
         return name + " | " + raiting + "⭐ | " + aboutMe + " | Edad: " + age + " años";
@@ -65,6 +81,11 @@ public class User {
 
     }
 
+
+    /**
+     * This method calculates the age of the user
+     * @return
+     */
     public int calcularEdad() {
         if (birthDate == null) {
             return 0;
