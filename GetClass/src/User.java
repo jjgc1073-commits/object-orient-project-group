@@ -1,3 +1,12 @@
+/*
+ * Name Project: getClasses
+ * Members group:
+ * Jhon Gonzalez 20251020087
+ * Alejandro escobar 20251020094
+ * Sebastian Zambrano 20251020102
+ * 
+ */
+
 import java.lang.invoke.StringConcatFactory;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +17,7 @@ import java.time.Period;
 // Parent class creation (User)
 
 public class User {
-    
+
     // assignment of general attributes of every subclass
 
     public String name;
@@ -23,7 +32,8 @@ public class User {
 
     // constructor method
 
-public User(String name, String password, String email, LocalDate birthDate, double raiting, String aboutMe, String levelToAccess) {
+    public User(String name, String password, String email, LocalDate birthDate, double raiting, String aboutMe,
+            String levelToAccess) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -33,7 +43,6 @@ public User(String name, String password, String email, LocalDate birthDate, dou
         this.levelToAccess = levelToAccess;
         this.age = calcularEdad();
 
-
     }
 
     // Show information method
@@ -42,13 +51,13 @@ public User(String name, String password, String email, LocalDate birthDate, dou
         return name + " | " + raiting + "⭐ | " + aboutMe + " | Edad: " + age + " años";
     }
 
-    public void setRating(double newRating){
+    public void setRating(double newRating) {
 
         if (newRating >= 0.0 && newRating <= 5.0) {
 
             this.raiting = newRating;
-            
-        }else{
+
+        } else {
 
             System.out.println("Valor no valido");
 
@@ -73,13 +82,4 @@ public User(String name, String password, String email, LocalDate birthDate, dou
         return birthDate;
     }
 
-
-
-
-
-
-
-
-
 }
-
