@@ -2,51 +2,49 @@
  * Name Project: getClasses
  * Members group:
  * Jhon Gonzalez 20251020087
- * Alejandro escobar 20251020094
+ * Alejandro Escobar 20251020094
  * Sebastian Zambrano 20251020102
- * 
  */
-import java.sql.Date;
-import java.sql.Time;
+
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Message {
-    protected LocalDate date;
-    protected LocalTime time;
-    protected String text;
-    
-/**
- * This is the message constructor
- * @param text
- */
-
-    public Message(String text){
-
-        this.text = text;
-        this.date = LocalDate.now();
-        this.time = LocalTime.now().truncatedTo(java.time.temporal.ChronoUnit.SECONDS);
-        
-    }
-    
-    /**
-     * This method return the hour, minutes, and second when you send or receive the
-     * message
-     * 
-     * @return time
-     */
-    private LocalTime getHour() {
-        return time;
-    }
+    private String sender;
+    private String content;
+    private LocalDateTime timestamp;
 
     /**
-     * This method return the date when u send or receive the message
+     * Constructor de Message
      * 
-     * @return date
+     * @param sender  autor del mensaje
+     * @param content contenido del mensaje
      */
-    private LocalDate getDate() {
-        return date;
+    public Message(String sender, String content) {
+        this.sender = sender;
+        this.content = content;
+        this.timestamp = LocalDateTime.now(); // guarda fecha y hora actuales
     }
 
+    // Getters
+    public String getSender() {
+        return sender;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    /**
+     * Devuelve una representación formateada del mensaje
+     */
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return "[" + timestamp.format(formatter) + "] " + sender + ": " + content;
+    }
 }
