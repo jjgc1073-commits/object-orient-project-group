@@ -1,20 +1,27 @@
 import java.time.LocalDateTime;
 
-// Clase que representa una cita o clase entre un tutor y un estudiante
+// Class that represents an appointment or class between a tutor and a student
 public class Appointment {
     // Atributos principales
-    private UserTutor tutor; // Tutor asignado a la clase
-    private UserStudent student; // Estudiante que recibe la clase
-    private LocalDateTime dateTime; // Fecha y hora de la clase
-    private String classType; // Tipo de clase (ej. "Matemáticas", "Programación")
-    private String modality; // Modalidad de la clase ("Presencial" o "Virtual")
-    private AppointmentStatus status; // Estado general de la cita (PENDING, ACCEPTED, REJECTED)
+    private UserTutor tutor; // Tutor assigned to the class
+    private UserStudent student; // Student receiving the class
+    private LocalDateTime dateTime; // Date and time of the class
+    private String classType; // Subject or type of class (ej. "Mathematics", "Programation")
+    private String modality; // Modality of class ("Presencial" o "Virtual")
+    private AppointmentStatus status; // General status of the appointment (PENDING, ACCEPTED, REJECTED)
 
-    // Estados de aceptación individuales
-    private boolean tutorAccepted = false; // Si el tutor ya aceptó
-    private boolean studentAccepted = false; // Si el estudiante ya aceptó
+    // Individual acceptance states
+    private boolean tutorAccepted = false; // if the tutor has already accepted
+    private boolean studentAccepted = false; // If the student has already accepted
 
-    // Constructor de la cita
+     /**
+     * This is the constructor of the Appointment
+     * @param tutor  
+     * @param USerStudent
+     * @param dateTime
+     * @param  classType
+     * @param modality
+     */
     public Appointment(UserTutor tutor, UserStudent student, LocalDateTime dateTime,
             String classType, String modality) {
         this.tutor = tutor;
@@ -22,48 +29,43 @@ public class Appointment {
         this.dateTime = dateTime;
         this.classType = classType;
         this.modality = modality;
-        this.status = AppointmentStatus.PENDING; // Por defecto toda cita comienza pendiente
+        this.status = AppointmentStatus.PENDING; // By default, every appointment starts pending.
     }
 
-    // ------------------------------------------------------------
-    // Métodos de aceptación y rechazo
-    // ------------------------------------------------------------
+    //methods of accepting and rejecting appointments
 
-    // El tutor acepta la cita
+    // The tutor accept the appointment
     public void tutorAccept() {
         tutorAccepted = true;
-        System.out.println(" El tutor " + tutor.getName() + " aceptó la cita.");
-        checkStatus(); // Verifica si ambos aceptaron
+        System.out.println(" The tutor " + tutor.getName() + " accepted the appointment.");
+        checkStatus();                   // Check if both accepted
     }
 
-    // El estudiante acepta la cita
+    //The student accept the appoinmet
     public void studentAccept() {
         studentAccepted = true;
-        System.out.println(" El estudiante " + student.getName() + " aceptó la cita.");
-        checkStatus(); // Verifica si ambos aceptaron
+        System.out.println(" The stundent " + student.getName() + " accepted the appointment.");
+        checkStatus();                  // Check if both accepted
     }
 
-    // Método para rechazar una cita (por cualquiera)
+    // method to rejection the appointment (anyone)
     public void reject(String by) {
         this.status = AppointmentStatus.REJECTED;
-        System.out.println(" La cita fue rechazada por: " + by);
+        System.out.println(" the appointment was rejected by: " + by);
     }
 
-    // ------------------------------------------------------------
-    // Lógica interna para actualizar el estado
-    // ------------------------------------------------------------
+    // method to put the status appointment to both (tutor and student)
     private void checkStatus() {
         if (tutorAccepted && studentAccepted) {
             this.status = AppointmentStatus.ACCEPTED;
             tutor.addAppointment(this);
             student.addAppointment(this);
-            System.out.println(" La cita fue confirmada por ambas partes y añadida a los horarios.");
+            System.out.println(" The appointment was confirmed by both parties and added to the schedules..");
         }
     }
 
-    // ------------------------------------------------------------
-    // Métodos de acceso (Getters)
-    // ------------------------------------------------------------
+    //Methods to get informations
+    
 
     public AppointmentStatus getStatus() {
         return status;
@@ -89,13 +91,10 @@ public class Appointment {
         return student;
     }
 
-    // ------------------------------------------------------------
-    // Representación en texto (para mostrar en consola)
-    // ------------------------------------------------------------
-    @Override
+    // format to show when run the code
     public String toString() {
-        return "Clase: " + classType + " | Modalidad: " + modality + " | Fecha: " + dateTime +
-                " | Tutor: " + tutor.getName() + " | Estudiante: " + student.getName() +
-                " | Estado: " + status;
+        return "Name Class: " + classType + " | Modality: " + modality + " | Date: " + dateTime +
+                " | Tutor: " + tutor.getName() + " | Estudent: " + student.getName() +
+                " | Status: " + status;
     }
 }
