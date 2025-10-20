@@ -1,6 +1,8 @@
 import java.time.LocalDateTime;
 
-// Class that represents an appointment or class between a tutor and a student
+/**
+  *Class that represents an appointment or class between a tutor and a student
+  */
 public class Appointment {
     // Atributos principales
     private UserTutor tutor; // Tutor assigned to the class
@@ -32,29 +34,39 @@ public class Appointment {
         this.status = AppointmentStatus.PENDING; // By default, every appointment starts pending.
     }
 
-    //methods of accepting and rejecting appointments
-
-    // The tutor accept the appointment
+    /**
+      *methods of accepting and rejecting appointments
+       */
+    
+    /**
+      *The tutor accept the appointment
+      */
     public void tutorAccept() {
         tutorAccepted = true;
         System.out.println(" The tutor " + tutor.getName() + " accepted the appointment.");
         checkStatus();                   // Check if both accepted
     }
 
-    //The student accept the appoinmet
+    /**
+      *The Student accept the appointment
+      */
     public void studentAccept() {
         studentAccepted = true;
         System.out.println(" The stundent " + student.getName() + " accepted the appointment.");
         checkStatus();                  // Check if both accepted
     }
 
-    // method to rejection the appointment (anyone)
+    /**
+      *method to rejection the appointment (anyone)
+      */
     public void reject(String by) {
         this.status = AppointmentStatus.REJECTED;
         System.out.println(" the appointment was rejected by: " + by);
     }
 
-    // method to put the status appointment to both (tutor and student)
+    /**
+      *method to put the status appointment to both (tutor and student)
+      */
     private void checkStatus() {
         if (tutorAccepted && studentAccepted) {
             this.status = AppointmentStatus.ACCEPTED;
@@ -64,7 +76,9 @@ public class Appointment {
         }
     }
 
-    //Methods to get informations
+    /**
+      *Methods to get information
+      */
     
 
     public AppointmentStatus getStatus() {
@@ -91,7 +105,9 @@ public class Appointment {
         return student;
     }
 
-    // format to show when run the code
+    /**
+      *Method to the format to show when run the code
+      */
     public String toString() {
         return "Name Class: " + classType + " | Modality: " + modality + " | Date: " + dateTime +
                 " | Tutor: " + tutor.getName() + " | Estudent: " + student.getName() +
