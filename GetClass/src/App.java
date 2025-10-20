@@ -65,7 +65,7 @@ public class App {
          * sc.close();
          */
         // ------------------------------------------------------------
-        // 1️⃣ Crear un tutor y un estudiante
+        //  Crear un tutor y un estudiante
         // ------------------------------------------------------------
         UserTutor tutor = new UserTutor(null, null, null, null, 0, null, 0, null, 0, null, 0, 0);
         UserStudent student = new UserStudent(
@@ -81,7 +81,7 @@ public class App {
                 1001);
 
         // ------------------------------------------------------------
-        // 2️⃣ Crear una cita (Appointment)
+        //  Crear una cita (Appointment)
         // ------------------------------------------------------------
         Appointment cita = new Appointment(
                 tutor, // Tutor asignado
@@ -96,26 +96,26 @@ public class App {
         System.out.println(cita);
 
         // ------------------------------------------------------------
-        // 3️⃣ Simular que el tutor acepta primero
+        //  Simular que el tutor acepta primero
         // ------------------------------------------------------------
         cita.tutorAccept(); // El tutor confirma la cita
 
         // ------------------------------------------------------------
-        // 4️⃣ Ahora el estudiante también acepta
+        //  Ahora el estudiante también acepta
         // ------------------------------------------------------------
         cita.studentAccept(); // El estudiante confirma la cita
 
         // ------------------------------------------------------------
-        // 5️⃣ Mostrar horarios actualizados
+        //  Mostrar horarios actualizados
         // ------------------------------------------------------------
-        System.out.println("\n🧑‍🏫 Horario del tutor:");
+        System.out.println("\n Horario del tutor:");
         tutor.showSchedule();
 
-        System.out.println("\n🎓 Horario del estudiante:");
+        System.out.println("\n Horario del estudiante:");
         student.showSchedule();
 
         // ------------------------------------------------------------
-        // 6️⃣ Crear otra cita y rechazarla
+        //  Crear otra cita y rechazarla
         // ------------------------------------------------------------
         Appointment cita2 = new Appointment(
                 tutor,
@@ -124,7 +124,7 @@ public class App {
                 "Cálculo Diferencial",
                 "Presencial");
 
-        System.out.println("\n📅 Nueva cita creada:");
+        System.out.println("\n Nueva cita creada:");
         System.out.println(cita2);
 
         // El estudiante decide rechazar
