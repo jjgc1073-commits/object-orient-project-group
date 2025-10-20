@@ -105,12 +105,16 @@ public class User {
         return birthDate;
     }
 
-    // Devuelve el nombre del usuario
+    /**
+      *Return the name of the user
+      */
     public String getName() {
         return this.name;
     }
 
-    // Devuelve el correo electrónico del usuario
+     /**
+      *Return the Email of the user
+      */
     public String getEmail() {
         return this.email;
     }
