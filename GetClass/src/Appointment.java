@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
   *Class that represents an appointment or class between a tutor and a student
   */
 public class Appointment {
-    // Atributos principales
+    /**
+      * main attributes
+      */
     private UserTutor tutor; // Tutor assigned to the class
     private UserStudent student; // Student receiving the class
     private LocalDateTime dateTime; // Date and time of the class
@@ -12,7 +14,9 @@ public class Appointment {
     private String modality; // Modality of class ("Presencial" o "Virtual")
     private AppointmentStatus status; // General status of the appointment (PENDING, ACCEPTED, REJECTED)
 
-    // Individual acceptance states
+    /**
+      *Individual acceptance states
+      */
     private boolean tutorAccepted = false; // if the tutor has already accepted
     private boolean studentAccepted = false; // If the student has already accepted
 
