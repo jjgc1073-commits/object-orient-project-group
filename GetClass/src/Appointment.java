@@ -32,21 +32,21 @@ public class Appointment {
     // El tutor acepta la cita
     public void tutorAccept() {
         tutorAccepted = true;
-        System.out.println("📘 El tutor " + tutor.getName() + " aceptó la cita.");
+        System.out.println(" El tutor " + tutor.getName() + " aceptó la cita.");
         checkStatus(); // Verifica si ambos aceptaron
     }
 
     // El estudiante acepta la cita
     public void studentAccept() {
         studentAccepted = true;
-        System.out.println("📗 El estudiante " + student.getName() + " aceptó la cita.");
+        System.out.println(" El estudiante " + student.getName() + " aceptó la cita.");
         checkStatus(); // Verifica si ambos aceptaron
     }
 
     // Método para rechazar una cita (por cualquiera)
     public void reject(String by) {
         this.status = AppointmentStatus.REJECTED;
-        System.out.println("❌ La cita fue rechazada por: " + by);
+        System.out.println(" La cita fue rechazada por: " + by);
     }
 
     // ------------------------------------------------------------
@@ -57,7 +57,7 @@ public class Appointment {
             this.status = AppointmentStatus.ACCEPTED;
             tutor.addAppointment(this);
             student.addAppointment(this);
-            System.out.println("✅ La cita fue confirmada por ambas partes y añadida a los horarios.");
+            System.out.println(" La cita fue confirmada por ambas partes y añadida a los horarios.");
         }
     }
 
