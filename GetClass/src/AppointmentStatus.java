@@ -1,6 +1,6 @@
-// Enumeración para definir los posibles estados de una cita
+// Enumeration to define the possible states of an appointment
 public enum AppointmentStatus {
-    PENDING, // Cita pendiente de aprobación
-    ACCEPTED, // Cita aceptada
-    REJECTED // Cita rechazada
+    PENDING, // apppoinment in mode pendind  to accept
+    ACCEPTED, // accept appointmet
+    REJECTED // rejcet appoinmet
 }
