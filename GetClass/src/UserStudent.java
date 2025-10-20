@@ -52,24 +52,32 @@ public class UserStudent extends User { // Creating the UserStudent subclass tha
 
     }
 
-    /** */
-    private List<Appointment> appointments = new ArrayList<>(); // Lista de clases del estudiante
+    /**
+      *List of classes of the student 
+      */
+    private List<Appointment> appointments = new ArrayList<>(); 
 
-    // Método para agregar una cita al horario del estudiante
+    /**
+       *method to add a appoinment into the schedule of the student
+       */
     public void addAppointment(Appointment appointment) {
         appointments.add(appointment);
     }
 
-    // Método para obtener todas las citas del estudiante
+    /**
+      * Method to show all appoitments of the student
+      */
     public List<Appointment> getAppointments() {
         return appointments;
     }
 
-    // Método para mostrar el horario del estudiante
+    /**
+      * Method to show the schedule of the student
+      */
     public void showSchedule() {
-        System.out.println("📅 Horario del estudiante " + getName() + ":");
+        System.out.println(" Schedule of the student " + getName() + ":");
         if (appointments.isEmpty()) {
-            System.out.println("No hay clases programadas.");
+            System.out.println("There are no classes scheduled.");
         } else {
             for (Appointment a : appointments) {
                 System.out.println(" - " + a);
