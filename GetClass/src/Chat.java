@@ -14,8 +14,11 @@ public class Chat {
     private String user2;
     private List<Message> messages;
 
+
     /**
-     * Constructor del chat entre dos usuarios
+     * This is the constructor of the chat with tho ussers (tutor and Student)
+     * @param User1
+     * @param User2
      */
     public Chat(String user1, String user2) {
         this.user1 = user1;
@@ -25,9 +28,8 @@ public class Chat {
 
     /**
      * Envía un mensaje en el chat
-     * 
-     * @param sender  nombre de quien envía el mensaje
-     * @param content texto del mensaje
+     * @param sender  name of who send the message
+     * @param content text conntent of the menssage
      */
     public void sendMessage(String sender, String content) {
         Message newMessage = new Message(sender, content);
@@ -35,7 +37,7 @@ public class Chat {
     }
 
     /**
-     * Muestra todo el historial del chat
+     * show all history of the chat
      */
     public void showChatHistory() {
         if (messages.isEmpty()) {
@@ -50,7 +52,7 @@ public class Chat {
     }
 
     /**
-     * Obtiene la cantidad total de mensajes enviados
+     * Gets the total number of messages sent
      */
     public int getMessageCount() {
         return messages.size();
