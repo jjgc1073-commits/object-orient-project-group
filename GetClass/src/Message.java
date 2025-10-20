@@ -1,4 +1,4 @@
-/*
+/**
  * Name Project: getClasses
  * Members group:
  * Jhon Gonzalez 20251020087
@@ -15,18 +15,21 @@ public class Message {
     private LocalDateTime timestamp;
 
     /**
-     * Constructor de Message
+     * This is the Constructor dof the  Message
      * 
-     * @param sender  autor del mensaje
-     * @param content contenido del mensaje
+     * @param sender  autor of the message
+     * @param content contain of the message
      */
     public Message(String sender, String content) {
         this.sender = sender;
         this.content = content;
-        this.timestamp = LocalDateTime.now(); // guarda fecha y hora actuales
+        this.timestamp = LocalDateTime.now(); // save the date and actual hour
     }
 
-    // Getters
+    /**
+    *methods to get information 
+    */
+    
     public String getSender() {
         return sender;
     }
@@ -40,9 +43,9 @@ public class Message {
     }
 
     /**
-     * Devuelve una representación formateada del mensaje
+     * Returns a formatted representation of the message
      */
-    @Override
+   
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return "[" + timestamp.format(formatter) + "] " + sender + ": " + content;
