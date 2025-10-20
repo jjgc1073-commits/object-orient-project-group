@@ -16,12 +16,12 @@ public class Review {
     private List<String> tags; // ← NUEVO: lista de etiquetas descriptivas
 
     /**
-     * Constructor principal con etiquetas
+     * constuctor main with tags abouthe to make the revies
      * 
-     * @param authorName nombre del autor
-     * @param rating     calificación (0.0 a 5.0)
-     * @param comment    comentario del usuario
-     * @param tags       lista de etiquetas asociadas
+     * @param authorName name of author
+     * @param rating     rate (0.0 a 5.0)
+     * @param comment    comments of the author
+     * @param tags       list with tags 
      */
     public Review(String authorName, double rating, String comment, List<String> tags) {
         this.authorName = authorName;
@@ -31,13 +31,16 @@ public class Review {
     }
 
     /**
-     * Constructor sin etiquetas (opcional)
+     * constructor without tags (optional)
      */
     public Review(String authorName, double rating, String comment) {
         this(authorName, rating, comment, new ArrayList<>());
     }
 
-    // Getters y Setters
+    /**
+      *Getters y Setters
+      */
+    
     public String getAuthorName() {
         return authorName;
     }
@@ -71,9 +74,9 @@ public class Review {
     }
 
     /**
-     * Agrega una etiqueta nueva
+     * add a new tag
      * 
-     * @param tag texto de la etiqueta
+     * @param tag tect in the tag
      */
     public void addTag(String tag) {
         if (tag != null && !tag.isEmpty() && !tags.contains(tag)) {
@@ -82,7 +85,7 @@ public class Review {
     }
 
     /**
-     * Devuelve una descripción legible de la reseña
+     * Returns a human-readable description of the review
      */
     @Override
     public String toString() {
