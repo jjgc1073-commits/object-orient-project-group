@@ -13,23 +13,23 @@ public class Reviews {
     private List<Review> reviewList;
 
     /**
-     * Constructor: inicializa la lista de reseñas vacía
+     * Constructor: initializes the empty review list
      */
     public Reviews() {
         this.reviewList = new ArrayList<>();
     }
 
     /**
-     * Agrega una nueva reseña a la lista
+     * add a new review to the list
      * 
-     * @param review la reseña a agregar
+     * @param review the review to add
      */
     public void addReview(Review review) {
         reviewList.add(review);
     }
 
     /**
-     * Muestra todas las reseñas almacenadas
+     * show all reviws in the list
      */
     public void showAllReviews() {
         if (reviewList.isEmpty()) {
@@ -43,9 +43,9 @@ public class Reviews {
     }
 
     /**
-     * Calcula el promedio de las calificaciones
+     * calcule the avarage of the classes
      * 
-     * @return promedio de rating o 0 si no hay reseñas
+     * @return average rating or 0 if there are no reviews
      */
     public double averageRating() {
         if (reviewList.isEmpty())
@@ -59,7 +59,7 @@ public class Reviews {
     }
 
     /**
-     * Devuelve la cantidad de reseñas registradas
+     * Returns the number of reviews recorded
      */
     public int countReviews() {
         return reviewList.size();
