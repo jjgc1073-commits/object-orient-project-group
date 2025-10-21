@@ -69,6 +69,10 @@ public class User {
         return name + " | " + raiting + "⭐ | " + aboutMe + " | Edad: " + age + " años";
     }
 
+    /**
+     * This method writes the users rate
+     * @param newRating
+     */
     public void setRating(double newRating) {
 
         if (newRating >= 0.0 && newRating <= 5.0) {
@@ -96,11 +100,20 @@ public class User {
         return Period.between(birthDate, hoy).getYears();
     }
 
+
+    /**
+     * This method calculates the age
+     * @param birthDate
+     */
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
         this.age = calcularEdad();
     }
 
+    /**
+     * This method returns the birthdate
+     * @return
+     */
     public LocalDate getBirthDate() {
         return birthDate;
     }

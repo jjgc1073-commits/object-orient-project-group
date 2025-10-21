@@ -8,7 +8,9 @@
  */
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class UserTutor extends User {
@@ -19,6 +21,7 @@ public class UserTutor extends User {
     private String specialization; // área de conocimiento o materia
     private int experienceYears; // años de experiencia
     private double hourlyRate; // tarifa por hora
+    private int i;
 
     /**
      * Constructor de UserTutor
@@ -43,6 +46,7 @@ public class UserTutor extends User {
         this.specialization = specialization;
         this.experienceYears = experienceYears;
         this.hourlyRate = hourlyRate;
+        this.i = 0;
     }
 
     /**
@@ -92,25 +96,31 @@ public class UserTutor extends User {
     public double calculateWeeklyIncome(int hoursPerWeek) {
         return hourlyRate * hoursPerWeek;
     }
-    
+
+
     /**
       *list of classes that the tutor has accepted
       */
-    private List<Appointment> appointments = new ArrayList<>();
+    public List<RequestClass> schedule = new ArrayList<>();
+    
+    /**
+      *Method to get all appointments of the tutor 
+      */
+    public List<RequestClass> getSchedule() {
+        return schedule;
+    }
+
 
     /**
       *Method to add a appointment to the list of the tutor 
       */
-    public void addAppointment(Appointment appointment) {
-        appointments.add(appointment);
+    public void addClass(RequestClass elemento) {
+        schedule.add(elemento);
+        schedule.sort(Comparator.comparing(RequestClass::getClassDate).thenComparing(RequestClass::getStartTime));
+        System.out.println("Schedule updated successfully");
     }
 
-    /**
-      *Method to get all appointments of the tutor 
-      */
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
+    
 
     /**
       *Method to show the tutor schedule
@@ -118,12 +128,17 @@ public class UserTutor extends User {
       */
     public void showSchedule() {
         System.out.println(" Schedule of the tutor " + getName() + ":");
-        if (appointments.isEmpty()) {
+        if (schedule.isEmpty()) {
             System.out.println("There are no classes scheduled.");
         } else {
-            for (Appointment a : appointments) {
-                System.out.println(" - " + a);
+            for (RequestClass s : schedule) {
+                System.out.println(" - " + s);
             }
         }
     }
+
+
+    
+
+
 }

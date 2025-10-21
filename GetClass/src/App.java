@@ -10,7 +10,11 @@
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -66,8 +70,8 @@ public class App {
          */
         //to crew a new tutor and new student
         UserTutor tutor = new UserTutor(null, null, null, null, 0, null, 0, null, 0, null, 0, 0);
-        UserStudent student = new UserStudent(
-                "Jhon González",
+        Schedule available = new Schedule(true);
+        UserStudent student = new UserStudent("Jhon González",
                 "1234",
                 "jhon@mail.com",
                 LocalDate.of(2002, 10, 5),
@@ -77,31 +81,25 @@ public class App {
                 "Universitary",
                 "CC",
                 1001);
+          
+        
 
       
         //  crew a new Appointment
         
-        Appointment cita = new Appointment(
-                tutor, // Tutor assigned
-                student, // Student assigned
-                LocalDateTime.of(2025, 10, 22, 15, 0), // date and hour
-                "Programación en Java", // subjet or type of class
-                "Virtual" // modality
-        );
+        RequestClass request = new RequestClass(60000, "maths", tutor.getName() , student.getName(), LocalTime.of(15, 30), LocalDate.of(2025, 10, 25), LocalTime.of(17, 00), "Virutal");
+
 
         // show de created appointment
-        System.out.println("\n New appointment created:");
-        System.out.println(cita);
+        System.out.println("\n Request class sended:");
+        request.sendRequest();
 
         //  simulate if the tutor accept the apoinment first
        
-        cita.tutorAccept(); // the tutor accept the appoinmet first
+        ; // the tutor accept the appoinmet first
 
-       
-        //  Anow the student accpet too
+       request.setAnswer(1, 1, tutor, available, tutor.getSchedule() );
         
-        cita.studentAccept(); // The student accpet the appoint too
-
        
         //  show schedules refresh
         
@@ -115,18 +113,11 @@ public class App {
         
         //  crew a new appointment and reject
         
-        Appointment cita2 = new Appointment(
-                tutor,
-                student,
-                LocalDateTime.of(2025, 10, 25, 10, 30),
-                "Differential Calculus",
-                "in person");
+        RequestClass cita2 = new RequestClass(60000, "math", tutor.getName(), student.getName(), LocalTime.of(12, 30, 0), LocalDate.of(2025, 10, 25), LocalTime.of(14, 0, 0), "virtual" );
 
         System.out.println("\n New appointment created:");
-        System.out.println(cita2);
+        System.out.println(cita2.getInfoRequest());
 
-        // The student take the decition to reject the appointmet
-        cita2.reject("Student");
 
         // show the final status to the apointmet
         System.out.println(" Final status to the appoointment " + cita2.getStatus());

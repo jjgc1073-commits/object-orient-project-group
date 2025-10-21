@@ -10,6 +10,7 @@
 import java.lang.invoke.StringConcatFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -52,23 +53,27 @@ public class UserStudent extends User { // Creating the UserStudent subclass tha
 
     }
 
+
+
     /**
       *List of classes of the student 
       */
-    private List<Appointment> appointments = new ArrayList<>(); 
+    private List<RequestClass> scheduleStudent = new ArrayList<>(); 
 
     /**
        *method to add a appoinment into the schedule of the student
        */
-    public void addAppointment(Appointment appointment) {
-        appointments.add(appointment);
+    public void addClass(RequestClass elemento) {
+        scheduleStudent.add(elemento);
+        scheduleStudent.sort(Comparator.comparing(RequestClass::getClassDate).thenComparing(RequestClass::getStartTime));
+        System.out.println("Schedule updated successfully");
     }
 
     /**
-      * Method to show all appoitments of the student
+      * Method to show all students schedule
       */
-    public List<Appointment> getAppointments() {
-        return appointments;
+    public List<RequestClass> getSchedule() {
+        return scheduleStudent;
     }
 
     /**
@@ -76,11 +81,11 @@ public class UserStudent extends User { // Creating the UserStudent subclass tha
       */
     public void showSchedule() {
         System.out.println(" Schedule of the student " + getName() + ":");
-        if (appointments.isEmpty()) {
+        if (scheduleStudent.isEmpty()) {
             System.out.println("There are no classes scheduled.");
         } else {
-            for (Appointment a : appointments) {
-                System.out.println(" - " + a);
+            for (RequestClass s : scheduleStudent) {
+                System.out.println(" - " + s);
             }
         }
     }
