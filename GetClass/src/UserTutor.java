@@ -21,7 +21,7 @@ public class UserTutor extends User {
     private String specialization; // área de conocimiento o materia
     private int experienceYears; // años de experiencia
     private double hourlyRate; // tarifa por hora
-    private int i;
+    
 
     /**
      * Constructor de UserTutor
@@ -46,7 +46,6 @@ public class UserTutor extends User {
         this.specialization = specialization;
         this.experienceYears = experienceYears;
         this.hourlyRate = hourlyRate;
-        this.i = 0;
     }
 
     /**
