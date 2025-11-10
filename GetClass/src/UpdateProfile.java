@@ -10,7 +10,7 @@ public class UpdateProfile {
     private int id;
     protected String email;
     protected String password;
-    private LocalDate birthDate;
+    protected LocalDate birthDate;
 
     public UpdateProfile(String name, String aboutMe, LocalDate birthDate, int id, String email, String password) {
 
