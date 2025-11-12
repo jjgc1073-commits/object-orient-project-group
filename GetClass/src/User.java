@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-public class User extends UpdateProfile implements ShowRates {
+public class User extends UpdateProfile {
 
     protected int accessLevel;
 
@@ -21,17 +21,7 @@ public class User extends UpdateProfile implements ShowRates {
         this.accessLevel = accessLevel;
     }
 
-    @Override
-    public void getRates() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRates'");
-    }
 
-    @Override
-    public void calculateAverage() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calculateAverage'");
-    }
 
 }
 

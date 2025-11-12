@@ -11,7 +11,16 @@ public class UpdateProfile {
     protected String email;
     protected String password;
     protected LocalDate birthDate;
-
+/**
+ * 
+ * constructor method of class UpdateProfile
+ * @param name
+ * @param aboutMe
+ * @param birthDate
+ * @param id
+ * @param email
+ * @param password
+ */
     public UpdateProfile(String name, String aboutMe, LocalDate birthDate, int id, String email, String password) {
 
         this.name = name;
@@ -47,12 +56,11 @@ public class UpdateProfile {
 
     /**
      * method of calculate age of a client
-     * 
+     * @param birthDate
      * 
      * @return age
      */
-    public int setAge(LocalDate birhDate){
-
+    public int setAge(LocalDate birthDate){
         if (birthDate == null) {
 
             return 0;
