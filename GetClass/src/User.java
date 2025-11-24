@@ -1,78 +1,101 @@
 import java.time.LocalDate;
 import java.time.Period;
 
-public class User {
+public class User implements IAuthentication, IuserBase {
 
-    protected int accessLevel;
-    public String name;
-    public String aboutMe;
-    public  int age;
-    private int id;
+    protected String role;
+    protected String name;
+    protected int age;
+    protected int id; // lo asigna la BD después
     protected String email;
     protected String password;
     protected LocalDate birthDate;
-/**
- * 
- * constructor method of class UpdateProfile
- * @param name
- * @param aboutMe
- * @param birthDate
- * @param id
- * @param email
- * @param password
- */
-    public User(String name, String aboutMe, LocalDate birthDate, int id, String email, String password) {
 
+    /**
+     * Constructor para crear un usuario NUEVO (antes de guardarlo en la BD)
+     */
+    public User(String name, LocalDate birthDate, String email, String password) {
         this.name = name;
-        this.aboutMe = aboutMe;
         this.birthDate = birthDate;
-        this.age = setAge(birthDate);
-        this.id = id;
+        this.age = calculateAge(birthDate);
         this.email = email;
-        this.password = password;   
+        this.password = password;
+    }
 
+    /**
+     * Constructor para cargar un usuario DESDE la BD
+     */
+    public User(int id, String name, LocalDate birthDate, String email, String password, String role) {
+        this.id = id;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.age = calculateAge(birthDate);
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public void setEmail(String email) {
-
         this.email = email;
-
-
-    }
-
-    public void setAboutMe(String aboutMe) {
-
-        this.aboutMe = aboutMe; 
-
     }
 
     public void setPassword(String password) {
-
         this.password = password;
-
     }
 
-
     /**
-     * method of calculate age of a client
-     * @param birthDate
-     * 
-     * @return age
+     * Calcula edad
      */
-    public int setAge(LocalDate birthDate){
+    private int calculateAge(LocalDate birthDate){
         if (birthDate == null) {
-
             return 0;
-
         }
-
         LocalDate hoy = LocalDate.now();
         return Period.between(birthDate, hoy).getYears();
     }
-    
+
+    @Override
+    public void logout() {
+        throw new UnsupportedOperationException("Unimplemented method 'logout'");
+    }
+
+    @Override
+    public void setNewPassword(String oldPassword, String newPassword) {
+        throw new UnsupportedOperationException("Unimplemented method 'setNewPassword'");
+    }
+
+    @Override
+    public boolean login(String email, String password) {
+        throw new UnsupportedOperationException("Unimplemented method 'login'");
+    }
+
+    @Override
+    public boolean validatePassword(String password) {
+        throw new UnsupportedOperationException("Unimplemented method 'validatePassword'");
+    }
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public String getEmail() {
+        return this.email;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getRole() {
+        return this.role;
+    }
 }
-
-
-
-
-
