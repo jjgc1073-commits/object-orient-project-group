@@ -27,10 +27,10 @@ public class UserStudentDAO {
 
         PreparedStatement stmtUser = null;
         PreparedStatement stmtInfo = null;
-        PreparedStatement stmtReview = null;
+        
         ResultSet rsUser = null;
         ResultSet rsInfo = null;
-        ResultSet rsReview = null;
+        
 
         
 
@@ -103,9 +103,10 @@ public class UserStudentDAO {
 
         PreparedStatement stmtUser   = null;
         PreparedStatement stmtInfo   = null;
-
+        PreparedStatement stmtReview = null;
         ResultSet rsUser = null;
         ResultSet rsInfo = null;
+        ResultSet rsReview = null;
 
         try {
             stmtUser = conn.prepareStatement(
@@ -116,7 +117,7 @@ public class UserStudentDAO {
 
             if (!rsUser.next()) 
                 return null; // No se encontró el usuario
-            UserStudentDTO teacher = new UserStudentDTO(
+            UserStudentDTO student = new UserStudentDTO(
                 rsUser.getInt("user_id"),
                 rsUser.getString("name"),
                 rsUser.getString("password_hash"),
@@ -149,12 +150,13 @@ public class UserStudentDAO {
         rsReview = stmtReview.executeQuery();
 
         while (rsReview.next()) {
-            info.addSubject(rsReview.getString("subject"));
+            info.addSendedReviews(rsReview.getInt("review_id"), rsReview.getInt("tutor_user_id"), rsReview.getInt("student_user_id"), 
+            rsReview.getInt("score"), rsReview.getString("comment"), LocalDate.parse(rsReview.getString("review_date")));
         }
 
-        teacher.setTutorInfo(info);
+        student.setStudentInfo(info);
 
-        return teacher;
+        return student;
 
     } catch (SQLException e) {
         e.printStackTrace();
@@ -163,17 +165,13 @@ public class UserStudentDAO {
         } finally {
             try { if (rsUser != null) rsUser.close(); } catch (SQLException ex) {}
             try { if (rsInfo != null) rsInfo.close(); } catch (SQLException ex) {}
-            try { if (rsSubject != null) rsSubject.close(); } catch (SQLException ex) {}
-            try { if (rsCert != null) rsCert.close(); } catch (SQLException ex) {}
+            try { if (rsReview != null) rsReview.close(); } catch (SQLException ex) {}
     
             try { if (stmtUser != null) stmtUser.close(); } catch (SQLException ex) {}
             try { if (stmtInfo != null) stmtInfo.close(); } catch (SQLException ex) {}
-            try { if (stmtSubject != null) stmtSubject.close(); } catch (SQLException ex) {}
-            try { if (stmtCert != null) stmtCert.close(); } catch (SQLException ex) {}
+            try { if (stmtReview != null) stmtReview.close(); } catch (SQLException ex) {}
         }
     }
 
 
-}
-    
 }
