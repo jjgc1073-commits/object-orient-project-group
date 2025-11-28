@@ -1,3 +1,6 @@
+package DataBase.DAOS;
+import Classes.UserTeacher;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -24,12 +27,12 @@ public class UserTeacherDAO {
                 "INSERT INTO USER(name, email, password_hash, birth_date, age, role) VALUES (?, ?, ?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS
             );
-            stmtUser.setString(1, teacher.name);
-            stmtUser.setString(2, teacher.email);
-            stmtUser.setString(3, teacher.password);
-            stmtUser.setString(4, teacher.birthDate.toString());
-            stmtUser.setInt(5, teacher.age);
-            stmtUser.setString(6, teacher.role);
+            stmtUser.setString(1, teacher.getName());
+            stmtUser.setString(2, teacher.getEmail());
+            stmtUser.setString(3, teacher.getPassword());
+            stmtUser.setString(4, teacher.getBirthDate().toString());
+            stmtUser.setInt(5, teacher.getAge());
+            stmtUser.setString(6, teacher.getRole());
 
             stmtUser.executeUpdate();
             rsUser = stmtUser.getGeneratedKeys();

@@ -1,3 +1,5 @@
+package Classes;
+
 public interface IAuthentication {
 
 
