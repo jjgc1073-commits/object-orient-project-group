@@ -4,9 +4,19 @@ import java.time.LocalDate;
 
 public class UserStudentDTO extends UserDTO{
 
-    public UserStudentDTO(int id, String name, LocalDate birthDate, String email, int age, String password, String role){
+    public StudentInfoDTO studentInfo;
+
+    public UserStudentDTO(int id, String name, String password, String email, int age, LocalDate birthDate,    String role){
         super(id, name, birthDate, email, age, password, role);
         
     } 
+
+    public void setStudentInfo(StudentInfoDTO studentInfo){
+        this.studentInfo = studentInfo;
+    }
+
+    public StudentInfoDTO getStudentInfo(){
+        return this.studentInfo;
+    }
     
 }

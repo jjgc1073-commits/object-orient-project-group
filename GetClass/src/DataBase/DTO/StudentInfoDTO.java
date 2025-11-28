@@ -1,19 +1,19 @@
 package DataBase.DTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import Classes.Review;
 
 public class StudentInfoDTO {
 
+    public int id;
     public String aboutMe;
     public String academicLevel;
     public List<Review> sendedReviews;
 
 
-    public StudentInfoDTO(String aboutMe, String academicLevel, List<Review> sendedReviews){
-        this.aboutMe = aboutMe;
-        this.academicLevel = academicLevel;
-        this.sendedReviews = sendedReviews;
+    public StudentInfoDTO(){
+        this.sendedReviews = new ArrayList<>();
 
     }
 
