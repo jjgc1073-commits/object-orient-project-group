@@ -1,13 +1,23 @@
 package DataBase.DAOS;
 import Classes.UserTeacher;
+import Classes.TutorInfo;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 public class UserTeacherDAO {
 
+
+
+    /**
+     * Saves a UserTeacher to the database.
+     * @param conn
+     * @param teacher
+     * @return
+     */
     public static boolean save(Connection conn, UserTeacher teacher) {
 
         PreparedStatement stmtUser = null;
@@ -29,8 +39,8 @@ public class UserTeacherDAO {
             );
             stmtUser.setString(1, teacher.getName());
             stmtUser.setString(2, teacher.getEmail());
-            stmtUser.setString(3, teacher.getPassword());
-            stmtUser.setString(4, teacher.getBirthDate().toString());
+            stmtUser.setString(3, teacher.getPassWord());
+            stmtUser.setString(4, teacher.getBirthDate());
             stmtUser.setInt(5, teacher.getAge());
             stmtUser.setString(6, teacher.getRole());
 
@@ -40,7 +50,7 @@ public class UserTeacherDAO {
             if (!rsUser.next())
                 throw new SQLException("No se generó ID de usuario");
 
-            teacher.id = rsUser.getInt(1);
+            teacher.setId(rsUser.getInt(1));
             
             // INSERT TUTOR_INFO
             stmtInfo = conn.prepareStatement(
@@ -48,7 +58,7 @@ public class UserTeacherDAO {
                 Statement.RETURN_GENERATED_KEYS
             );
 
-            stmtInfo.setInt(1, teacher.id);
+            stmtInfo.setInt(1, teacher.getId());
             stmtInfo.setString(2, teacher.tutorInfo.getAboutMe());
             stmtInfo.setInt(3, teacher.tutorInfo.getHourlyRate());
             stmtInfo.setString(4, teacher.tutorInfo.getLocatedIn());
@@ -100,4 +110,11 @@ public class UserTeacherDAO {
             try { conn.setAutoCommit(true); } catch (SQLException ex) {}
         }
     }
+
+
+
+
+
+
+
 }
