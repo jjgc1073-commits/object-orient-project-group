@@ -1,0 +1,833 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{hyperref}
+\def\UrlBreaks{\do\/\do-\do_}
+\usepackage{xurl}
+
+\geometry{a4paper, margin=1in}
+
+\title{Object-Oriented Programming \\ Semester 2025-III \\ \vspace{0.5cm} Workshop No. 1 — Object-Oriented Design (Updated Version)}
+\author{Alejandro Escobar 20251020094\\ Jhon Gonzalez 20251020087 \\ Sebastián Zambrano 20251020102\\ \\ Computer Engineering Program \\ Universidad Distrital Francisco José de Caldas}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+\section{Introduction}
+The \textbf{GetClasses} project is an online platform designed to connect students and tutors through a smooth, intuitive, and secure learning environment. The system provides a space where students can easily find qualified tutors by subject, pricing, or location, while tutors can promote their academic expertise and manage their teaching schedules efficiently.
+
+The motivation for this project comes from the increasing demand for reliable and accessible remote learning solutions. The main objective of GetClasses is to streamline academic interaction, communication, and payment management within a unified digital ecosystem. The scope of the system includes multilingual support, layered system architecture, user management for students and tutors, and future integration of additional services.
+
+
+\newpage
+\section{Technical Design (Updated UML Diagrams)}
+The following UML diagram represents the updated technical structure of the \textbf{GetClasses} system after applying refactorings, layered architecture adjustments, and SOLID principles. This version focuses on simplifying responsibilities, strengthening inheritance hierarchies, and improving modularity across the main components.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{Workshop 4.drawio.png}
+\caption{Updated UML class diagram applying SOLID principles, inheritance, and a clearer separation of responsibilities.}
+\end{figure}
+
+The updated diagram highlights:
+\begin{itemize}
+\item A refined class hierarchy where the abstract \texttt{User} class defines shared fields and behaviors.
+\item Specialized subclasses—\texttt{StudentUser}, \texttt{TutorUser}, and \texttt{AdminUser}—that extend and override functionalities according to their roles.
+\item Clearer associations with system components such as schedules, payments, reviews, and messaging.
+\item Encapsulation applied through private attributes and public methods (getters and setters).
+\item Polymorphism implemented by method overriding and the use of interfaces when necessary.
+\end{itemize}
+
+This revised UML supports a layered architecture and prepares the system for a clean implementation within a monolithic JavaFX application.
+
+
+\newpage
+\subsection*{SOLID application} The final UML model was thoroughly refined to ensure a rigorous application of the SOLID principles, resulting in a clearer, more modular, and extensible design. Each class was redefined with a unique and well-delimited responsibility, reducing coupling and increasing the overall cohesion of the system. The User class was simplified to represent only shared attributes and behaviors, functioning as the base entity from which Student and Teacher inherit. This guarantees compliance with the \textbf{Single Responsibility Principle (SRP)} and the \textbf{Liskov Substitution Principle (LSP)}, allowing subclasses to replace User without altering the system’s behavior.
+
+The Chat class was redesigned to handle interactions between two instances of User instead of using text strings for names, improving object relationships and future extensibility under the \textbf{Open/Closed Principle (OCP)}. Message was refined to encapsulate only the content, date, and time of the message, maintaining a single reason for change and facilitating future extensions such as message types or attachments. Similarly, Review was redefined with precise attributes (id, author, date, text, rate) and focused methods such as writeReview() and addTag(), ensuring extensibility without modifying its core structure. In addition, Reviews was introduced as an aggregator class responsible for managing multiple instances of Review, offering operations for querying and analyzing ratings in accordance with \textbf{SRP} and the Dependency \textbf{Inversion Principle (DIP)}.
+
+On the other hand, the classes Request and Answer were introduced, from which ClassRequest inherits. Request manages information associated with class requests (dates, schedules, participants, subject, modality, price, and status), while Answer encapsulates the response (attribute accept and method setAnswer()). As a result, ClassRequest now contains only the sendRequest() method, adhering to \textbf{SRP} and reinforcing the hierarchy under \textbf{LSP} and \textbf{OCP}.
+
+Finally, the Schedule class was simplified to handle only availability through setAvailable(), while two new classes, ChangeClasses and ClassesInfo, were added to distribute responsibilities for modification and query operations. ChangeClasses manages the addition, deletion, or clearing of classes, and ClassesInfo handles queries such as retrieving schedules or counting total events. This refactoring promotes a highly modular, clear, and extensible structure, exemplifying the application of \textbf{SRP}, \textbf{OCP}, and \textbf{DIP}, and achieving a clean, flexible, and easily maintainable architecture.
+
+In addition, a set of interfaces was incorporated to reinforce the application of the \textbf{Interface Segregation Principle (ISP)} and the \textbf{Dependency Inversion Principle (DIP)}. Interfaces such as IShowRates, IRate, IShowProfile, IAccessLevel, IAuthentication, ISchedule, IShowTutorProfile, and IReview ensure that each class implements only the behaviors it truly requires, avoiding unnecessary dependencies and improving system flexibility. For instance, User implements interfaces related to profile visualization, ratings, and access control, while TutorInfo uses its own interface to display tutor-specific information. This strategic use of interfaces guarantees low coupling, promotes code reusability, and allows new functionalities to be added or modified without affecting existing classes, consolidating a scalable, coherent model aligned with the core principles of object-oriented design.
+
+
+\newpage
+\section{OOP Principles in Action}
+
+\subsection*{Inheritance}
+The \texttt{User} class defines shared attributes such as \texttt{id}, \texttt{name}, \texttt{email}, and \texttt{password}, as well as methods like \texttt{login()} and \texttt{logout()}. Subclasses such as \texttt{StudentUser}, \texttt{TutorUser}, and \texttt{AdminUser} inherit these and add their own properties and behaviors:
+\begin{itemize}
+    \item \textbf{StudentUser:} Adds \texttt{level}, \texttt{bookClass()}, and \texttt{sendReview()}.
+    \item \textbf{TutorUser:} Adds \texttt{specialty}, \texttt{availability}, and \texttt{createClass()}.
+    \item \textbf{AdminUser:} Includes \texttt{manageUsers()} and \texttt{reviewReports()}.
+\end{itemize}
+
+\subsection*{Polymorphism}
+Polymorphism allows functions to treat subclass instances as generic \texttt{User} objects. For example, \texttt{showProfile(User u)} can call subclass-specific implementations depending on the object type.
+
+\subsection*{Encapsulation}
+Private and protected attributes ensure controlled access through getters and setters, maintaining security and consistency across the system.
+
+\subsection*{System Overview}
+The \textbf{GetClasses} system is composed of several entities that interact to support its core functionalities. These entities include users (students and tutors), administrators, and subsystems for scheduling, payments, messaging, and reviews. 
+
+This modular design allows flexibility in maintaining and scaling the platform, ensuring that each module can evolve independently while maintaining integration with the overall architecture.
+
+\subsection*{System Behavior and Data Flow}
+In \textbf{GetClasses}, the main operations are driven by user interactions. Students can create accounts, search for tutors, book classes, and complete payments through integrated modules. Tutors manage their profiles, set availability, and interact with students through chat and virtual sessions. The administrator ensures compliance and resolves disputes.
+
+The data flow of the platform is summarized as follows: users input their data through web forms, which are processed and validated by the backend. Once authenticated, the system stores user information, manages session scheduling, and records transactions. Notifications are automatically triggered to keep users informed of bookings, payments, and reviews.
+
+\newpage
+\section{Requirements Documentation}
+
+\subsection*{Functional Requirements}
+\begin{enumerate}
+    \item \textbf{User Registration and Authentication:} The system must allow both students and tutors to register using an email address or third-party authentication (e.g., Google). It should securely validate credentials and provide password recovery options.
+    \item \textbf{Profile management:} Users can manage their personal profiles, including photo, biography, experience, academic degrees, hourly rate, availability schedule, and preferred teaching subjects. Tutors must be able to verify credentials through documentation uploads.
+    \item \textbf{Tutor Search and Filtering:} Students must be able to search for tutors using filters such as subject, hourly rate, spoken language, country, and rating. The system should display ranked results with basic tutor information.
+    \item \textbf{Scheduling and Notifications:} Students can request sessions with tutors based on their availability. Both users will receive real-time notifications (email and in-app) about session confirmations, cancellations, or rescheduling.
+    \item \textbf{Payment Processing:} The platform must support secure online payments through credit card and e-wallets, ensuring transaction integrity and confirmation receipts.
+    \item \textbf{Messaging System:} Students and tutors should have access to a private chat feature for pre- and post-session communication, with message history stored securely.
+    \item \textbf{Reviews and Ratings:} After each completed session, students can rate their tutors and leave feedback. Ratings will be averaged and displayed publicly on tutor profiles.
+    \item \textbf{Dispute Resolution:} An administrator must have tools to manage user complaints and disputes, including viewing session logs and communication records for fair resolution.
+    
+\end{enumerate}
+
+\newpage
+
+\subsection*{Non-Functional Requirements}
+\begin{itemize}
+    \item \textbf{Performance:} The application must start and load its main interface in under 5 seconds on a standard computer. Core operations such as searching tutors or loading schedules should complete in under 3 seconds. It should function smoothly on systems with at least 4 GB of RAM.
+    \item \textbf{Usability:} The interface must be clear, intuitive, and consistent, allowing users to navigate key features (registration, search, scheduling) without prior training. The design should follow standard desktop UI conventions (menus, dialogs, toolbars). Language support in English is required; Spanish may be added optionally.
+    \item \textbf{Security:} User credentials must be encrypted or hashed before being stored locally. Communication features (e.g., messaging or class scheduling) should not expose private data. Any payment simulation or sensitive operation should be represented through mock interfaces for safety.
+    \item \textbf{Availability:} The system should operate without crashes or data loss during typical use. Session and profile data must be saved persistently in a local database or file system. A manual backup option should be available to prevent accidental data loss.
+    \item \textbf{Flexibility:} The architecture should allow gradual integration of advanced features (e.g., online payments, video calls, or multi-language support) in future versions, while keeping the current version lightweight and functional for local use.
+\end{itemize}
+
+\newpage
+\section{User Stories}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 1 & \textbf{Tutor Registration} \\
+\hline
+\textbf{Priority:} & High \\
+\hline
+\textbf{Effort (hrs):} & 6 \\
+\hline
+\textbf{Description:} & As a tutor, I want to register on the platform by entering my personal and professional information so that I can offer tutoring sessions. \\
+\hline
+\textbf{Acceptance Criteria:} & The tutor account is successfully created after entering valid information. \\
+\hline
+\end{tabular}
+\caption{User Story 1 – Tutor Registration}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 2 & \textbf{Tutor Profile Picture} \\
+\hline
+\textbf{Priority:} & Medium \\
+\hline
+\textbf{Effort (hrs):} & 3 \\
+\hline
+\textbf{Description:} & As a tutor, I want to upload a profile picture so that students can identify me easily. \\
+\hline
+\textbf{Acceptance Criteria:} & The uploaded image appears correctly on the tutor's profile page. \\
+\hline
+\end{tabular}
+\caption{User Story 2 – Tutor Profile Picture}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 3 & \textbf{Tutor Search} \\
+\hline
+\textbf{Priority:} & High \\
+\hline
+\textbf{Effort (hrs):} & 8 \\
+\hline
+\textbf{Description:} & As a student, I want to search for tutors by subject, rate, or language so that I can find the best match for my learning needs. \\
+\hline
+\textbf{Acceptance Criteria:} & Tutors matching the selected filters are displayed correctly in the search results. \\
+\hline
+\end{tabular}
+\caption{User Story 3 – Tutor Search}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 4 & \textbf{Tutor Listing} \\
+\hline
+\textbf{Priority:} & High \\
+\hline
+\textbf{Effort (hrs):} & 5 \\
+\hline
+\textbf{Description:} & As a student, I want to view a list of available tutors so that I can compare their profiles and select one. \\
+\hline
+\textbf{Acceptance Criteria:} & The system displays a complete list of tutors with names, subjects, and ratings. \\
+\hline
+\end{tabular}
+\caption{User Story 4 – Tutor Listing}
+\end{table}
+
+\newpage
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 5 & \textbf{Chat with Tutor} \\
+\hline
+\textbf{Priority:} & High \\
+\hline
+\textbf{Effort (hrs):} & 6 \\
+\hline
+\textbf{Description:} & As a student, I want to chat in real time with tutors so that I can clarify doubts before booking a session. \\
+\hline
+\textbf{Acceptance Criteria:} & The chat allows real-time message exchange between tutor and student. \\
+\hline
+\end{tabular}
+\caption{User Story 5 – Chat with Tutor}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 6 & \textbf{Tutor Rates Student} \\
+\hline
+\textbf{Priority:} & Medium \\
+\hline
+\textbf{Effort (hrs):} & 3 \\
+\hline
+\textbf{Description:} & As a tutor, I want to rate students after a session to maintain platform quality and accountability. \\
+\hline
+\textbf{Acceptance Criteria:} & The tutor can submit a rating and review after completing a class. \\
+\hline
+\end{tabular}
+\caption{User Story 6 – Tutor Rates Student}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 7 & \textbf{Student Rates Tutor} \\
+\hline
+\textbf{Priority:} & Medium \\
+\hline
+\textbf{Effort (hrs):} & 3 \\
+\hline
+\textbf{Description:} & As a student, I want to rate tutors after a session so that other users can make informed decisions. \\
+\hline
+\textbf{Acceptance Criteria:} & The student can rate the tutor and leave a comment after class. \\
+\hline
+\end{tabular}
+\caption{User Story 7 – Student Rates Tutor}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 8 & \textbf{View Ratings} \\
+\hline
+\textbf{Priority:} & Medium \\
+\hline
+\textbf{Effort (hrs):} & 3 \\
+\hline
+\textbf{Description:} & As a user, I want to view tutor and student ratings so that I can evaluate trust and performance. \\
+\hline
+\textbf{Acceptance Criteria:} & Ratings and feedback are visible and linked to corresponding user profiles. \\
+\hline
+\end{tabular}
+\caption{User Story 8 – View Ratings}
+\end{table}
+
+\newpage
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 9 & \textbf{Tutor Auto-Responder} \\
+\hline
+\textbf{Priority:} & Low \\
+\hline
+\textbf{Effort (hrs):} & 2 \\
+\hline
+\textbf{Description:} & As a tutor, I want to enable an auto-responder when I am unavailable so that students receive immediate feedback. \\
+\hline
+\textbf{Acceptance Criteria:} & The system automatically sends a pre-defined message when the tutor is offline. \\
+\hline
+\end{tabular}
+\caption{User Story 9 – Tutor Auto-Responder}
+\end{table}
+
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 10 & \textbf{Contact Support/Admin} \\
+\hline
+\textbf{Priority:} & High \\
+\hline
+\textbf{Effort (hrs):} & 4 \\
+\hline
+\textbf{Description:} & As a user, I want to contact platform support or administrators to report issues or request assistance. \\
+\hline
+\textbf{Acceptance Criteria:} & Support requests are sent successfully and confirmation is received. \\
+\hline
+\end{tabular}
+\caption{User Story 10 – Contact Support/Admin}
+\end{table}
+
+\newpage
+
+\section{CRC Cards (Tabular Format)}
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: ProfileUpdate}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Register the basic profile data &
+\begin{tabular}[t]{@{}l@{}}
+User
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{ProfileUpdate CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: User}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Representing the general data and behaviors of a user within the system &
+\begin{tabular}[t]{@{}l@{}}
+ProfileUpdate\\
+Teacher\\
+Student
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{User CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: TutorInfo}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Manage the data that only the tutor should have &
+\begin{tabular}[t]{@{}l@{}}
+Teacher
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{TutorInfo CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: StudentInfo}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Manage the data that only the student should have &
+\begin{tabular}[t]{@{}l@{}}
+Student
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{StudentInfo CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Teacher}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Base of the tutor user; inherits attributes and methods from User &
+\begin{tabular}[t]{@{}l@{}}
+User\\
+TutorInfo\\
+Reviews\\
+ClassRequest\\
+Schedule\\
+PaymentSystem
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Teacher CRC}
+\end{table}
+
+\newpage
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Student}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Base of the student user; inherits attributes and methods from User &
+\begin{tabular}[t]{@{}l@{}}
+User\\
+StudentInfo\\
+Reviews\\
+ClassRequest\\
+Schedule\\
+PaymentSystem
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Student CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: PaymentSystem}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Handle payments &
+\begin{tabular}[t]{@{}l@{}}
+Teacher\\
+Student
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{PaymentSystem CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Reviews}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Add, delete or edit tutor reviews &
+\begin{tabular}[t]{@{}l@{}}
+Review\\
+Student\\
+Teacher
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Reviews CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Review}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Create the review and assign a rating &
+\begin{tabular}[t]{@{}l@{}}
+Reviews
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Review CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Chat}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Store and represent chat messages &
+\begin{tabular}[t]{@{}l@{}}
+Student\\
+Teacher\\
+Message
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Chat CRC}
+\end{table}
+
+\newpage
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Message}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Create and edit the message before sending &
+\begin{tabular}[t]{@{}l@{}}
+Chat
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Message CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Request}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Create the class request &
+\begin{tabular}[t]{@{}l@{}}
+ClassRequest
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Request CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Answer}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Establish the tutor's response to the class request &
+\begin{tabular}[t]{@{}l@{}}
+ClassRequest
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Answer CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: ClassRequest}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Send and handle class requests &
+\begin{tabular}[t]{@{}l@{}}
+Student\\
+Teacher\\
+Answer\\
+Request
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{ClassRequest CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: ChangeClasses}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Add and remove classes from the schedule &
+\begin{tabular}[t]{@{}l@{}}
+Schedule
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{ChangeClasses CRC}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: ClassesInfo}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Show the information of assigned classes &
+\begin{tabular}[t]{@{}l@{}}
+Schedule
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{ClassesInfo CRC}
+\end{table}
+
+\newpage
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Schedule}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Set availability and manage the base schedule &
+\begin{tabular}[t]{@{}l@{}}
+Teacher\\
+Student\\
+ChangeClasses\\
+ClassesInfo
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Schedule CRC}
+\end{table}
+
+\newpage
+\section{Mockups}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{LoginScreen.png}
+\caption{Login Page}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{RegisterScreen.png}
+\caption{Register Page}
+\end{figure}
+\FloatBarrier
+
+\newpage
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.65\textwidth]{MainScreen.png}
+\caption{Main Page}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{ProfileTutorScreen.png}
+\caption{Tutor Profile}
+\end{figure}
+\FloatBarrier
+
+\newpage
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{ReviewsScreen.png}
+\caption{Reviews}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{ProfileStudentScreen.png}
+\caption{Student Profile}
+\end{figure}
+\FloatBarrier
+
+\newpage
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{ReviewScreen.png}
+\caption{Make Review}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{ChatScreen.png}
+\caption{Chat Page}
+\end{figure}
+\FloatBarrier
+
+\newpage
+\section{Code Snippets}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{imagen_2025-11-28_143121194.png}
+\caption{Class User Code}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{imagen_2025-11-28_143624466.png}
+\caption{Student Info DTO Code}
+\end{figure}
+
+\newpage
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{imagen_2025-11-28_143457584.png}
+\caption{Login Form Code}
+\end{figure}
+
+\newpage
+
+\section{Layer Review and System Redesign}
+As part of the refinement process, the system architecture proposed in earlier workshops was reevaluated. This review revealed the need to simplify responsibilities and reduce unnecessary complexity.
+
+The project now focuses on addressing the requirements of a layered design that emphasizes \textbf{simplicity, effectiveness, and low coupling}. To achieve this:
+\begin{itemize}
+    \item Design parameters were adjusted to better support modularity.
+    \item Several structural components were remodeled for clarity.
+    \item Responsibilities were reorganized to ensure functional separation.
+    \item Redundant or overly complex relations were removed or refactored.
+\end{itemize}
+
+This redesign allowed the system to become more coherent, stable, and easier to implement in subsequent stages.
+
+\section{JavaFX Monolithic Architecture}
+After evaluating architectural alternatives, the final implementation will be developed as a \textbf{JavaFX monolithic application}. The main reasons supporting this decision include:
+\begin{itemize}
+    \item It provides a simple, unified structure easy for new developers to understand.
+    \item Internal modularity is maintained without the complexity of microservices.
+    \item It enables a clear demonstration of OOP concepts (inheritance, polymorphism, encapsulation).
+    \item It is easy to run, test, package, and evaluate in an academic setting.
+\end{itemize}
+
+The monolith integrates the GUI, business logic, and data access layers into a single executable, while still following best practices to prevent excessive coupling.
+
+\section{UML Updates and SOLID Principles}
+As part of the documentation update, UML diagrams were revised to reflect the architectural corrections and the explicit adoption of \textbf{SOLID principles}. These principles supported:
+\begin{itemize}
+    \item Clearer assignment of responsibilities within classes.
+    \item Improved extensibility without modifying existing, stable code.
+    \item More robust and flexible dependency structures.
+    \item Better alignment between class behavior and system requirements.
+\end{itemize}
+
+The updated UML diagrams include more coherent hierarchies, clearer relationships, and reorganized methods according to object-oriented best practices.
+
+\newpage
+\section{Methodology and Deliverables}
+
+\subsection*{1. Layer Review and Design Validation}
+\begin{itemize}
+    \item Class diagrams and design documents from previous workshops were validated against the final layered architecture.
+    \item Adjustments and refactoring were applied to reinforce low coupling and clear responsibilities.
+    \item The architecture continues to build incrementally on prior deliverables.
+\end{itemize}
+
+\subsection*{2. GUI Prototype using JavaFX}
+\begin{itemize}
+    \item Initial forms and windows were implemented for core actions such as creating transactions and listing elements.
+    \item The GUI prioritizes simplicity and functionality over aesthetics.
+    \item Windows follow basic design patterns to enhance maintainability.
+\end{itemize}
+
+\subsection*{3. File-Based Storage}
+\begin{itemize}
+    \item Methods for serializing and saving business objects to files were implemented.
+    \item The application can reload persistent data when restarted.
+    \item Basic validations and conflict handling were added to prevent corrupted data.
+\end{itemize}
+
+\subsection*{4. Documentation and Artifact Submission}
+\begin{itemize}
+    \item Updated UML diagrams (class and sequence diagrams) were generated, showing communication between layers in the final solution.
+    \item Code snippets from the GUI and data access logic were included for traceability.
+    \item Clear documentation was added describing how this workshop builds upon previous ones and what refinements were introduced.
+\end{itemize}
+
+\newpage
+\section*{Notes and Reflection}
+
+\subsection*{Conceptual and Technical Updates}
+This version integrates all revisions made after the final review of layered design and system architecture. The following updates summarize the adjustments applied:
+
+\begin{itemize}
+    \item \textbf{Layer Alignment:} The conceptual design was refined to better match the layered architecture, ensuring low coupling and clear distribution of responsibilities across components.
+    \item \textbf{Design Adjustments:} Several structures were remodeled to simplify interactions, remove redundancies, and improve coherence between business logic and data management.
+    \item \textbf{UML Enhancements:} Class diagrams were updated to incorporate inheritance, encapsulation, and method overriding. SOLID principles were applied to reorganize responsibilities and strengthen system extensibility.
+    \item \textbf{JavaFX Monolith Decision:} The implementation strategy was adjusted to adopt a simple JavaFX monolithic structure, allowing easier understanding, faster prototyping, and more controlled integration of GUI, logic, and data persistence.
+\end{itemize}
+
+\subsection*{Additional Notes}
+\begin{itemize}
+    \item Documentation remains in English to maintain consistency throughout all workshops and deliverables.
+    \item External references should be included when UML notations, CRC methods, or JavaFX design decisions rely on academic or technical sources.
+    \item This updated version consolidates previous work and prepares the foundation for the implementation phase.
+\end{itemize}
+
+\subsection*{Final Reflection}
+Throughout this workshop, the primary goal was to refine the system’s structure while preserving clarity and simplicity in design. The adjustments implemented helped align the conceptual model with the technical architecture, ensuring that inheritance, polymorphism, and encapsulation are consistently applied across the system. These improvements also support a smoother transition toward the JavaFX prototype, updated UML models, and file-based storage implementation. Future iterations will focus on completing the GUI, validating the interaction flows, and reinforcing the architectural coherence of the final solution.
+
+\newpage
+\section*{References}
+\begin{itemize}
+    \item Overleaf. (2024). \textit{LaTeX tutorial: Learn LaTeX step by step}. Retrieved from \url{https://www.overleaf.com/learn}
+    \item Lamport, L. (1994). \textit{LaTeX: A Document Preparation System}. Addison-Wesley.
+    \item Lucidchart. (2023). \textit{UML Diagram Tutorial}. Retrieved from \url{https://www.lucidchart.com/pages/uml-diagram}
+    \item Ambler, S. W. (2023). \textit{Agile Modeling: UML and Class Design}. Retrieved from \url{http://www.agilemodeling.com/artifacts/classDiagram.htm}
+    \item Beck, K., \& Fowler, M. (2000). \textit{Planning Extreme Programming}. Addison-Wesley.
+    \item Mountain Goat Software. (2022). \textit{User Stories}. Retrieved from \url{https://www.mountaingoatsoftware.com/agile/user-stories}
+    \item Coad, P., \& Yourdon, E. (1991). \textit{Object-Oriented Design}. Prentice Hall.
+    \item Sommerville, I. (2015). \textit{Software Engineering} (10th ed.). Pearson.
+    \item Visual Paradigm. (2023). \textit{CRC Cards Tutorial}. Retrieved from \url{https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-crc-card/}
+    \item IEEE. (2023). \textit{Guide to Software Design Documentation (IEEE 1016-2020)}.
+\end{itemize}
+
+\end{document}
