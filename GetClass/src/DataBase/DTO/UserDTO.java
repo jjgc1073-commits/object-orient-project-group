@@ -9,14 +9,20 @@ public class UserDTO {
     public String email;
     public LocalDate birthDate;
     protected String password;
+    public String role;
 
 
-    public UserDTO(int id, String name, String email, String password, LocalDate birthDate){
-        this.name = name;
+    /**
+     * Constructor para cargar un usuario DESDE la BD
+     */
+    public UserDTO(int id, String name, LocalDate birthDate, String email, int age, String password, String role) {
         this.id = id;
-        this.email = email;
+        this.name = name;
         this.birthDate = birthDate;
+        this.age = age;
+        this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     //seters

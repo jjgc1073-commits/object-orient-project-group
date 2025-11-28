@@ -143,7 +143,7 @@ public class UserTeacherDAO {
             if (!rsUser.next()) 
                 return null; // No se encontró el usuario
             UserteacherDTO teacher = new UserteacherDTO(
-                rsUser.getInt("id"),
+                rsUser.getInt("user_id"),
                 rsUser.getString("name"),
                 rsUser.getString("password_hash"),
                 rsUser.getString("email"),
@@ -163,7 +163,7 @@ public class UserTeacherDAO {
             throw new SQLException("No existe TUTOR_INFO para el usuario");
 
         TutorInfoDTO info = new TutorInfoDTO();
-        int tutorInfoId = rsInfo.getInt("id");
+        int tutorInfoId = rsInfo.getInt("user_id");
         info.setAboutMe(rsInfo.getString("about_me"));
         info.setHourlyRate(rsInfo.getInt("hourly_rate"));
         info.setLocatedIn(rsInfo.getString("located_in"));

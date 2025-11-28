@@ -1,5 +1,6 @@
 package DataBase.DTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Classes.Review;
@@ -16,17 +17,12 @@ public class TutorInfoDTO {
     protected int tutorInfoId;
 
 
-    public TutorInfoDTO(String aboutMe, List<String> subjects, List<String> certifications, int hourlyRate, 
-        String locatedIn, double rating, List<Review> reviews, int tutorInfoId ){
-        this.aboutMe = aboutMe;
-        this.subjects = subjects;
-        this.certifications = certifications;
-        this.hourlyRate = hourlyRate;
-        this.locatedIn = locatedIn;
-        this.rating = rating;
-        this.reviews = reviews;
-        this.tutorInfoId = tutorInfoId;
+    public TutorInfoDTO() {
+        this.subjects = new ArrayList<>();
+        this.certifications = new ArrayList<>();
+        this.reviews = new ArrayList<>();
     }
+
 
     //setters
     public void setAboutMe(String aboutMe){
@@ -71,8 +67,16 @@ public class TutorInfoDTO {
         return subjects;
     }
 
+      public void addSubject(String subject) {
+        this.subjects.add(subject);
+    }
+
     public List<String> getCertifications() {
         return certifications;
+    }
+
+    public void addCertification(String certification) {
+        this.certifications.add(certification);
     }
 
     public int getHourlyRate() {

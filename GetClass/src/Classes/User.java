@@ -1,3 +1,5 @@
+package Classes;
+
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -6,9 +8,9 @@ public class User implements IAuthentication, IuserBase {
     protected String role;
     protected String name;
     protected int age;
-    protected int id; // lo asigna la BD después
+    protected int id; 
     protected String email;
-    protected String password;
+    private String password;
     protected LocalDate birthDate;
 
     /**
@@ -35,6 +37,8 @@ public class User implements IAuthentication, IuserBase {
         this.role = role;
     }
 
+    //Sets
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -42,6 +46,48 @@ public class User implements IAuthentication, IuserBase {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    //Gets
+
+    public String getPassWord() {
+        return this.password;
+    }
+
+    public String getBirthDate() {
+        return this.birthDate.toString();
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
+       @Override
+    public int getId() {
+        return this.id;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public String getEmail() {
+        return this.email;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getRole() {
+        return this.role;
+    }
+
+
+
 
     /**
      * Calcula edad
@@ -74,28 +120,5 @@ public class User implements IAuthentication, IuserBase {
         throw new UnsupportedOperationException("Unimplemented method 'validatePassword'");
     }
 
-    @Override
-    public int getId() {
-        return this.id;
-    }
 
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public String getEmail() {
-        return this.email;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getRole() {
-        return this.role;
-    }
 }
