@@ -18,7 +18,7 @@ public class App {
             System.out.println(teacherDTO.name);
             System.out.println(teacherDTO.age);
             System.out.println(teacherDTO.tutorInfo.getAboutMe());
-            System.out.println(teacherDTO.tutorInfo.getHourlyRate());
+            System.out.println(teacherDTO.tutorInfo.getTutorInfoId());
         } catch (SQLException e) {
             e.printStackTrace();
         }

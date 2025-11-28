@@ -17,5 +17,9 @@ public class UserteacherDTO extends UserDTO{
     public void setTutorInfo(TutorInfoDTO tutorInfo) {
         this.tutorInfo = tutorInfo;
     }
+    
+    public TutorInfoDTO getTutorInfoDTO(){
+        return this.tutorInfo;
+    }
 
 }

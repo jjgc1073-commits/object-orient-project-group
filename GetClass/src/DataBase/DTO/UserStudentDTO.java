@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public class UserStudentDTO extends UserDTO{
 
-    public UserStudentDTO(int id, String name, String email, String password, LocalDate birthDate){
-        super(id, name, email, password, birthDate);
+    public UserStudentDTO(int id, String name, LocalDate birthDate, String email, int age, String password, String role){
+        super(id, name, birthDate, email, age, password, role);
         
     } 
     
