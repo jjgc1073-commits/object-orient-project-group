@@ -2,6 +2,8 @@ package GUI.Controller;
 
 import DataBase.DAOS.UserDAO;
 import GUI.LoginForm;
+import GUI.MainView;
+import GUI.TutorCard;
 import DataBase.ConnectionDB;
 import java.sql.Connection;
 
@@ -21,16 +23,23 @@ public class LoginController {
         this.view.btnLogin.addActionListener(e -> login());
     }
 
-    private void login() {
+    public boolean login() {
         String user = view.txtUser.getText();
         String pass = new String(view.txtPass.getPassword());
 
         if (dao.Login(Conn, user, pass) != null) {
             JOptionPane.showMessageDialog(null, "Bienvenido " + user);
-            // Aquí abrirías la ventana principal
+
+            MainView view= new MainView();
+            view.setVisible(true);
+            this.view.dispose();
+
+
+            return true;
         } else {
             JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
         }
+        return false;
     } 
 }
 

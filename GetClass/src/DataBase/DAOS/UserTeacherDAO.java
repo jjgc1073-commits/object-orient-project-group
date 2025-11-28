@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserTeacherDAO {
 
@@ -210,6 +212,81 @@ public class UserTeacherDAO {
             try { if (stmtCert != null) stmtCert.close(); } catch (SQLException ex) {}
         }
     }
+
+
+
+
+    public static List<UserteacherDTO> getAll(Connection conn) {
+
+        List<UserteacherDTO> teachers = new ArrayList<>();
+
+        String queryUsers = "SELECT * FROM USER WHERE role='TEACHER'";
+        String queryInfo = "SELECT * FROM TUTOR_INFO WHERE user_id=?";
+        String querySubjects = "SELECT subject FROM TUTOR_SUBJECT WHERE tutor_info_id=?";
+        String queryCerts = "SELECT certification FROM TUTOR_CERTIFICATION WHERE tutor_info_id=?";
+
+        try (
+            PreparedStatement stmtUsers = conn.prepareStatement(queryUsers);
+            ResultSet rsUsers = stmtUsers.executeQuery();
+        ) {
+
+            while (rsUsers.next()) {
+
+                UserteacherDTO teacher = new UserteacherDTO(
+                rsUsers.getInt("user_id"),
+                rsUsers.getString("name"),
+                rsUsers.getString("email"),
+                rsUsers.getString("password_hash"),
+                rsUsers.getInt("age"),
+                LocalDate.parse(rsUsers.getString("birth_date")),
+                rsUsers.getString("role")
+            );
+
+            // -------- Load tutor_info ----------
+            PreparedStatement stmtInfo = conn.prepareStatement(queryInfo);
+            stmtInfo.setInt(1, teacher.getId());
+            ResultSet rsInfo = stmtInfo.executeQuery();
+
+            if (rsInfo.next()) {
+
+                TutorInfoDTO info = new TutorInfoDTO();
+                int tutorInfoId = rsInfo.getInt("tutor_info_id");
+
+                info.setTutorInfoId(tutorInfoId);
+                info.setAboutMe(rsInfo.getString("about_me"));
+                info.setHourlyRate(rsInfo.getInt("hourly_rate"));
+                info.setLocatedIn(rsInfo.getString("located_in"));
+
+                // -------- Load subjects --------
+                PreparedStatement stmtSubjects = conn.prepareStatement(querySubjects);
+                stmtSubjects.setInt(1, tutorInfoId);
+                ResultSet rsSub = stmtSubjects.executeQuery();
+                while (rsSub.next()) {
+                    info.addSubject(rsSub.getString("subject"));
+                }
+
+                // -------- Load certifications --------
+                PreparedStatement stmtCert = conn.prepareStatement(queryCerts);
+                stmtCert.setInt(1, tutorInfoId);
+                ResultSet rsCert = stmtCert.executeQuery();
+                while (rsCert.next()) {
+                    info.addCertification(rsCert.getString("certification"));
+                }
+
+                teacher.setTutorInfo(info);
+            }
+
+            teachers.add(teacher);
+            }
+
+        } catch (Exception e) {
+        e.printStackTrace();
+        }
+
+        return teachers;
+    }   
+
+    
 
 
 }

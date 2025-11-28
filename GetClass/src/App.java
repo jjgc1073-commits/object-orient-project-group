@@ -1,14 +1,8 @@
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.time.LocalDate;
-import DataBase.*;
-import Classes.*;
-import DataBase.DatabaseInitializer;
+
 import DataBase.DAOS.UserDAO;
-import DataBase.DAOS.UserTeacherDAO;
-import DataBase.DTO.UserteacherDTO;
 import GUI.LoginForm;
+import GUI.MainView;
+import GUI.TutorCard;
 import GUI.Controller.LoginController;
 
 public class App {
@@ -22,6 +16,10 @@ public class App {
 
         view.setVisible(true);
 
+       
+
         
     }
-}
+}   
+
+
