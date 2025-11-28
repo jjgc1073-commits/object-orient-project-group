@@ -1,8 +1,11 @@
 package DataBase.DTO;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import Classes.Review;
+import Classes.UserStudent;
+import Classes.UserTeacher;
 
 public class StudentInfoDTO {
 
@@ -26,8 +29,9 @@ public class StudentInfoDTO {
         this.academicLevel = academicLevel;
     }
 
-    public void setSendedReviews(List<Review> sendedReviews) {
-        this.sendedReviews = sendedReviews;
+    public void addSendedReviews(int id, int tutorId, int studentId, int score, String comment, LocalDate date) {
+        Review review = new Review(id, tutorId, studentId, score, comment, date);
+        sendedReviews.add(review);
     }
 
     //getters
