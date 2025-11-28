@@ -1,12 +1,14 @@
 package DataBase.DAOS;
 import Classes.UserTeacher;
-import Classes.TutorInfo;
+import DataBase.DTO.UserteacherDTO;
+import DataBase.DTO.TutorInfoDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class UserTeacherDAO {
 
@@ -109,12 +111,108 @@ public class UserTeacherDAO {
             try { if (stmtCert != null) stmtCert.close(); } catch (SQLException ex) {}
             try { conn.setAutoCommit(true); } catch (SQLException ex) {}
         }
+
+
+
+        
     }
 
 
 
 
 
+    public static UserteacherDTO getById(Connection conn, int userId) {
+
+        PreparedStatement stmtUser   = null;
+        PreparedStatement stmtInfo   = null;
+        PreparedStatement stmtSubject= null;
+        PreparedStatement stmtCert   = null;
+
+        ResultSet rsUser = null;
+        ResultSet rsInfo = null;
+        ResultSet rsSubject = null;
+        ResultSet rsCert = null;
+
+        try {
+            stmtUser = conn.prepareStatement(
+                "SELECT * FROM USER WHERE user_id = ? AND role = 'TEACHER'"
+            );
+            stmtUser.setInt(1, userId);
+            rsUser = stmtUser.executeQuery();
+
+            if (!rsUser.next()) 
+                return null; // No se encontró el usuario
+            UserteacherDTO teacher = new UserteacherDTO(
+                rsUser.getInt("id"),
+                rsUser.getString("name"),
+                rsUser.getString("password_hash"),
+                rsUser.getString("email"),
+                rsUser.getInt("age"),
+                LocalDate.parse(rsUser.getString("birth_date")),
+                rsUser.getString("role"));
 
 
+            // 2. Cargar datos de TUTOR_INFO
+            stmtInfo = conn.prepareStatement(
+                "SELECT * FROM TUTOR_INFO WHERE user_id = ?"
+                );
+        stmtInfo.setInt(1, userId);
+
+        rsInfo = stmtInfo.executeQuery();
+        if (!rsInfo.next())
+            throw new SQLException("No existe TUTOR_INFO para el usuario");
+
+        TutorInfoDTO info = new TutorInfoDTO();
+        int tutorInfoId = rsInfo.getInt("id");
+        info.setAboutMe(rsInfo.getString("about_me"));
+        info.setHourlyRate(rsInfo.getInt("hourly_rate"));
+        info.setLocatedIn(rsInfo.getString("located_in"));
+
+        // 3. Cargar SUBJECTS
+        stmtSubject = conn.prepareStatement(
+            "SELECT subject FROM TUTOR_SUBJECT WHERE tutor_info_id = ?"
+        );
+        stmtSubject.setInt(1, tutorInfoId);
+        rsSubject = stmtSubject.executeQuery();
+
+        while (rsSubject.next()) {
+            info.addSubject(rsSubject.getString("subject"));
+        }
+
+        // 4. Cargar CERTIFICATIONS
+        stmtCert = conn.prepareStatement(
+            "SELECT certification FROM TUTOR_CERTIFICATION WHERE tutor_info_id = ?"
+        );
+        stmtCert.setInt(1, tutorInfoId);
+        rsCert = stmtCert.executeQuery();
+
+        while (rsCert.next()) {
+            info.addCertification(rsCert.getString("certification"));
+        }
+
+        teacher.setTutorInfo(info);
+
+        return teacher;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return null;
+
+    } finally {
+        try { if (rsUser != null) rsUser.close(); } catch (SQLException ex) {}
+        try { if (rsInfo != null) rsInfo.close(); } catch (SQLException ex) {}
+        try { if (rsSubject != null) rsSubject.close(); } catch (SQLException ex) {}
+        try { if (rsCert != null) rsCert.close(); } catch (SQLException ex) {}
+
+        try { if (stmtUser != null) stmtUser.close(); } catch (SQLException ex) {}
+        try { if (stmtInfo != null) stmtInfo.close(); } catch (SQLException ex) {}
+        try { if (stmtSubject != null) stmtSubject.close(); } catch (SQLException ex) {}
+        try { if (stmtCert != null) stmtCert.close(); } catch (SQLException ex) {}
+    }
+    }
+
+
+
+
+    
 }
