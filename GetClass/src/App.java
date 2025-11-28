@@ -5,23 +5,22 @@ import java.time.LocalDate;
 import DataBase.*;
 import Classes.*;
 import DataBase.DatabaseInitializer;
+import DataBase.DAOS.UserDAO;
 import DataBase.DAOS.UserTeacherDAO;
 import DataBase.DTO.UserteacherDTO;
+import GUI.LoginForm;
+import GUI.Controller.LoginController;
 
 public class App {
     public static void main(String[] args) throws Exception {
 
 
 
-        try (Connection conn = ConnectionDB.getConnection()) {
-            UserteacherDTO teacherDTO = UserTeacherDAO.getById(conn, 1);
-            System.out.println(teacherDTO.name);
-            System.out.println(teacherDTO.age);
-            System.out.println(teacherDTO.tutorInfo.getAboutMe());
-            System.out.println(teacherDTO.tutorInfo.getTutorInfoId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        LoginForm view = new LoginForm();
+        UserDAO dao = new UserDAO();
+        LoginController controller = new LoginController(view, dao);
+
+        view.setVisible(true);
 
         
     }

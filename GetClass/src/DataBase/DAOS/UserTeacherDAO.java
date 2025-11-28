@@ -156,7 +156,7 @@ public class UserTeacherDAO {
             stmtInfo = conn.prepareStatement(
                 "SELECT * FROM TUTOR_INFO WHERE user_id = ?"
                 );
-        stmtInfo.setInt(1, userId);
+            stmtInfo.setInt(1, rsUser.getInt("user_id"));
 
         rsInfo = stmtInfo.executeQuery();
         if (!rsInfo.next())
@@ -198,21 +198,18 @@ public class UserTeacherDAO {
         e.printStackTrace();
         return null;
 
-    } finally {
-        try { if (rsUser != null) rsUser.close(); } catch (SQLException ex) {}
-        try { if (rsInfo != null) rsInfo.close(); } catch (SQLException ex) {}
-        try { if (rsSubject != null) rsSubject.close(); } catch (SQLException ex) {}
-        try { if (rsCert != null) rsCert.close(); } catch (SQLException ex) {}
-
-        try { if (stmtUser != null) stmtUser.close(); } catch (SQLException ex) {}
-        try { if (stmtInfo != null) stmtInfo.close(); } catch (SQLException ex) {}
-        try { if (stmtSubject != null) stmtSubject.close(); } catch (SQLException ex) {}
-        try { if (stmtCert != null) stmtCert.close(); } catch (SQLException ex) {}
-    }
-    }
-
-
-
-
+        } finally {
+            try { if (rsUser != null) rsUser.close(); } catch (SQLException ex) {}
+            try { if (rsInfo != null) rsInfo.close(); } catch (SQLException ex) {}
+            try { if (rsSubject != null) rsSubject.close(); } catch (SQLException ex) {}
+            try { if (rsCert != null) rsCert.close(); } catch (SQLException ex) {}
     
+            try { if (stmtUser != null) stmtUser.close(); } catch (SQLException ex) {}
+            try { if (stmtInfo != null) stmtInfo.close(); } catch (SQLException ex) {}
+            try { if (stmtSubject != null) stmtSubject.close(); } catch (SQLException ex) {}
+            try { if (stmtCert != null) stmtCert.close(); } catch (SQLException ex) {}
+        }
+    }
+
+
 }

@@ -1,8 +1,6 @@
 package Classes;
 
 import java.time.LocalDate;
-import Classes.UserTeacher;
-import Classes.UserStudent;
 
 public class Review {
     public int id;
