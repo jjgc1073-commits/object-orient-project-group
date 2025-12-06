@@ -5,8 +5,11 @@ import java.awt.*;
 
 public class TutorCard extends JPanel {
 
-    public TutorCard(String name, int age, String about, String[] subjects, double cost, double rating) {
+    private int id;
 
+    public TutorCard(String name, int age, int id, String about, String[] subjects, double cost, double rating) {
+        
+        this.id = id;
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setPreferredSize(new Dimension(800, 180));

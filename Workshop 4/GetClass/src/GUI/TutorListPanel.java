@@ -18,6 +18,7 @@ public class TutorListPanel extends JPanel {
             TutorCard card = new TutorCard(
                     t.name,
                     t.age,
+                    t.id,
                     t.tutorInfo.getAboutMe(),
                     t.tutorInfo.getSubjects().toArray(new String[0]),
                     t.tutorInfo.getHourlyRate(),

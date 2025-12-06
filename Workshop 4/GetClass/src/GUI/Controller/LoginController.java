@@ -18,6 +18,7 @@ public class LoginController {
 
     public LoginController(LoginForm view, UserDAO dao) {
         this.view = view;
+
         this.dao = dao;
 
         this.view.btnLogin.addActionListener(e -> login());
