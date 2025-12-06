@@ -7,7 +7,7 @@ import DataBase.DAOS.UserDAO;
 import GUI.MainView;
 import GUI.TutorCard;
 
-public class MainController {
+public class MainController implements TutorCardListener {
 
     private MainView view;
     private TutorCard card;
@@ -16,7 +16,18 @@ public class MainController {
 
 
     public MainController(MainView view, TutorCard card, UserDAO dao){
+        this.view = view;
+        this.card = card;
+        this.user = dao;
+
+
         
+    }
+
+
+    @Override
+    public void ontutorClicked(int id) {
+        // se abre la pantalla perfil (aun no creada por cier)
     }
 
     

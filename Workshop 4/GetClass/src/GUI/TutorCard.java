@@ -1,18 +1,24 @@
 package GUI;
 
 import javax.swing.*;
+
+import GUI.Controller.TutorCardListener;
+
 import java.awt.*;
 
 public class TutorCard extends JPanel {
 
     private int id;
+    private TutorCardListener listener;
 
     public TutorCard(String name, int age, int id, String about, String[] subjects, double cost, double rating) {
+        
         
         this.id = id;
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setPreferredSize(new Dimension(800, 180));
+
 
         // --- FOTO ---
         JLabel photo = new JLabel();
@@ -20,6 +26,14 @@ public class TutorCard extends JPanel {
         photo.setOpaque(true);
         photo.setBackground(Color.LIGHT_GRAY); // Placeholder
         add(photo, BorderLayout.WEST);
+        photo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        photo.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e){
+            if(listener != null) listener.ontutorClicked(id);
+            }
+        });
+        
 
         // --- PANEL CENTRAL (info y materias) ---
         JPanel infoPanel = new JPanel();
@@ -27,6 +41,16 @@ public class TutorCard extends JPanel {
 
         JLabel nameLabel = new JLabel(name + " · " + age + " years");
         nameLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        nameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        nameLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e){
+            if(listener != null) listener.ontutorClicked(id);
+            }
+        });
+
+       
+
 
         JLabel aboutLabel = new JLabel("About me:");
         JTextArea aboutText = new JTextArea(about);
@@ -65,5 +89,10 @@ public class TutorCard extends JPanel {
 
         add(rightPanel, BorderLayout.EAST);
     }
+
+
+    public void setListener(TutorCardListener listener){
+            this.listener = listener;
+        }
 }
 
