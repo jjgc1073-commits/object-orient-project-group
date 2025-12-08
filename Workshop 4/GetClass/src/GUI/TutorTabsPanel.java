@@ -2,6 +2,7 @@ package GUI;
 
 import DataBase.DAOS.UserTeacherDAO;
 import DataBase.DTO.UserteacherDTO;
+import GUI.Controller.MainController;
 import DataBase.DTO.TutorInfoDTO;
 import DataBase.ConnectionDB;
 
@@ -12,7 +13,10 @@ import java.util.List;
 
 public class TutorTabsPanel extends JPanel {
 
-    public TutorTabsPanel() {
+    public MainController mainController;
+
+    public TutorTabsPanel(MainController mainController) {
+        this.mainController = mainController;
         setLayout(new BorderLayout());
 
         UserTeacherDAO dao = new UserTeacherDAO();
@@ -28,12 +32,15 @@ public class TutorTabsPanel extends JPanel {
         add(tabs, BorderLayout.CENTER);
     }
 
+    
+
     private void addTab(JTabbedPane tabs, UserTeacherDAO dao) {
 
         List<UserteacherDTO> teachers = dao.getAll(ConnectionDB.getConnection());
 
-        TutorListPanel panel = new TutorListPanel(teachers);
+        TutorListPanel panel = new TutorListPanel(teachers, mainController);
 
         tabs.addTab("Category", panel);
     }
+
 }

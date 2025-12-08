@@ -33,7 +33,9 @@ public class LoginController {
 
             MainView view= new MainView();
             view.setVisible(true);
+            MainController Controller = new MainController(view);
             this.view.dispose();
+            
 
 
             return true;

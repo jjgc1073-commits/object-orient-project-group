@@ -1,9 +1,14 @@
 package GUI;
 
 import javax.swing.*;
+
+import GUI.Controller.MainController;
+
 import java.awt.*;
 
 public class MainView extends JFrame {
+
+    public MainController mainController;
 
     public MainView() {
         setTitle("GetClasses");
@@ -11,10 +16,12 @@ public class MainView extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-
+        this.mainController = new MainController(this);
         addHeader();
         addSearchAndCategories();
-        addTutorsTabs();   // ⬅️  NUEVO
+        addTutorsTabs();  
+
+        
     }
 
     private void addHeader() {
@@ -56,9 +63,11 @@ public class MainView extends JFrame {
     }
 
     // ⬅️ REEMPLAZA addTutorsList()
+    
     private void addTutorsTabs() {
-        TutorTabsPanel tabs = new TutorTabsPanel();
+        TutorTabsPanel tabs = new TutorTabsPanel(mainController);
         tabs.setPreferredSize(new Dimension(900, 450)); // Ajusta el tamaño del panel inferior
         add(tabs, BorderLayout.SOUTH);
     }
+
 }

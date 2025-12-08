@@ -2,17 +2,21 @@ package GUI;
 
 import javax.swing.*;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import GUI.Controller.TutorCardListener;
+
+
 
 import java.awt.*;
 
 public class TutorCard extends JPanel {
 
     private int id;
+    public int idClicked;
     private TutorCardListener listener;
 
     public TutorCard(String name, int age, int id, String about, String[] subjects, double cost, double rating) {
-        
         
         this.id = id;
         setLayout(new BorderLayout());
@@ -25,14 +29,15 @@ public class TutorCard extends JPanel {
         photo.setPreferredSize(new Dimension(120, 120));
         photo.setOpaque(true);
         photo.setBackground(Color.LIGHT_GRAY); // Placeholder
-        add(photo, BorderLayout.WEST);
         photo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        photo.addMouseListener(new java.awt.event.MouseAdapter() {
+        photo.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent e){
-            if(listener != null) listener.ontutorClicked(id);
+            public void mouseClicked(MouseEvent e) {
+                if(listener != null) listener.onTutorClicked(id);
             }
         });
+        add(photo, BorderLayout.WEST);
+    
         
 
         // --- PANEL CENTRAL (info y materias) ---
@@ -42,12 +47,13 @@ public class TutorCard extends JPanel {
         JLabel nameLabel = new JLabel(name + " · " + age + " years");
         nameLabel.setFont(new Font("Arial", Font.BOLD, 18));
         nameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        nameLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        nameLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent e){
-            if(listener != null) listener.ontutorClicked(id);
+            public void mouseClicked(MouseEvent e) {
+                if(listener != null) listener.onTutorClicked(id);
             }
         });
+
 
        
 
@@ -55,6 +61,8 @@ public class TutorCard extends JPanel {
         JLabel aboutLabel = new JLabel("About me:");
         JTextArea aboutText = new JTextArea(about);
         aboutText.setEditable(false);
+        aboutText.setLineWrap(true);
+        aboutText.setWrapStyleWord(true);
         aboutText.setRows(3);
 
         infoPanel.add(nameLabel);
