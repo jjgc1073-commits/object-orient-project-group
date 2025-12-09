@@ -1,6 +1,6 @@
 package DataBase.DAOS;
 import Classes.UserTeacher;
-import DataBase.DTO.UserteacherDTO;
+import DataBase.DTO.UserTeacherDTO;
 import DataBase.DTO.TutorInfoDTO;
 import DataBase.DTO.UserDTO;
 import DataBase.ConnectionDB;
