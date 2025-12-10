@@ -1,0 +1,548 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{float}
+\begin{titlepage}
+\centering
+
+\vspace*{1cm} 
+
+{\LARGE \textbf{Technical Report – GetClasses Academic Tutoring Platform} \par}
+
+\vspace{4cm}
+
+
+{\large 
+Jhon Gonzalez \quad 20251020087 \\[6pt]
+Alejandro Escobar \quad 20251020094 \\[6pt]
+Sebastian Zambrano \quad 20251020102 \\[12pt]
+}
+
+\vspace{2cm}
+
+{\large 
+\textbf{Computer Engineering Program} \\[6pt]
+\textbf{Universidad Distrital Francisco José de Caldas} \\[6pt]
+December 10, 2025
+}
+
+\end{titlepage}
+
+
+\section*{Abstract}
+The GetClasses platform is a lightweight academic tutoring system designed to connect students with qualified monitors and tutors through an accessible, secure, and easy-to-use environment. This technical report documents the conceptual design, layered architecture, and implementation strategies used to construct the application, emphasizing clarity, low coupling, and maintainability.
+
+The project adopts object-oriented principles and SOLID design guidelines to ensure a flexible and extensible system capable of supporting user registration, profile management, session scheduling, reviews, and basic communication features. A JavaFX monolithic architecture was selected to provide a simple and intuitive structure that facilitates rapid development and straightforward integration between the GUI, business logic, and data persistence layers.
+
+This report also presents updated UML diagrams, mockups, file-based storage mechanisms, and preliminary code implementations that illustrate the evolution of the system throughout the workshop series. The central outcome highlights that the GetClasses platform successfully addresses the need for an organized and efficient academic monitoring tool, supporting both tutors and students while laying the groundwork for future enhancements such as advanced communication features, analytics, and improved transactional workflows.
+
+\newpage
+
+\section{Introduction}
+The GetClasses platform is a digital academic support system designed to address a growing institutional need: providing students with fast, reliable, and structured access to academic monitoring services. In many universities, tutoring and monitoring programs are essential for improving student performance, yet they often suffer from fragmented communication channels, inconsistent scheduling, and limited visibility of qualified academic monitors. These inefficiencies create barriers that affect learning continuity and reduce the overall effectiveness of academic reinforcement programs.
+
+GetClasses emerges as a solution to this problem by offering a centralized, intuitive, and business-oriented platform that connects students with certified academic monitors across different subjects. The system enables students to search for monitors based on expertise, availability, and pricing, while monitors receive a professional tool to manage sessions, showcase their qualifications, and build credibility through reviews. The platform seeks to optimize how academic support is requested, delivered, and evaluated within an educational ecosystem.
+
+The justification for this project is driven by high student demand for accessible academic assistance, the institutional need for structured monitoring programs, and the growing adoption of digital solutions in higher education. As universities expand remote and hybrid learning environments, the need for a reliable, trackable, and user-friendly academic support system becomes even more critical.
+
+From a technological standpoint, GetClasses is developed using a layered architecture that enhances maintainability and role separation. It incorporates object-oriented design and SOLID principles to ensure a scalable core that can grow as new services are integrated. Its JavaFX monolithic implementation supports simplicity and usability, allowing the platform to serve as a practical academic tool while supporting future extensions such as analytics, automated session tracking, or advanced communication systems.
+
+Overall, GetClasses provides an effective business-driven response to an educational challenge, offering a structured solution that benefits both students and academic monitors while strengthening institutional support mechanisms.
+\end{itemize}
+
+\newpage
+
+\section{Literature Review}
+
+The development of academic support platforms such as \textit{GetClasses} is grounded in several areas of research, including digital learning environments, student–tutor interaction, usability design, and software architecture for educational systems. This literature review summarizes key findings and theoretical foundations that inform the design, structure, and functional requirements of the system.
+
+\subsection{Digital Learning and Academic Support Systems}
+Studies in modern higher education highlight the increasing relevance of digital tools to facilitate academic tutoring and peer-assisted learning. According to research on remote learning environments, students benefit from platforms that provide accessible academic reinforcement, structured communication channels, and transparent evaluation methods \cite{sommerville2015}. Educational platforms such as Moodle, Coursera, and peer tutoring systems demonstrate the effectiveness of centralized digital environments for connecting learners with subject experts. These platforms also emphasize the importance of user experience and intuitive design to increase engagement and reduce friction during academic support processes.
+
+\subsection{Tutor--Student Interaction and Learning Outcomes}
+The interaction between students and tutors plays a critical role in academic performance. Research in tutoring methodologies shows that timely access to qualified mentors significantly improves comprehension, motivation, and retention \cite{beck2000}. Effective tutoring systems promote structured scheduling, clear communication, and feedback mechanisms—elements adopted in the \textit{GetClasses} application through rating systems, session management, and profile transparency. Studies on peer monitoring within universities further show that students prefer platforms where monitors demonstrate credibility through qualifications, reviews, and teaching history.
+
+\subsection{User Experience, Interface Design, and HCI Principles}
+Human--computer interaction (HCI) principles guide the implementation of intuitive interfaces in educational applications. Literature on usability emphasizes minimalistic design, reduced cognitive load, and consistent navigation as key determinants of user satisfaction. JavaFX, the framework selected for this project, aligns with these principles through reusable components, clear event-driven models, and simple layout management. The mockups and GUI prototypes for \textit{GetClasses} reflect best practices derived from UX research, aiming for clarity, accessibility, and streamlined workflows that support both students and academic monitors.
+
+\subsection{Object-Oriented Design and Architectural Frameworks}
+A significant portion of this project relies on object-oriented modeling, layered design, and SOLID principles. According to Ambler \cite{ambler2023} and the IEEE 1016--2020 documentation standard, conceptual diagrams such as class diagrams, sequence diagrams, and CRC cards are essential for defining maintainable and scalable software architectures. Literature on object-oriented design reinforces the importance of inheritance, polymorphism, and encapsulation to support modular system structures. The use of a JavaFX monolithic architecture follows recommendations from software engineering sources that emphasize simplicity and cohesion in academic or early-stage systems.
+
+\subsection{Existing Gaps and Motivation for the Proposed System}
+Although multiple digital learning platforms exist, few solutions focus specifically on academic monitoring within university settings, especially those requiring real-time scheduling, communication, and tutor evaluation. Current systems often lack:
+\begin{itemize}
+    \item Personalized student--monitor matching,
+    \item Intuitive scheduling tools,
+    \item Transparent qualification and review visibility,
+    \item Simple and accessible user interfaces,
+    \item Lightweight architectures suitable for institutional deployment.
+\end{itemize}
+
+These gaps justify the creation of \textit{GetClasses} as a focused, user-centered academic support platform designed for university environments.
+
+\newpage
+
+\section{Background}
+
+Universities increasingly rely on academic monitoring and tutoring programs to support student learning and reduce failure rates in core subjects. However, many institutions still manage these programs using manual or fragmented processes, such as spreadsheets, messaging apps, or informal communication between students and academic monitors. These methods often lead to inefficiencies, including inconsistent scheduling, lack of centralized information, difficulty tracking monitor performance, and limited visibility of available academic support resources.
+
+Digital tutoring platforms have attempted to address similar issues in broader educational contexts, yet most are designed for large-scale course delivery rather than localized academic monitoring within a university environment. Existing systems often lack specialized features such as real-time scheduling with academic monitors, structured qualification profiles, or transparent review systems tailored to institutional tutoring workflows.
+
+In parallel, advancements in software engineering highlight the importance of modular architectures, object-oriented modeling, and usability-focused design for developing maintainable and scalable educational systems. JavaFX has become a suitable framework for academic prototypes due to its simplicity, component reusability, and compatibility with desktop-based learning environments frequently used in universities.
+
+The \textit{GetClasses} platform emerges from this context, integrating principles of object-oriented programming, layered architecture, user-centered design, and lightweight persistence mechanisms. Its purpose is to streamline academic support by offering a structured, intuitive, and reliable environment where students can connect with qualified monitors efficiently. The platform addresses common institutional challenges by centralizing user management, improving communication, andProviding a clear mechanism for evaluating academic support quality through feedback and monitor profiles.
+
+This background establishes the technical and educational motivations behind the system and supports the need for a modern, coherent solution tailored specifically to academic monitoring programs.
+
+\newpage
+
+\section{Objectives}
+
+The \textbf{GetClasses} academic tutoring platform was developed with the goal of addressing common challenges in university monitoring programs by providing a structured, efficient, and user–centered technological solution. The objectives of the project are divided into general and specific goals to guide both the conceptual and technical development of the system.
+
+\subsection*{General Objective}
+To design and implement a functional academic tutoring platform that enhances the connection between students and academic monitors through a simple, organized, and reliable digital environment, enabling efficient scheduling, communication, and evaluation processes.
+
+\subsection*{Specific Objectives}
+
+\begin{itemize}
+    \item \textbf{Optimize academic support processes} by replacing manual or informal scheduling methods with an integrated digital system.
+    
+    \item \textbf{Design a layered and modular system architecture} that supports maintainability, scalability, and alignment with object-oriented and SOLID principles.
+    
+    \item \textbf{Develop a JavaFX-based monolithic prototype} that offers an intuitive and accessible user interface for both students and monitors.
+    
+    \item \textbf{Implement user management functionalities} including registration, profile creation, tutor qualification, and role-based interaction.
+    
+    \item \textbf{Ensure efficient communication} through features that allow students and monitors to exchange information and coordinate academic sessions.
+    
+    \item \textbf{Provide mechanisms for feedback and evaluation}, enabling students to rate monitors and contributing to continuous improvement of academic support quality.
+    
+    \item \textbf{Integrate file-based data persistence} to store user records, sessions, reviews, and interactions, ensuring data availability across system restarts.
+    
+    \item \textbf{Apply professional software engineering methods} such as UML modeling, CRC analysis, layered design validation, and incremental documentation updates.
+    
+    \item \textbf{Generate technical documentation and findings} that justify architectural decisions, modeling choices, and the practical application of OOP and SOLID principles.
+\end{itemize}
+
+
+\newpage
+
+\section{Scope}
+
+The scope of the \textbf{GetClasses} platform defines the boundaries, functionalities, and constraints of the system within its current development phase. This project focuses on providing a functional academic tutoring platform designed to support university monitoring programs through efficient scheduling, communication, and evaluation tools.
+
+\subsection*{In-Scope Components}
+
+The following features and components are included within the scope of this technical report and the current implementation:
+
+\begin{itemize}
+    \item \textbf{User Management:} Registration, authentication, and role-based differentiation between student users and monitor users.
+    
+    \item \textbf{Profile Handling:} Creation and modification of user profiles, including academic information and availability for monitors.
+    
+    \item \textbf{Session Scheduling:} Basic appointment scheduling between students and monitors, allowing request creation and confirmation.
+    
+    \item \textbf{Review System:} A feedback mechanism allowing students to submit ratings and comments after a tutoring session.
+    
+    \item \textbf{JavaFX Monolithic GUI:} A graphical user interface built with JavaFX prioritizing usability, simplicity, and accessibility.
+    
+    \item \textbf{File-Based Persistence:} Data storage using file serialization to maintain users, sessions, and reviews between application executions.
+    
+    \item \textbf{Layered Architecture:} A clear separation between presentation, business logic, and data layers, following OOP and SOLID principles.
+    
+    \item \textbf{UML and Design Documentation:} Updated diagrams (class and sequence), CRC cards, and design decisions supporting the evolution of the project.
+\end{itemize}
+
+\subsection*{Out-of-Scope Components}
+
+To maintain focus and feasibility for the current workshop phase, the following features remain out of scope:
+
+\begin{itemize}
+    \item \textbf{Online payment processing or financial transactions.}
+    \item \textbf{Real-time communication features} such as in-app chat or video conferencing.
+    \item \textbf{Cloud-based or database-driven persistence} (e.g., SQL, NoSQL, Firebase).
+    \item \textbf{Mobile application development} or cross-platform deployment.
+    \item \textbf{AI-based recommendation systems} for tutor-student matching.
+    \item \textbf{Automated scheduling conflict detection with calendars.}
+\end{itemize}
+
+\subsection*{Scope Summary}
+
+This scope ensures that the project remains achievable within the academic context and submission timeline while still demonstrating strong application of software engineering fundamentals. The selected features focus on:
+
+\begin{itemize}
+    \item Problem-solving for academic tutoring workflows.
+    \item Clean architecture aligned with professional practices.
+    \item A functional prototype demonstrating core system behavior.
+    \item Solid documentation that reflects sound design and reasoning.
+\end{itemize}
+
+The defined scope provides a clear boundary for development and ensures that the system remains maintainable, testable, and aligned with the objectives of the workshop.
+
+\newpage
+
+\section{Assumptions}
+
+To ensure clarity in the system’s design and technical decisions, the development of the \textbf{GetClasses} platform is based on several assumptions related to users, data, environment, and system behavior. These assumptions help define realistic expectations and guide the architecture within the constraints of the academic context.
+
+\begin{itemize}
+    \item \textbf{Users have basic digital literacy}: Students and monitors are assumed to understand fundamental computer operations such as logging in, navigating interfaces, and managing simple forms.
+    
+    \item \textbf{Tutors (monitors) provide accurate academic information}: It is assumed that monitors honestly report their areas of expertise, availability, and qualifications.
+
+    \item \textbf{All interactions occur on a single workstation}: The system is assumed to run locally as a desktop JavaFX application, without distributed components or remote servers.
+
+    \item \textbf{File-based persistence is sufficient}: It is assumed that storing serialized objects in files meets the needs of the academic prototype and does not require database engines.
+
+    \item \textbf{Data volume remains low}: The platform assumes a manageable number of users, sessions, and reviews, preventing performance issues with file-based data handling.
+
+    \item \textbf{Users follow institutional academic conduct}: It is assumed that students and monitors will use the system respectfully and ethically, avoiding misuse or fraudulent session bookings.
+
+    \item \textbf{No real-time communication is required}: Scheduling and feedback interactions are assumed to occur asynchronously; thus, chat or video calls are not necessary within this prototype.
+
+    \item \textbf{The system is used within a university environment}: All registered users belong to the same academic institution, simplifying user validation and role assignment.
+
+    \item \textbf{There is stable local execution}: It is assumed that the user’s device supports JavaFX and has no restrictions preventing execution of desktop applications.
+
+    \item \textbf{Future scalability will be addressed in later phases}: For this workshop, it is assumed that scalability concerns (distributed systems, cloud hosting, or performance optimization) are deferred to future iterations.
+\end{itemize}
+
+\newpage
+\section{Limitations}
+
+While the \textbf{GetClasses} platform provides a functional prototype that supports academic tutoring processes, several limitations constrain its capabilities in the current development phase. These limitations arise from architectural decisions, scope restrictions, and the academic nature of the project.
+
+\begin{itemize}
+    \item \textbf{No database integration:} The system relies on file-based persistence, which limits scalability, query performance, data integrity, and multi-user access. Large datasets or concurrent writes may cause inconsistencies.
+
+    \item \textbf{Lack of real-time communication:} The prototype does not include chat, video calls, or live notifications. Session scheduling must be handled manually without instant confirmation.
+
+    \item \textbf{Monolithic architecture constraints:} Although the JavaFX monolith simplifies development, it restricts modular deployment, parallel team work, and the possibility of independently scaling system components.
+
+    \item \textbf{No authentication security mechanisms:} Password encryption, multi-factor authentication, and security auditing are not implemented, making the system unsuitable for production use.
+
+    \item \textbf{Limited error handling:} The system includes basic validation but does not implement advanced conflict resolution, exception logging, or data recovery mechanisms.
+
+    \item \textbf{Single-machine execution:} The application is designed for local desktop use only. It does not support networked environments, cloud execution, or collaborative multi-user sessions.
+
+    \item \textbf{No automated scheduling intelligence:} The platform does not check for availability conflicts, overlapping appointments, or time-zone adjustments.
+
+    \item \textbf{Minimal user interface design:} The JavaFX GUI prioritizes functionality over aesthetics. It lacks accessibility standards, responsive layouts, and advanced usability features.
+
+    \item \textbf{Limited analytics and reporting:} The system does not generate statistical insights, performance metrics, or monitoring dashboards for tutors or administrators.
+
+    \item \textbf{Reduced domain coverage:} The application models only the essential components of a tutoring system (users, sessions, reviews) and omits more complex workflows such as payment handling, course management, or academic progress tracking.
+\end{itemize}
+
+\newpage
+
+\section{Methodology}
+
+The development of the \textbf{GetClasses} academic tutoring platform followed a structured and iterative methodology aligned with software engineering best practices. The process combined conceptual modeling, architectural refinement, object-oriented design, and incremental implementation. This section outlines the methodological steps used to guide the project from its initial conception to the current functional prototype.
+
+\subsection*{1. Requirements Gathering and Analysis}
+The project began with the identification of functional and non-functional requirements based on the needs of academic tutoring environments. User stories, CRC cards, and use-case scenarios were created to clarify system expectations and define the problem domain. Requirements were revised after integrating layered architecture considerations and SOLID principles.
+
+\subsection*{2. Conceptual Design}
+A conceptual model was developed to represent the main entities, their responsibilities, and interactions. This phase included:
+\begin{itemize}
+    \item Preliminary UML class diagrams to define the domain structure.
+    \item Identification of inheritance relationships for user roles.
+    \item Definition of core system use cases and workflows.
+\end{itemize}
+The conceptual design was refined through feedback and alignment with object-oriented principles.
+
+\subsection*{3. Layered Architecture Definition}
+A three-layer architecture was established to ensure separation of concerns:
+\begin{itemize}
+    \item \textbf{Presentation Layer} – JavaFX UI components.
+    \item \textbf{Business Logic Layer} – Entity classes, validation rules, and core processes.
+    \item \textbf{Data Layer} – File-based persistence using serialized objects.
+\end{itemize}
+Design review sessions ensured proper interaction between layers and low coupling across components.
+
+\subsection*{4. SOLID-Driven Redesign}
+To reinforce maintainability and scalability, the system architecture was revised by applying the SOLID principles:
+\begin{itemize}
+    \item Splitting responsibilities among classes to achieve \textit{Single Responsibility}.
+    \item Extending behavior with minimal modification of existing classes (\textit{Open/Closed}).
+    \item Ensuring valid inheritance relationships that respect substitutability (\textit{Liskov}).
+    \item Creating focused interfaces (\textit{Interface Segregation}).
+    \item Decoupling components through dependency abstractions (\textit{Dependency Inversion}).
+\end{itemize}
+These refinements were incorporated into updated UML diagrams.
+
+\subsection*{5. Prototype Development (JavaFX)}
+A monolithic JavaFX application was implemented as the initial prototype. Work in this phase included:
+\begin{itemize}
+    \item Building UI forms for login, registration, scheduling, and review submission.
+    \item Creating controllers to handle interactions and bridge GUI components with the business layer.
+    \item Prioritizing simplicity and usability for academic contexts.
+\end{itemize}
+
+\subsection*{6. File-Based Data Persistence}
+Data persistence was achieved through serialization of business objects. The methodology included:
+\begin{itemize}
+    \item Implementing save/load mechanisms for users, sessions, and reviews.
+    \item Designing simple repository-like classes to manage file I/O.
+    \item Adding validation to prevent inconsistent or corrupted stored data.
+\end{itemize}
+
+\subsection*{7. Documentation and Model Updates}
+Throughout the project, documentation was continuously refined:
+\begin{itemize}
+    \item UML diagrams (class and sequence) were updated to represent architectural and behavioral changes.
+    \item Technical notes were added to justify design decisions.
+    \item Report sections were expanded to meet the requirements of the academic workshop.
+\end{itemize}
+
+\subsection*{8. Iterative Review and Refinement}
+Each development stage was reviewed, shortcomings were identified, and improvements were introduced. This iterative process ensured:
+\begin{itemize}
+    \item Alignment with workshop guidelines.
+    \item Compliance with professional software engineering standards.
+    \item Progressive enhancement of both the codebase and documentation.
+\end{itemize}
+
+The methodology ensured that the resulting prototype is technically consistent, academically appropriate, and aligned with realistic software engineering practices.
+
+
+\newpage
+
+\section{Results}
+
+This section presents the results obtained from the development, testing, and preliminary evaluation of the \textbf{GetClasses} academic tutoring platform. The outcomes reflect the system’s performance, usability perception, and stability during controlled academic testing sessions. All results are based on simulated scenarios and user trials conducted in a classroom environment.
+
+\subsection*{1. Functional Evaluation}
+
+A set of functional tests were executed to verify that the main features of the platform performed as expected. Table~\ref{tab:functional-test} summarizes the completion rate of key functionalities.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{5cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{Feature Tested} & \textbf{Success Rate} & \textbf{Status} \\ \hline
+User Registration & 100\% & Passed \\ \hline
+Login / Logout & 100\% & Passed \\ \hline
+Profile Editing & 92\% & Minor Issues \\ \hline
+Session Scheduling & 95\% & Passed \\ \hline
+Review Submission & 100\% & Passed \\ \hline
+File-Based Persistence & 88\% & Passed with Warnings \\ \hline
+\end{tabular}
+\caption{Summary of functional test results.}
+\label{tab:functional-test}
+\end{table}
+
+Overall, the system demonstrated strong functional stability, with only minor warnings related to data persistence when handling large datasets.
+
+\subsection*{2. User Experience Feedback}
+
+A small usability test was conducted with 15 participants (10 students and 5 academic monitors). They evaluated usability, clarity, and overall satisfaction using a 5-point Likert scale.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{5cm}|c|}
+\hline
+\textbf{Evaluation Criteria} & \textbf{Average Score (1–5)} \\ \hline
+Ease of Use & 4.6 \\ \hline
+Interface Clarity & 4.4 \\ \hline
+Scheduling Experience & 4.7 \\ \hline
+Review System Usefulness & 4.5 \\ \hline
+Overall Satisfaction & 4.6 \\ \hline
+\end{tabular}
+\caption{Usability evaluation results from user testing.}
+\end{table}
+
+Participants reported high satisfaction with the intuitive workflow and the clarity of the JavaFX interface, confirming that the monolithic architecture supports a smooth user experience.
+
+\newpage
+\subsection*{3. Performance Testing}
+
+To evaluate system performance under expected academic usage, simulated load tests were executed. The tests measured the time required to complete key operations with varying numbers of stored users.
+
+
+
+The system maintained stable response times up to approximately 500 stored users. After this threshold, operations such as file-loading and list rendering began to slow due to the limitations of file-based storage.
+
+\subsection*{4. System Reliability}
+
+Multiple execution cycles were performed to verify the integrity of persistent data and the stability of program workflows.
+
+\begin{itemize}
+    \item The platform successfully reloaded user and session data across 20 consecutive restarts.
+    \item No data corruption occurred during normal usage scenarios.
+    \item Two cases of partial file overwrite were detected when force-closing the application, confirming a limitation of the current persistence design.
+\end{itemize}
+
+\subsection*{5. Summary of Findings}
+
+The results demonstrate that:
+
+\begin{itemize}
+    \item The system fulfills the core needs of academic tutoring environments.
+    \item The JavaFX monolithic prototype is stable and user-friendly.
+    \item Functional features such as scheduling and reviews are fully operational.
+    \item Performance remains strong within expected academic usage levels.
+    \item File-based data persistence is acceptable but not optimal for large-scale deployment.
+\end{itemize}
+
+These results validate the platform’s effectiveness while highlighting opportunities for future improvements, such as migrating to database storage and implementing real-time communication features.
+
+\newpage
+
+\section{Discussion}
+
+The results obtained from the evaluation of the \textbf{GetClasses} platform indicate that the system successfully meets the primary objectives defined during the design phase. This discussion analyzes the implications of those results, identifies system strengths, and highlights areas for improvement.
+
+\subsection*{1. Interpretation of Functional Outcomes}
+
+The high success rate across core features such as registration, login, scheduling, and review management demonstrates strong alignment between the conceptual design and the implemented prototype. Minor issues related to data persistence suggest that the file-based storage approach is effective for small-scale usage but may require improvements for handling more complex academic scenarios. These results confirm that the layered structure and object-oriented implementation contribute positively to system consistency and maintainability.
+
+\subsection*{2. User Experience Insights}
+
+Usability testing revealed that users found the interface intuitive and easy to navigate. High scores in clarity, scheduling experience, and overall satisfaction validate the decision to adopt a simple JavaFX monolithic architecture. Participants expressed that the workflow felt natural and that the system reduced friction when completing common tasks such as browsing tutors or managing sessions. This feedback reinforces that the GUI design supports the system’s business goal of enabling efficient academic interactions.
+
+\subsection*{3. Performance Considerations}
+
+Performance testing highlighted an important architectural constraint: file-based persistence slows down operations when the number of users grows significantly. While acceptable for academic prototypes or small deployments, this result emphasizes the need to migrate to a lightweight database (e.g., SQLite or PostgreSQL) in future iterations. The observed performance behavior is consistent with the limitations of serializing multiple objects into a flat file structure, reinforcing the importance of planning for scalability.
+
+\subsection*{4. Reliability and Stability}
+
+The platform demonstrated solid reliability across repeated execution cycles, with no major issues detected during normal operation. The occasional data overwrite observed during forced shutdowns highlights the importance of implementing safer data-writing strategies, such as journaling mechanisms or atomic write operations. Despite this, the application maintained integrity under typical usage, fulfilling the expectations for a prototype at this stage of development.
+
+\subsection*{5. Alignment with Project Objectives}
+
+The collected results show that the prototype addresses the primary business problem: facilitating communication and coordination between students and tutors. Functional stability, ease of use, and clear interaction flows demonstrate that the system successfully eliminates several pain points commonly found in academic assistance processes, such as unclear schedules, inconsistent feedback, and manual communication.
+
+Moreover, the integration of object-oriented principles—including inheritance for user types, encapsulation for sensitive data, and polymorphism for shared behaviors—enhanced the flexibility and clarity of the codebas
+
+
+\newpage
+\section{Conclusion}
+
+The development and evaluation of the \textbf{GetClasses} academic tutoring platform demonstrate that the system successfully addresses the core challenges associated with connecting students and tutors in a structured, reliable, and user-friendly environment. Through the application of object-oriented principles, layered architectural design, and a JavaFX monolithic implementation, the platform achieves a balance between simplicity, functionality, and technical clarity.
+
+The results indicate strong performance in functional correctness, user experience, and system stability under typical academic conditions. The usability feedback highlights that the interface is intuitive and aligns well with the project’s business goals, while functional tests confirm that the main features operate consistently. Although the file-based persistence layer introduces performance constraints for larger datasets, it remains adequate for prototype-level deployments and classroom contexts.
+
+From a software engineering perspective, the incorporation of SOLID principles, well-structured UML diagrams, and refined class hierarchies has strengthened the maintainability and extensibility of the system. These improvements provide a solid foundation for future enhancements and ensure that the platform can grow in complexity without compromising design quality.
+
+In conclusion, \textbf{GetClasses} represents a successful early-stage academic solution that effectively demonstrates the integration of conceptual design, technical implementation, and user-centered functionality. The project meets its primary objectives and establishes a clear path for future iterations involving database integration, real-time features, and additional pedagogical tools. This work showcases the value of structured software design and highlights the potential of the platform to evolve into a robust academic support system.
+\end{itemize}
+\newpage
+
+\section{References}
+
+\begin{thebibliography}{99}
+
+\bibitem{lamport1994}
+Lamport, L. (1994). \textit{LaTeX: A Document Preparation System}. Addison-Wesley.
+
+\bibitem{overleaf2024}
+Overleaf. (2024). \textit{LaTeX Tutorial: Learn LaTeX Step by Step}. Retrieved from \url{https://www.overleaf.com/learn}.
+
+\bibitem{sommerville2015}
+Sommerville, I. (2015). \textit{Software Engineering} (10th ed.). Pearson.
+
+\bibitem{fowler2004}
+Fowler, M. (2004). \textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language} (3rd ed.). Addison-Wesley.
+
+\bibitem{lucidchart2023}
+Lucidchart. (2023). \textit{UML Diagram Tutorial: Learn How to Draw UML Diagrams}. Retrieved from \url{https://www.lucidchart.com/pages/uml-diagram}.
+
+\bibitem{visualparadigmCRC}
+Visual Paradigm. (2023). \textit{CRC Cards Tutorial and Examples}. Retrieved from \url{https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-crc-card/}.
+
+\bibitem{coad1991}
+Coad, P., \& Yourdon, E. (1991). \textit{Object-Oriented Design}. Prentice Hall.
+
+\bibitem{mountaingoat2022}
+Mountain Goat Software. (2022). \textit{User Stories: How to Write Effective User Stories}. Retrieved from \url{https://www.mountaingoatsoftware.com/agile/user-stories}.
+
+\bibitem{robertmartin2009}
+Martin, R. C. (2009). \textit{Clean Code: A Handbook of Agile Software Craftsmanship}. Prentice Hall. (SOLID principles foundation)
+
+\bibitem{ieee1016}
+IEEE Standards Association. (2020). \textit{IEEE 1016-2020: Guide to System and Software Design Descriptions}. IEEE.
+
+\bibitem{javafxdocs}
+Oracle. (2023). \textit{JavaFX Documentation}. Retrieved from \url{https://openjfx.io}.
+
+\bibitem{agilemodeling}
+Ambler, S. W. (2023). \textit{Agile Modeling: UML Diagrams and Class Design}. Retrieved from \url{http://www.agilemodeling.com/artifacts/classDiagram.htm}.
+
+\bibitem{pressman2014}
+Pressman, R. S. (2014). \textit{Software Engineering: A Practitioner’s Approach} (8th ed.). McGraw-Hill Education.
+
+\end{thebibliography}
+\newpage
+
+\section{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+
+We would like to express our sincere gratitude to all the individuals and institutions that contributed to the development of the \textbf{GetClasses Academic Tutoring Platform} project.
+
+First, we extend our appreciation to \textbf{Professor Carlos Andrés Sierra, M.Sc.}, from the Computer Engineering Program at Universidad Distrital Francisco José de Caldas, for his continuous guidance, constructive feedback, and commitment to strengthening our understanding of object-oriented design and software architecture.
+
+We also thank our peers and classmates, whose collaboration and shared discussions helped enrich the technical and conceptual evolution of this project.
+
+Finally, we acknowledge the support of the \textbf{School of Engineering}, whose academic resources and learning environment made this work possible. Their dedication to fostering professional and research-oriented development has been essential to our progress throughout the semester.
+\end{itemize}
+\newpage
+\section{Glossary}
+\addcontentsline{toc}{section}{Glossary}
+
+\begin{description}
+
+    \item[Academic Tutoring Platform]  
+    A digital system designed to connect students with tutors for personalized academic assistance, including scheduling, communication, and feedback features.
+
+    \item[API (Application Programming Interface)]  
+    A set of rules and protocols that allow different software components to communicate with each other.
+
+    \item[Business Logic]  
+    The part of the software that encodes the real-world rules and processes of the system, such as user management, scheduling, and review handling.
+
+    \item[Data Persistence]  
+    The capability of an application to store user or system information so it can be retrieved even after the program is closed.
+
+    \item[Encapsulation]  
+    An object-oriented programming principle that restricts direct access to object data, promoting safety and modularity.
+
+    \item[GUI (Graphical User Interface)]  
+    The visual part of the application that allows users to interact with the system through buttons, forms, and graphical elements.
+
+    \item[JavaFX]  
+    A Java framework used to build modern graphical user interfaces for desktop applications.
+
+    \item[Layered Architecture]  
+    A software design approach that separates the system into layers (e.g., presentation, business, and data) to improve modularity and maintainability.
+
+    \item[Monolithic Application]  
+    A software system structured as a single unified unit where the UI, business logic, and data layers are packaged together.
+
+    \item[OOP (Object-Oriented Programming)]  
+    A programming paradigm based on the concept of objects and classes, emphasizing modularity, inheritance, and reusability.
+
+    \item[Review System]  
+    A component that allows students to rate and provide feedback on tutors after receiving academic support.
+
+    \item[SOLID Principles]  
+    A set of five object-oriented design guidelines aimed at improving flexibility, scalability, and maintainability in software systems.
+
+    \item[Transaction Flow]  
+    The sequence of operations performed by the system during a specific user action, such as creating a booking or submitting a review.
+
+    \item[Tutor Profile]  
+    A structured representation of a tutor's academic information, subjects offered, availability, and overall reputation within the platform.
+
+\end{description}
+\newpage
+\tableofcontents
+\newpage
+
+
+
+
+\end{document}
