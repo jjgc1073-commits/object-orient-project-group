@@ -1,35 +1,37 @@
 package GUI.Controller;
 
-import DataBase.DAOS.UserDAO;
-import GUI.ProfileView;
-import GUI.TutorCard;
+import DataBase.ConnectionDB;
+import DataBase.DAOS.UserTeacherDAO;
+import DataBase.DTO.UserTeacherDTO;
 import GUI.MainView;
-import javafx.stage.*;
 
 import java.sql.Connection;
-import DataBase.ConnectionDB;
+import java.util.List;
 
-public class MainController implements TutorCardListener {
+public class MainController {
 
-    private MainView view;
-    private UserDAO userDAO;
-    private Connection conn;
+    private final MainView mainView;
 
-    public MainController(MainView view) {
-        this.view = view;
-        this.userDAO = userDAO;
-        this.conn = ConnectionDB.getConnection();
+    public MainController(MainView mainView) {
+        this.mainView = mainView;
     }
 
-    @Override
-    public void onTutorClicked(int tutorId) {
-        ProfileView profileView = new ProfileView(tutorId);
-        Stage profileStage = new Stage();
-        profileStage.setScene(profileView.getScene());
-        profileStage.show();
+    // =======================
+    //  NECESARIO PARA GUI
+    // =======================
 
-        // Cerrar la ventana actual
-        Stage currentStage = view.getStage();
-        currentStage.close();
+    public List<UserTeacherDTO> getAllTeachers() {
+        Connection conn = ConnectionDB.getConnection();
+        return UserTeacherDAO.getAll(conn);
     }
+
+    public UserTeacherDTO getTeacherById(int id) {
+        Connection conn = ConnectionDB.getConnection();
+        return UserTeacherDAO.getById(conn, id);
+    }
+
+    public void openTutorProfile(int tutorId) {
+
+    }
+
 }

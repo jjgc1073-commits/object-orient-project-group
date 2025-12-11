@@ -1,51 +1,37 @@
 package GUI;
 
-import DataBase.DAOS.UserTeacherDAO;
 import DataBase.DTO.UserTeacherDTO;
 import GUI.Controller.MainController;
+import GUI.Controller.TutorCardListener;
+import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.VBox;
 
-import java.sql.Connection;
 import java.util.List;
 
-public class TutorTabsPanel extends VBox {
-
-    private MainController mainController;
+public class TutorTabsPanel extends TabPane {
 
     public TutorTabsPanel(MainController mainController) {
-        this.mainController = mainController;
 
-        setSpacing(10);
-        setPrefHeight(450);
+        setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-        TabPane tabPane = new TabPane();
+        //=== TAB 1: LISTA DE TUTORES =========================
+        Tab tab1 = new Tab("Tutores");
 
-        // Crea varias pestañas como antes
-        addTab(tabPane);
-        addTab(tabPane);
-        addTab(tabPane);
-        addTab(tabPane);
+        // Obtiene los tutores desde el controller
+        List<UserTeacherDTO> teachers = mainController.getAllTeachers();
 
-        getChildren().add(tabPane);
-    }
+        TutorListPanel tutorList = new TutorListPanel(
+                teachers,
+                new TutorCardListener() {
+                    @Override
+                    public void onTutorClicked(int tutorId) {
+                        mainController.openTutorProfile(tutorId);
+                    }
+                }
+        );
 
-    private void addTab(TabPane tabPane) {
-        Connection conn = null;
-        try {
-            conn = DataBase.ConnectionDB.getConnection();
-            UserTeacherDAO dao = new UserTeacherDAO();
-            List<UserTeacherDTO> teachers = dao.getAll(conn);
-
-            // Aquí tu TutorListPanel también debe convertirse a FX
-            TutorListPanel panel = new TutorListPanel(teachers, mainController);
-            Tab tab = new Tab("Category", panel);
-
-            tabPane.getTabs().add(tab);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        tab1.setContent(tutorList);
+        getTabs().add;
     }
 }

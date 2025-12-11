@@ -11,13 +11,13 @@ import java.sql.Connection;
 
 import GUI.LoginForm;
 
-public class LoginContoller {
+public class LoginController {
 
     private LoginForm view;
     private UserDAO dao;
     private Connection conn = ConnectionDB.getConnection();
 
-    public LoginContoller(LoginForm view, UserDAO dao) {
+    public LoginController(LoginForm view, UserDAO dao) {
         this.view = view;
         this.dao = dao;
 

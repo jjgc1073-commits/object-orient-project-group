@@ -1,0 +1,588 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{hyperref}
+\def\UrlBreaks{\do\/\do-\do_}
+\usepackage{xurl}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{color}
+
+\geometry{a4paper, margin=1in}
+
+\title{Object-Oriented Programming \\ Semester 2025-III \\ GetClass - Final Delivery}
+\author{Alejandro Escobar 20251020094\\ Jhon Gonzalez 20251020087 \\ Sebastián Zambrano 20251020102\\ \\ Computer Engineering Program \\ Universidad Distrital Francisco José de Caldas}
+\date{}
+
+\lstset{
+  language=Java,
+  basicstyle=\ttfamily\small,
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
+  frame=single,
+  breaklines=true,
+  showstringspaces=false
+}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+\section{Introduction — Business Model Focus}
+
+GetClasses is a digital marketplace that connects students seeking academic support with qualified tutors. 
+The core business hypothesis is that a centralized platform offering verified profiles, scheduling tools, 
+and trust mechanisms increases match success, platform revenue, and user retention compared to offline alternatives.
+
+\paragraph{Domain Problem and Target Market}
+Students face difficulty finding qualified, available, and affordable tutors. Tutors struggle to reach a wide audience 
+and manage schedules efficiently. The target market includes high-school and university students seeking flexible 
+academic support and freelance tutors aiming to professionalize their services.
+
+\paragraph{Value Proposition and Business Drivers}
+GetClasses provides:
+\begin{itemize}
+    \item \textbf{Efficient Matching:} filters by subject, availability, rating, and cost.
+    \item \textbf{Trust and Credibility:} verified profiles, ratings, and reviews to reduce risk.
+    \item \textbf{Operational Simplicity:} tutors manage schedules, sessions, and communication easily.
+    \item \textbf{Revenue Generation:} predictable income through booking fees or subscriptions.
+\end{itemize}
+
+\paragraph{Business Justification}
+The platform reduces search friction, increases booking reliability, and enables a two-sided market, 
+directly impacting key metrics: active tutors, conversion rate, and repeat bookings.
+
+\newpage
+\section{Technical Design — UML and SOLID}
+
+\subsection*{UML Class Diagram}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{UMLACTU.drawio.png}
+\caption{UML class diagram reflecting SOLID principles.}
+\end{figure}
+
+\subsubsection*{Key Modeling Decisions}
+\begin{itemize}
+    \item \textbf{User} — abstract base class with id, name, email, password; authentication behavior encapsulated.
+    \item \textbf{TutorUser} — aggregates \texttt{Schedule}, \texttt{Reviews}, and \texttt{TutorInfo}.
+    \item \textbf{StudentUser} and \textbf{AdminUser} — specialized subclasses.
+    \item \textbf{ClassRequest} — composes \texttt{Request} and \texttt{Answer}, with \texttt{sendRequest()} as primary responsibility.
+    \item \textbf{Chat} — associates two \texttt{User} instances and contains a list of \texttt{Message} objects.
+\end{itemize}
+
+\subsection*{SOLID Principles — Examples}
+
+\paragraph{Single Responsibility Principle}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{imagen_2025-12-10_191253028.png}
+\caption{Code example: Class Review and his constructor.}
+\end{figure}
+
+\begin{lstlisting}
+// Aggregates reviews; only handles review logic
+//Cuando se crea por primera vez
+    public Review(UserTeacher teacher, int rate, String comment, UserStudent student){
+
+        this.tutorId = teacher.getId();
+        this.studentId = student.getId();
+        this.rate = setRate(rate);
+        this.comment = setText(comment);
+        this.date = LocalDate.now();
+    }
+
+    //Cuando se carga de DB
+    public Review(int id, int tutorId, int studentId, int score, String comment, LocalDate date){
+        this.id = id;
+        this.tutorId = tutorId;
+        this.studentId = studentId;
+        this.rate = score;
+        this.comment = comment;
+        this.date = date;
+    }
+\end{lstlisting}
+
+
+\paragraph{Justification}
+Interfaces enable loose coupling (DIP), while classes maintain single responsibility (SRP). 
+Liskov Substitution is respected via abstract \texttt{User} and its subclasses. 
+Open/Closed is applied to \texttt{ReviewsManager} — new behavior extends class without modifying existing code.
+
+\newpage
+\section{Boundaries and Interactions}
+
+
+\subsubsection*{Narrative}
+\begin{itemize}
+    \item UI (JavaFX) triggers events; controllers handle domain logic.
+    \item Domain services operate on entities and call repositories.
+    \item Persistence layer (JSON prototype / SQLite) handles data storage.
+    \item External services (Payment, Email) invoked on domain events.
+\end{itemize}
+
+\newpage
+\section{Requirements — Functional and Non-Functional}
+
+\subsection*{Functional Requirements}
+- Student registration, tutor registration, booking, messaging, review creation, schedule management.
+
+\subsection*{Non-Functional Requirements — Quality Attributes}
+\begin{enumerate}
+    \item \textbf{Performance:} Sub-second response for search operations in local datasets to ensure smooth user experience.
+    \item \textbf{Scalability:} Layered architecture allows server-based deployment in the future.
+    \item \textbf{Maintainability:} Code is modular, unit-testable, and documented.
+    \item \textbf{Security:} Passwords are hashed (BCrypt); sensitive data is encrypted and validated.
+    \item \textbf{Reliability:} SQLite transactions ensure atomic writes; JSON fallback allows safe prototyping.
+    \item \textbf{Usability:} Standard UI patterns; main tasks achievable in ≤3 clicks.
+\end{enumerate}
+
+\newpage
+\section{User Stories — Given / When / Then}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 1 & \textbf{Tutor Registration} \\
+\hline
+\textbf{Priority:} & High \\
+\hline
+\textbf{Effort (hrs):} & 6 \\
+\hline
+\textbf{Description:} & As a tutor, I want to register on the platform by entering my personal and professional information so that I can offer tutoring sessions. \\
+\hline
+\textbf{Acceptance Criteria:} & The tutor account is successfully created after entering valid information. \\
+\hline
+\end{tabular}
+\caption{User Story 1 – Tutor Registration}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 2 & \textbf{Tutor Profile Picture} \\
+\hline
+\textbf{Priority:} & Medium \\
+\hline
+\textbf{Effort (hrs):} & 3 \\
+\hline
+\textbf{Description:} & As a tutor, I want to upload a profile picture so that students can identify me easily. \\
+\hline
+\textbf{Acceptance Criteria:} & The uploaded image appears correctly on the tutor's profile page. \\
+\hline
+\end{tabular}
+\caption{User Story 2 – Tutor Profile Picture}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 3 & \textbf{Tutor Search} \\
+\hline
+\textbf{Priority:} & High \\
+\hline
+\textbf{Effort (hrs):} & 8 \\
+\hline
+\textbf{Description:} & As a student, I want to search for tutors by subject, rate, or language so that I can find the best match for my learning needs. \\
+\hline
+\textbf{Acceptance Criteria:} & Tutors matching the selected filters are displayed correctly in the search results. \\
+\hline
+\end{tabular}
+\caption{User Story 3 – Tutor Search}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 4 & \textbf{Tutor Listing} \\
+\hline
+\textbf{Priority:} & High \\
+\hline
+\textbf{Effort (hrs):} & 5 \\
+\hline
+\textbf{Description:} & As a student, I want to view a list of available tutors so that I can compare their profiles and select one. \\
+\hline
+\textbf{Acceptance Criteria:} & The system displays a complete list of tutors with names, subjects, and ratings. \\
+\hline
+\end{tabular}
+\caption{User Story 4 – Tutor Listing}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 5 & \textbf{Chat with Tutor} \\
+\hline
+\textbf{Priority:} & High \\
+\hline
+\textbf{Effort (hrs):} & 6 \\
+\hline
+\textbf{Description:} & As a student, I want to chat in real time with tutors so that I can clarify doubts before booking a session. \\
+\hline
+\textbf{Acceptance Criteria:} & The chat allows real-time message exchange between tutor and student. \\
+\hline
+\end{tabular}
+\caption{User Story 5 – Chat with Tutor}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 6 & \textbf{Tutor Rates Student} \\
+\hline
+\textbf{Priority:} & Medium \\
+\hline
+\textbf{Effort (hrs):} & 3 \\
+\hline
+\textbf{Description:} & As a tutor, I want to rate students after a session to maintain platform quality and accountability. \\
+\hline
+\textbf{Acceptance Criteria:} & The tutor can submit a rating and review after completing a class. \\
+\hline
+\end{tabular}
+\caption{User Story 6 – Tutor Rates Student}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 7 & \textbf{Student Rates Tutor} \\
+\hline
+\textbf{Priority:} & Medium \\
+\hline
+\textbf{Effort (hrs):} & 3 \\
+\hline
+\textbf{Description:} & As a student, I want to rate tutors after a session so that other users can make informed decisions. \\
+\hline
+\textbf{Acceptance Criteria:} & The student can rate the tutor and leave a comment after class. \\
+\hline
+\end{tabular}
+\caption{User Story 7 – Student Rates Tutor}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 8 & \textbf{View Ratings} \\
+\hline
+\textbf{Priority:} & Medium \\
+\hline
+\textbf{Effort (hrs):} & 3 \\
+\hline
+\textbf{Description:} & As a user, I want to view tutor and student ratings so that I can evaluate trust and performance. \\
+\hline
+\textbf{Acceptance Criteria:} & Ratings and feedback are visible and linked to corresponding user profiles. \\
+\hline
+\end{tabular}
+\caption{User Story 8 – View Ratings}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 9 & \textbf{Tutor Auto-Responder} \\
+\hline
+\textbf{Priority:} & Low \\
+\hline
+\textbf{Effort (hrs):} & 2 \\
+\hline
+\textbf{Description:} & As a tutor, I want to enable an auto-responder when I am unavailable so that students receive immediate feedback. \\
+\hline
+\textbf{Acceptance Criteria:} & The system automatically sends a pre-defined message when the tutor is offline. \\
+\hline
+\end{tabular}
+\caption{User Story 9 – Tutor Auto-Responder}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{3cm}|p{11cm}|}
+\hline
+\textbf{ID:} 10 & \textbf{Contact Support/Admin} \\
+\hline
+\textbf{Priority:} & High \\
+\hline
+\textbf{Effort (hrs):} & 4 \\
+\hline
+\textbf{Description:} & As a user, I want to contact platform support or administrators to report issues or request assistance. \\
+\hline
+\textbf{Acceptance Criteria:} & Support requests are sent successfully and confirmation is received. \\
+\hline
+\end{tabular}
+\caption{User Story 10 – Contact Support/Admin}
+\end{table}
+
+
+\newpage
+\section{CRC Cards — Responsibilities (Detailed)}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: ProfileUpdate}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Registers and updates the basic profile information for a user; validates input and triggers persistence mechanisms. &
+\begin{tabular}[t]{@{}l@{}}
+User
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{ProfileUpdate CRC — Detailed responsibilities and collaborators}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: User}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Represents general user attributes and behaviors; manages authentication, profile information, and basic interactions with system services. &
+\begin{tabular}[t]{@{}l@{}}
+ProfileUpdate, Teacher, Student
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{User CRC — Detailed responsibilities and collaborators}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: TutorInfo}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Manages tutor-specific information such as subjects, certifications, hourly rates, and experience; provides data for profile display and business logic. &
+\begin{tabular}[t]{@{}l@{}}
+Teacher
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{TutorInfo CRC — Detailed responsibilities and collaborators}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: StudentInfo}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Manages student-specific information such as enrollment, progress, and preferences; provides data for profile and interaction tracking. &
+\begin{tabular}[t]{@{}l@{}}
+Student
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{StudentInfo CRC — Detailed responsibilities and collaborators}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Teacher}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Represents tutor user; inherits attributes and behaviors from User; manages personal schedule, class requests, reviews, and payment interactions. &
+\begin{tabular}[t]{@{}l@{}}
+User, TutorInfo, Reviews, ClassRequest, Schedule, PaymentSystem
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Teacher CRC — Detailed responsibilities and collaborators}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Student}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Represents student user; inherits attributes and behaviors from User; manages class bookings, schedule interaction, and reviews. &
+\begin{tabular}[t]{@{}l@{}}
+User, StudentInfo, Reviews, ClassRequest, Schedule, PaymentSystem
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Student CRC — Detailed responsibilities and collaborators}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: PaymentSystem}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Handles all payment transactions between students and tutors; validates payment methods, processes refunds, and maintains transaction records. &
+\begin{tabular}[t]{@{}l@{}}
+Teacher, Student
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{PaymentSystem CRC — Detailed responsibilities and collaborators}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Class: Reviews}} \\ 
+\hline
+\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\hline
+Manages creation, modification, and deletion of reviews; aggregates tutor ratings and feedback for system display. &
+\begin{tabular}[t]{@{}l@{}}
+Review, Student, Teacher
+\end{tabular} \\ 
+\hline
+\end{tabular}
+\caption{Reviews CRC — Detailed responsibilities and collaborators}
+\end{table}
+
+
+\newpage
+\section{GUI — TutorCard and TutorListPanel}
+
+\subsection*{TutorCard}
+\texttt{TutorCard} is a JavaFX \texttt{BorderPane} that visually represents a tutor's profile. Responsibilities:
+\begin{itemize}
+    \item Display name, age, "about me", subjects (buttons), cost per hour, rating, favorite status.
+    \item Emit click events to controller via \texttt{TutorCardListener}.
+\end{itemize}
+
+\subsubsection*{Design justification}
+\begin{itemize}
+    \item Follows SRP: only rendering, no business logic.
+    \item Listener interface ensures MVC separation; controller handles interactions.
+    \item Modular design supports reuse in \texttt{TutorListPanel} and future extensions.
+\end{itemize}
+
+\subsection*{TutorListPanel}
+\begin{itemize}
+    \item Holds multiple \texttt{TutorCard} instances in a scrollable view.
+    \item Responsible for rendering the tutor list and delegating click events.
+    \item Maintains separation of concerns: UI container only, logic handled by controller.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth,height=0.3\textheight,keepaspectratio]{MainScreen.png}
+\hfill
+\includegraphics[width=0.45\textwidth,height=0.3\textheight,keepaspectratio]{ProfileTutorScreen.png}
+\caption{GUI mockups: Main (Left) y profile (right).}
+\end{figure}
+
+\newpage
+\section{Presentation Layer — Architecture and Execution}
+
+\subsection*{Package Organization}
+\begin{itemize}
+    \item \texttt{com.getclasses.GUI.Controllers} — JavaFX controllers, FXML, views (TutorCard, TutorListPanel).
+    \item \texttt{com.getclasses.Classes} — Entities and services (User, ReviewsManager, BookingService).
+    \item \texttt{com.getclasses.Database} — Repositories (JSON/SQLite).
+    \item \texttt{com.getclasses.GUI} — Repository interfaces, external service adapters.
+\end{itemize}
+
+\subsection*{Runtime Flow}
+\begin{enumerate}
+    \item Application initializes JavaFX and injects repositories into services.
+    \item Controllers call services; services manipulate entities and persist via repositories.
+    \item UI tasks that may block are executed in \texttt{Task}/\texttt{Service} threads.
+\end{enumerate}
+
+\newpage
+\section{Persistence — JSON and SQLite Integration}
+
+
+\subsection*{SQLite Integration}
+\begin{lstlisting}
+public class ConnectionDB {
+
+    private static final String URL = "jdbc:sqlite:src/main/resources/GetclassDB.db";
+    public static Connection getConnection() {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Conexión establecida con éxito");
+        } catch (SQLException e) {
+            System.out.println("Error al conectar: " + e.getMessage());
+        }
+        return conn;
+    }
+}
+\end{lstlisting}
+
+Repositories abstract persistence, enabling UI and domain to remain unchanged when swapping storage.
+
+\newpage
+\section{Conclusions}
+
+\begin{itemize}
+    \item Architecture respects SOLID and MVC principles.
+    \item TutorCard/TutorListPanel designed for reuse and clear separation of concerns.
+    \item Persistence mechanisms (JSON/SQLite) fully integrated with domain and UI.
+    \item Non-functional requirements are justified with technical reasoning.
+    \item Document reflects business model focus and addresses professor's feedback.
+\end{itemize}
+
+\newpage
+\section{References}
+\begin{itemize}
+    \item Overleaf. (2024). \textit{LaTeX tutorial: Learn LaTeX step by step}. Retrieved from \url{https://www.overleaf.com/learn}
+    \item Lamport, L. (1994). \textit{LaTeX: A Document Preparation System}. Addison-Wesley.
+    \item Lucidchart. (2023). \textit{UML Diagram Tutorial}. Retrieved from \url{https://www.lucidchart.com/pages/uml-diagram}
+    \item Ambler, S. W. (2023). \textit{Agile Modeling: UML and Class Design}. Retrieved from \url{http://www.agilemodeling.com/artifacts/classDiagram.htm}
+    \item Beck, K., \& Fowler, M. (2000). \textit{Planning Extreme Programming}. Addison-Wesley.
+    \item Mountain Goat Software. (2022). \textit{User Stories}. Retrieved from \url{https://www.mountaingoatsoftware.com/agile/user-stories}
+    \item Coad, P., \& Yourdon, E. (1991). \textit{Object-Oriented Design}. Prentice Hall.
+    \item Sommerville, I. (2015). \textit{Software Engineering} (10th ed.). Pearson.
+    \item Visual Paradigm. (2023). \textit{CRC Cards Tutorial}. Retrieved from \url{https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-crc-card/}
+    \item IEEE. (2023). \textit{Guide to Software Design Documentation (IEEE 1016-2020)}.
+\end{itemize}
+
+\end{document}

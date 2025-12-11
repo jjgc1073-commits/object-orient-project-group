@@ -1,37 +1,44 @@
 package GUI;
 
+import GUI.Controller.MainController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import GUI.Controller.*;
-
-import java.awt.event.WindowEvent;
-
 public class MainView {
 
-    public MainController mainController;
     private Stage stage;
     private BorderPane root;
     private Scene scene;
 
+    // Ahora el panel se declara como atributo accesible
+    private TutorTabsPanel tutorTabsPanel;
+
     public MainView(Stage stage) {
-        this.mainController = new MainController(this);
         this.stage = stage;
         this.stage.setTitle("GetClasses");
-
 
         root = new BorderPane();
         scene = new Scene(root, 900, 700);
 
         addHeader();
         addSearchAndCategories();
-        addTutorTabs(); // Aquí llamamos al panel de tutores
+
+        // Se crea vacío, sin cargar datos todavía
+        tutorTabsPanel = new TutorTabsPanel();
+        tutorTabsPanel.setPrefSize(900, 450);
+
+        root.setBottom(tutorTabsPanel);
 
         this.stage.setScene(scene);
         this.stage.show();
+
+        // El controlador se crea DESPUÉS de construir la vista,
+        // y será el encargado de cargar los datos dinámicos.
+        MainController controller = new MainController(this);
+        controller.initializeTutorPanel();
     }
 
     private void addHeader() {
@@ -77,24 +84,13 @@ public class MainView {
         root.setCenter(searchPanel);
     }
 
-    private void addTutorTabs() {
-        TutorTabsPanel tabs = new TutorTabsPanel(mainController);
-        tabs.setPrefSize(900, 450);
-        root.setBottom(tabs);
+    // GETTERS necesarios para el controlador
 
-        VBox placeholder = new VBox();
-        placeholder.setPadding(new Insets(10));
-        placeholder.setStyle("-fx-background-color: #e0e0e0;");
-        placeholder.setPrefHeight(450);
-
-        Label label = new Label("Aquí irá el panel de tutores");
-        placeholder.getChildren().add(label);
-
-        root.setBottom(placeholder);
+    public TutorTabsPanel getTutorTabsPanel() {
+        return tutorTabsPanel;
     }
 
     public Stage getStage() {
         return stage;
     }
-
 }

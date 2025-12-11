@@ -1,18 +1,31 @@
 package org.example;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import GUI.LoginForm;
+import GUI.Controller.LoginController;
+import DataBase.DAOS.UserDAO;
 
-import javafx.application.*;
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class App  {
+
+
+public class App extends Application {
+    
+
+    @Override
+    public void start(Stage primaryStage) {
+        // Crear la vista
+        LoginForm loginForm = new LoginForm(primaryStage);
+
+        // Crear el DAO
+        UserDAO userDao = new UserDAO();
+
+        // Crear el controlador
+        LoginController loginController = new LoginController(loginForm, userDao);
+
+        // Mostrar la ventana
+        primaryStage.show();
+    }
+
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
-
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        launch(args); // Lanza la aplicación JavaFX
     }
 }
