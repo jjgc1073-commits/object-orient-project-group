@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import GUI.LoginForm;
 import GUI.Controller.LoginController;
+import GUI.Controller.RegisterController;
 import DataBase.DAOS.UserDAO;
 
 
@@ -35,6 +36,8 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         // Crear la vista
         RegisterForm registerForm = new RegisterForm(primaryStage);
+
+        RegisterController controller = new RegisterController(registerForm);
 
         // Mostrar la ventana
         primaryStage.show();
