@@ -11,13 +11,16 @@ import java.util.List;
 
 public class TutorTabsPanel extends TabPane {
 
-    public TutorTabsPanel(MainController mainController) {
+    public MainController mainController;
+
+    public TutorTabsPanel() {
 
         setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
         //=== TAB 1: LISTA DE TUTORES =========================
         Tab tab1 = new Tab("Tutores");
 
+        this.mainController = setMainController(mainController);
         // Obtiene los tutores desde el controller
         List<UserTeacherDTO> teachers = mainController.getAllTeachers();
 
@@ -32,6 +35,10 @@ public class TutorTabsPanel extends TabPane {
         );
 
         tab1.setContent(tutorList);
-        getTabs().add;
+        getTabs().addAll();
+    }
+
+    public MainController setMainController(MainController mainController){
+        return mainController;
     }
 }

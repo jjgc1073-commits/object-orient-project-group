@@ -39,6 +39,7 @@ public class MainView {
         // y será el encargado de cargar los datos dinámicos.
         MainController controller = new MainController(this);
         controller.initializeTutorPanel();
+        tutorTabsPanel.setMainController(controller);
     }
 
     private void addHeader() {
