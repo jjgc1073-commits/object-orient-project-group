@@ -13,28 +13,20 @@ public class UserTeacher extends User {
     /**
      * Constructor para crear NUEVO usuario
      */
-    public UserTeacher(String name, LocalDate birthDate, String email, String password) {
-        super(name, birthDate, email, password);
+    public UserTeacher(String name, String lastName, LocalDate birthDate, String email, String password) {
+        super(name, lastName, birthDate, email, password);
         this.role = "TEACHER";
     }
 
     /**
      * Constructor para cargar desde BD
      */
-    public UserTeacher(int id, String name, LocalDate birthDate, String email, String password, String role) {
-        super(id, name, birthDate, email, password, role);
+    public UserTeacher(int id, String name, String lastName, LocalDate birthDate, String email, String password, String role) {
+        super(id, name, lastName, birthDate, email, password, role);
     }
 
     public void setId(int id){
         this.id = id;
     }
 
-
-
-
-
-
 }
-
-
-

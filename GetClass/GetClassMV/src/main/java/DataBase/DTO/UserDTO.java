@@ -4,6 +4,7 @@ import java.time.LocalDate;
 public class UserDTO {
 
     public String name;
+    public String lastName;
     public int age;
     public int id;
     public String email;
@@ -15,9 +16,10 @@ public class UserDTO {
     /**
      * Constructor para cargar un usuario DESDE la BD
      */
-    public UserDTO(int id, String name, LocalDate birthDate, String email, int age, String password, String role) {
+    public UserDTO(int id, String name, String lastName, LocalDate birthDate, String email, int age, String password, String role) {
         this.id = id;
         this.name = name;
+        this.lastName = lastName;
         this.birthDate = birthDate;
         this.age = age;
         this.email = email;
@@ -28,6 +30,10 @@ public class UserDTO {
     //seters
     public void setName(String name){
         this.name = name;
+    }
+    
+    public void setLastName(String lastName){
+        this.lastName = lastName;
     }
 
     public void setbirthDate(LocalDate birthDate){
@@ -49,6 +55,10 @@ public class UserDTO {
     // getters
     public String getName(){
         return this.name;
+    }
+
+    public String getLastName(){
+        return this.lastName;
     }
 
     public LocalDate getbirthDate(){

@@ -8,9 +8,9 @@ public class UserTeacherDTO extends UserDTO{
     public TutorInfoDTO tutorInfo;
 
 
-    public UserTeacherDTO(int id, String name, String email, String password, int age, LocalDate birthDate, String role) {
+    public UserTeacherDTO(int id, String name, String lastName, String email, String password, int age, LocalDate birthDate, String role) {
 
-        super(id, name, birthDate, email, age, password, role);
+        super(id, name, lastName, birthDate, email, age, password, role);
 
     }
 

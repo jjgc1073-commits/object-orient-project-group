@@ -39,15 +39,16 @@ public class UserStudentDAO {
 
 
             stmtUser = conn.prepareStatement(
-                    "INSERT INTO USER(name, email, password_hash, birth_date, age, role) VALUES (?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO USER(name, last_name, email, password_hash, birth_date, age, role) VALUES (?, ?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             stmtUser.setString(1, student.getName());
-            stmtUser.setString(2, student.getEmail());
-            stmtUser.setString(3, student.getPassWord());
-            stmtUser.setString(4, student.getBirthDate());
-            stmtUser.setInt(5, student.getAge());
-            stmtUser.setString(6, student.getRole());
+            stmtUser.setString(2, student.getLastName());
+            stmtUser.setString(3, student.getEmail());
+            stmtUser.setString(4, student.getPassWord());
+            stmtUser.setString(5, student.getBirthDate());
+            stmtUser.setInt(6, student.getAge());
+            stmtUser.setString(7, student.getRole());
 
             stmtUser.executeUpdate();
             rsUser = stmtUser.getGeneratedKeys();
@@ -120,6 +121,7 @@ public class UserStudentDAO {
             UserStudentDTO student = new UserStudentDTO(
                     rsUser.getInt("user_id"),
                     rsUser.getString("name"),
+                    rsUser.getString("last_name"),
                     rsUser.getString("password_hash"),
                     rsUser.getString("email"),
                     rsUser.getInt("age"),

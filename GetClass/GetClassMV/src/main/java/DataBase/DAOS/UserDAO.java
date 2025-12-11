@@ -31,7 +31,7 @@ public class UserDAO {
 
         try {
             stmt = Conn.prepareStatement(
-                    "SELECT user_id, name, email, password_hash, birth_date, age, role FROM USER WHERE email = ? AND password_hash = ?"
+                    "SELECT user_id, name, last_name, email, password_hash, birth_date, age, role FROM USER WHERE email = ? AND password_hash = ?"
             );
             stmt.setString(1, email);
             stmt.setString(2, password);
@@ -41,13 +41,14 @@ public class UserDAO {
             if (rs.next()) {
                 int id = rs.getInt("user_id");
                 String name = rs.getString("name");
+                String lastName = rs.getString("last_name");
                 String userEmail = rs.getString("email");
                 String passHash = rs.getString("password_hash");
                 LocalDate birthDate = LocalDate.parse(rs.getString("birth_date"));
                 int age = rs.getInt("age");
                 String role = rs.getString("role");
 
-                return new UserDTO(id, name, birthDate, userEmail, age, passHash, role);
+                return new UserDTO(id, name, lastName, birthDate, userEmail, age, passHash, role);
 
             } else {
                 return null; // No user found

@@ -8,6 +8,7 @@ public class User implements IAuthentication, IuserBase {
 
     protected String role;
     protected String name;
+    protected String lastName;
     protected int age;
     protected int id;
     protected String email;
@@ -17,8 +18,9 @@ public class User implements IAuthentication, IuserBase {
     /**
      * Constructor para crear un usuario NUEVO (antes de guardarlo en la BD)
      */
-    public User(String name, LocalDate birthDate, String email, String password) {
+    public User(String name, String lastName, LocalDate birthDate, String email, String password) {
         this.name = name;
+        this.lastName = lastName;
         this.birthDate = birthDate;
         this.age = calculateAge(birthDate);
         this.email = email;
@@ -28,9 +30,10 @@ public class User implements IAuthentication, IuserBase {
     /**
      * Constructor para cargar un usuario DESDE la BD
      */
-    public User(int id, String name, LocalDate birthDate, String email, String password, String role) {
+    public User(int id, String name, String lastName, LocalDate birthDate, String email, String password, String role) {
         this.id = id;
         this.name = name;
+        this.lastName = lastName;
         this.birthDate = birthDate;
         this.age = calculateAge(birthDate);
         this.email = email;
@@ -70,6 +73,10 @@ public class User implements IAuthentication, IuserBase {
     @Override
     public String getName() {
         return this.name;
+    }
+
+    public String getLastName(){
+        return this.lastName;
     }
 
     @Override

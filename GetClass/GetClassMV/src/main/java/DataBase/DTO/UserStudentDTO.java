@@ -6,8 +6,8 @@ public class UserStudentDTO extends UserDTO{
 
     public StudentInfoDTO studentInfo;
 
-    public UserStudentDTO(int id, String name, String password, String email, int age, LocalDate birthDate,    String role){
-        super(id, name, birthDate, email, age, password, role);
+    public UserStudentDTO(int id, String name, String lastName, String password, String email, int age, LocalDate birthDate,    String role){
+        super(id, name, lastName, birthDate, email, age, password, role);
 
     }
 

@@ -38,15 +38,16 @@ public class UserTeacherDAO {
 
 
             stmtUser = conn.prepareStatement(
-                    "INSERT INTO USER(name, email, password_hash, birth_date, age, role) VALUES (?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO USER(name, last_name, email, password_hash, birth_date, age, role) VALUES (?, ?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             stmtUser.setString(1, teacher.getName());
-            stmtUser.setString(2, teacher.getEmail());
-            stmtUser.setString(3, teacher.getPassWord());
-            stmtUser.setString(4, teacher.getBirthDate());
-            stmtUser.setInt(5, teacher.getAge());
-            stmtUser.setString(6, teacher.getRole());
+            stmtUser.setString(2, teacher.getLastName());
+            stmtUser.setString(3, teacher.getEmail());
+            stmtUser.setString(4, teacher.getPassWord());
+            stmtUser.setString(5, teacher.getBirthDate());
+            stmtUser.setInt(6, teacher.getAge());
+            stmtUser.setString(7, teacher.getRole());
 
             stmtUser.executeUpdate();
             rsUser = stmtUser.getGeneratedKeys();
@@ -147,6 +148,7 @@ public class UserTeacherDAO {
             UserTeacherDTO teacher = new UserTeacherDTO(
                     rsUser.getInt("user_id"),
                     rsUser.getString("name"),
+                    rsUser.getString("last_name"),
                     rsUser.getString("password_hash"),
                     rsUser.getString("email"),
                     rsUser.getInt("age"),
@@ -235,6 +237,7 @@ public class UserTeacherDAO {
                 UserTeacherDTO teacher = new UserTeacherDTO(
                         rsUsers.getInt("user_id"),
                         rsUsers.getString("name"),
+                        rsUsers.getString("last_name"),
                         rsUsers.getString("email"),
                         rsUsers.getString("password_hash"),
                         rsUsers.getInt("age"),

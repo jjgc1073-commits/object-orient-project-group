@@ -6,8 +6,8 @@ public class UserStudent extends User {
 
     public StudentInfo studentInfo;
 
-    public UserStudent(String name, LocalDate birthDate, String email, String password) {
-        super(name, birthDate, email, password);
+    public UserStudent(String name, String lastName, LocalDate birthDate, String email, String password) {
+        super(name, lastName,  birthDate, email, password);
         this.role = "STUDENT";
     }
 

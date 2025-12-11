@@ -13,6 +13,7 @@ public class DatabaseInitializer {
             "CREATE TABLE IF NOT EXISTS USER (\n"
                     + " user_id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                     + " name TEXT,\n"
+                    + " last_name TEXT,\n"
                     + " email TEXT NOT NULL UNIQUE,\n"
                     + " password_hash TEXT NOT NULL,\n"
                     + " birth_date TEXT,\n"
