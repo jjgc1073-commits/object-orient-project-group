@@ -1,6 +1,7 @@
 package GUI.Controller;
 
 import GUI.MainView;
+import GUI.RegisterForm;
 import GUI.Controller.*;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
@@ -23,6 +24,8 @@ public class LoginController {
 
         // JavaFX usa setOnAction en lugar de addActionListener
         this.view.btnLogin.setOnAction(e -> login());
+
+        this.view.linkRegister.setOnMouseClicked(e -> register());
     }
 
     public boolean login() {
@@ -55,6 +58,17 @@ public class LoginController {
         }
 
         return false;
+    }
+
+    public void register(){
+        String user = view.txtUser.getText();
+        Stage registerStage = new Stage();
+        RegisterForm registerForm = new RegisterForm(registerStage);
+        RegisterController registerController = new RegisterController(registerForm);
+        registerStage.show();
+
+        Stage stage = (Stage) view.txtUser.getScene().getWindow();
+        stage.close();
     }
 
 }

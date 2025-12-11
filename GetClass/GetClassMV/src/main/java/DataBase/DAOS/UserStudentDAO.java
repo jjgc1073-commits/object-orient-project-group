@@ -39,7 +39,7 @@ public class UserStudentDAO {
 
 
             stmtUser = conn.prepareStatement(
-                    "INSERT INTO USER(name, last_name, email, password_hash, birth_date, age, role) VALUES (?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO USER(name, last_name, email, password_hash, birth_date, age, role) VALUES (?, ?, ?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             stmtUser.setString(1, student.getName());

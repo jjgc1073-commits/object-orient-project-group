@@ -1,6 +1,7 @@
 package Classes;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 
@@ -27,6 +28,10 @@ public class UserTeacher extends User {
 
     public void setId(int id){
         this.id = id;
+    }
+
+    public void setTutorInfo(String aboutMe, List<String> subjects, List<String> certifications, int hourlyRate, String locatedIn){
+        this.tutorInfo = new TutorInfo(aboutMe, subjects, certifications, hourlyRate, locatedIn);
     }
 
 }

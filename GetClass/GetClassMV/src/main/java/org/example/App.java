@@ -17,7 +17,7 @@ import DataBase.DAOS.UserDAO;
 
 public class App extends Application {
 
-    /** @Override
+     @Override
     public void start(Stage primaryStage) {
         // Crear la vista
         LoginForm loginForm = new LoginForm(primaryStage);
@@ -30,8 +30,9 @@ public class App extends Application {
 
         // Mostrar la ventana
         primaryStage.show();
-    }*/
+    }
 
+    /** 
     @Override
     public void start(Stage primaryStage) {
         // Crear la vista
@@ -42,9 +43,9 @@ public class App extends Application {
         // Mostrar la ventana
         primaryStage.show();
 
-    }
+    }*/
     public static void main(String[] args) {
-
+        DatabaseInitializer.initialize();
         launch(args);
 
     }

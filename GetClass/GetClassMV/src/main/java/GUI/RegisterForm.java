@@ -60,7 +60,7 @@ public class RegisterForm {
         txtPassC = new PasswordField();
 
 
-        btnRegister = new Button("Register");
+        btnRegister = new Button("Continue");
 
         // UBICACIÓN EN EL GRID
         grid.add(lblrol, 0, 0);

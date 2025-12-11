@@ -2,6 +2,7 @@ package GUI;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -12,6 +13,8 @@ public class LoginForm {
     public TextField txtUser;
     public PasswordField txtPass;
     public Button btnLogin;
+    public Label linkRegister;
+    
 
     private Scene scene;
 
@@ -22,8 +25,8 @@ public class LoginForm {
 
         // CONTENEDOR PRINCIPAL
         GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
+        grid.setHgap(20);
+        grid.setVgap(20);
         grid.setPadding(new Insets(20));
         grid.setAlignment(Pos.CENTER);
 
@@ -36,6 +39,11 @@ public class LoginForm {
 
         btnLogin = new Button("Iniciar sesión");
 
+        Label lblNew = new Label("¿No tienes cuenta aún?");
+        this.linkRegister = new Label("Registrase");
+        this.linkRegister.setCursor(Cursor.HAND);
+        this.linkRegister.setStyle("-fx-text-fill: blue; -fx-underline: true;"); 
+
         // UBICACIÓN EN EL GRID
         grid.add(lblUser, 0, 0);
         grid.add(txtUser, 1, 0);
@@ -46,6 +54,9 @@ public class LoginForm {
         // espacio y botón
         grid.add(new Label(), 0, 2);
         grid.add(btnLogin, 1, 2);
+
+        grid.add(lblNew, 0, 3);
+        grid.add(linkRegister, 1, 3);
 
         // ESCENA
         scene = new Scene(grid, 350, 200);

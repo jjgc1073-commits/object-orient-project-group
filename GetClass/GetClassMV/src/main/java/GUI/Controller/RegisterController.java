@@ -13,9 +13,11 @@ import DataBase.DAOS.UserDAO;
 import DataBase.DAOS.UserStudentDAO;
 import DataBase.DAOS.UserTeacherDAO;
 import GUI.RegisterForm;
+import GUI.TutorInfoForm;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.stage.Stage;
 
 public class RegisterController {
 
@@ -88,10 +90,14 @@ public class RegisterController {
                 UserStudent student = new UserStudent(name, lastName, birthday, email, pass);
                 UserStudentDAO studentDAO = new UserStudentDAO();
                 studentDAO.save(conn, student);
-            } else if ("TEACHER".equals(rol)) {
-                UserTeacher teacher = new UserTeacher(name, lastName, birthday, email, pass);
-                UserTeacherDAO teacherDAO = new UserTeacherDAO();
-                teacherDAO.save(conn, teacher);
+                } else if ("TEACHER".equals(rol)) {
+                Stage registerStage = new Stage();
+                TutorInfoForm tInfoForm = new TutorInfoForm(registerStage);
+                TutorInfoController tutorInfoController = new TutorInfoController(tInfoForm, name, lastName, birthday, email, pass );
+                registerStage.show();
+
+                Stage stage = (Stage) view.txtrol.getScene().getWindow();
+                stage.close();
                 }
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -100,6 +106,7 @@ public class RegisterController {
                 alert.setContentText(e.getMessage());
                 alert.showAndWait();
             }
+    
     }
     
 }
