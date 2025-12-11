@@ -36,14 +36,15 @@ public class TutorInfoForm {
         Label lblAboutMe = new Label("Tell us about you:");
         txtAboutMe = new TextField();
 
-        Label lblSubjects = new Label("Select the subjects you teach:");
+        Label lblSubjects = new Label("Select the subjects you teach: " + 
+        "\n for add press Ctrl please");
         subjects = new ListView<>();
         subjects.getItems().setAll("Math", "Physics", "Chemistry", "Literature", "History", 
         "Music", "Personal Training", "Sports", "Geography", "Social Studies", 
         "Religion");
         subjects.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        Label lblcert = new Label("Name all your certificates (separated by ,): ");
+        Label lblcert = new Label("Name all your certificates" + "\n (separated by ,): ");
         txtcert = new TextField();
 
         Label lblPrice = new Label("Hourly rate:");
