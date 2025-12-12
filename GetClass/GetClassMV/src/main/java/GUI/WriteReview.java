@@ -1,6 +1,5 @@
 package GUI;
 
-import DataBase.DAOS.UserTeacherDAO;
 import java.time.LocalDate;
 import DataBase.DTO.UserTeacherDTO;
 import GUI.Controller.TutorProfile;
@@ -13,10 +12,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.scene.paint.Color;
 
 import java.util.List;
-import java.util.ArrayList;
-import javafx.scene.input.MouseEvent;
 
 public class WriteReview extends BorderPane {
 
@@ -26,7 +24,7 @@ public class WriteReview extends BorderPane {
     public Label lblClassDate;
     public Label lblClassSubject;
     public HBox ratingStarsContainer;
-    public Label lblRatingValue;      
+    public Label lblRatingValue;
     public TextArea txtComment;
     public FlowPane tagSuggestionsContainer;
     public Button btnSkip;
@@ -44,6 +42,7 @@ public class WriteReview extends BorderPane {
     // Valor numérico de rating
     private double currentRating = 0.0;
 
+
     public WriteReview(Stage stage, int id) {
 
         this.id = id;
@@ -53,19 +52,27 @@ public class WriteReview extends BorderPane {
         this.tutor = tut.defineTutor();
 
         // -------------------------------------------------------------------------
-        // 1. CAMBIO CLAVE: Definir tamaño ancho por defecto
+        // 1. CONFIGURACIÓN GENERAL (Fondo Lavanda)
         // -------------------------------------------------------------------------
-        this.setPrefSize(1000, 650); 
-        this.setPadding(new Insets(20));
+        this.setPrefSize(1000, 650);
+        this.setPadding(new Insets(30)); // Padding externo
+        this.setStyle("-fx-background-color: #F3E5F5;"); // Fondo lavanda general
 
+        // -------------------------------------------------------------------------
+        // 2. LAYOUT TIPO TARJETA (Fondo Blanco Central)
+        // -------------------------------------------------------------------------
         VBox mainLayout = new VBox(20);
         mainLayout.setAlignment(Pos.TOP_CENTER);
-        
-        // -------------------------------------------------------------------------
-        // 2. CAMBIO CLAVE: Asegurar que el layout vertical ocupe todo el ancho
-        // -------------------------------------------------------------------------
         mainLayout.setFillWidth(true);
-        
+        mainLayout.setPadding(new Insets(30)); // Padding interno de la tarjeta
+
+        // Estilo de tarjeta flotante
+        mainLayout.setStyle(
+                "-fx-background-color: white; " +
+                        "-fx-background-radius: 15; " +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);"
+        );
+
         this.setCenter(mainLayout);
 
         // =========================================================================
@@ -73,8 +80,7 @@ public class WriteReview extends BorderPane {
         // =========================================================================
 
         HBox headerAndRating = new HBox(40);
-        headerAndRating.setAlignment(Pos.CENTER_LEFT); // Alineado a la izquierda
-        headerAndRating.setPadding(new Insets(10));
+        headerAndRating.setAlignment(Pos.CENTER_LEFT);
 
         // --- Tutor Info ---
         HBox tutorInfoBox = new HBox(20);
@@ -83,17 +89,22 @@ public class WriteReview extends BorderPane {
         imgTutorProfile = new ImageView();
         imgTutorProfile.setFitWidth(100);
         imgTutorProfile.setFitHeight(100);
-        imgTutorProfile.setStyle("-fx-background-color: lightgray; -fx-border-radius: 60; -fx-background-radius: 60;"); 
+        // Placeholder circular lila
+        imgTutorProfile.setStyle("-fx-background-color: #E1BEE7; -fx-background-radius: 60; -fx-border-radius: 60;");
 
-        VBox textInfoBox = new VBox(5);
+        VBox textInfoBox = new VBox(8);
 
         lblTutorName = new Label(tutor.getName() + " " + tutor.getLastName()+ ", " + tutor.getAge());
-        lblTutorName.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;"); // Un poco más grande
-        
-        lblClassDate = new Label("CLASS DATE: " + DateNow);
-        lblClassSubject = new Label("CLASS SUBJECT:");
+        // Nombre morado oscuro
+        lblTutorName.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #4A148C;");
 
-        FlowPane subjectTags = new FlowPane(5, 5);
+        lblClassDate = new Label("CLASS DATE: " + DateNow);
+        lblClassDate.setStyle("-fx-text-fill: #757575; -fx-font-weight: bold;");
+
+        lblClassSubject = new Label("Select Subject:");
+        lblClassSubject.setStyle("-fx-text-fill: #424242;");
+
+        FlowPane subjectTags = new FlowPane(8, 8);
 
         List<String> subjects =
                 (tutor.tutorInfo.getSubjects() != null && !tutor.tutorInfo.getSubjects().isEmpty())
@@ -102,7 +113,8 @@ public class WriteReview extends BorderPane {
 
         for (String subject : subjects) {
             Label tagLabel = new Label(subject);
-            tagLabel.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-padding: 3 8; -fx-cursor: hand;");
+            // Estilo inicial de tags (Lila claro)
+            tagLabel.setStyle("-fx-background-color: #EDE7F6; -fx-text-fill: #5E35B1; -fx-background-radius: 15; -fx-padding: 5 12; -fx-cursor: hand; -fx-font-weight: bold;");
             tagLabel.setOnMouseClicked(e -> handleSubjectSelection(tagLabel));
             subjectTags.getChildren().add(tagLabel);
         }
@@ -111,84 +123,90 @@ public class WriteReview extends BorderPane {
         tutorInfoBox.getChildren().addAll(imgTutorProfile, textInfoBox);
 
         // =========================================================================
-        // ⭐ RATING (Estrellas Interactivas + Texto 0.0 - 5.0)
+        // ⭐ RATING (Estrellas Doradas)
         // =========================================================================
 
         VBox ratingBox = new VBox(5);
-        ratingBox.setAlignment(Pos.CENTER_RIGHT); // Alineado a la derecha
+        ratingBox.setAlignment(Pos.CENTER_RIGHT);
 
         ratingStarsContainer = new HBox(5);
         ratingStarsContainer.setAlignment(Pos.CENTER);
 
-        // Crear 5 estrellas iniciales (vacías)
+        // Crear 5 estrellas
         for (int i = 1; i <= 5; i++) {
             Label star = new Label("☆");
-            star.setStyle("-fx-font-size: 30px; -fx-cursor: hand; -fx-text-fill: #f0c419;"); // Color dorado opcional
-            int index = i; // para usar dentro del lambda
+            // Color gris claro inicialmente
+            star.setStyle("-fx-font-size: 35px; -fx-cursor: hand; -fx-text-fill: #BDBDBD;");
+            int index = i;
             star.setOnMouseClicked(e -> updateRating(index));
             ratingStarsContainer.getChildren().add(star);
         }
 
         // Texto debajo de estrellas
-        lblRatingValue = new Label("Rating: 0.0 / 5.0");
-        lblRatingValue.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        lblRatingValue = new Label("Tap to rate");
+        lblRatingValue.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #757575;");
 
         ratingBox.getChildren().addAll(ratingStarsContainer, lblRatingValue);
 
         headerAndRating.getChildren().addAll(tutorInfoBox, ratingBox);
-        
-        // Esto empuja el rating hacia la derecha cuando la ventana es ancha
         HBox.setHgrow(tutorInfoBox, Priority.ALWAYS);
 
         // =========================================================================
         // 2. COMENTARIO + TAGS
         // =========================================================================
 
-        HBox bodySection = new HBox(20);
+        HBox bodySection = new HBox(30);
         bodySection.setPrefHeight(300);
         bodySection.setAlignment(Pos.TOP_LEFT);
 
         // --- Comentarios ---
         VBox commentBox = new VBox(10);
-        commentBox.setPadding(new Insets(10));
-        
-        Label commentLabel = new Label("Comment:");
-        commentLabel.setStyle("-fx-font-weight: bold;");
+        // commentBox.setPadding(new Insets(10)); // Ya tiene padding el padre
+
+        Label commentLabel = new Label("Write a review:");
+        commentLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #4A148C; -fx-font-size: 16px;");
 
         txtComment = new TextArea();
-        txtComment.setPromptText("Escribe tu reseña aquí...");
-        txtComment.setWrapText(true); // Permite que el texto baje de línea
-        
-        VBox.setVgrow(txtComment, Priority.ALWAYS);
+        txtComment.setPromptText("How was your experience with " + tutor.getName() + "?");
+        txtComment.setWrapText(true);
+        // Estilo del TextArea: Focus morado
+        txtComment.setStyle("-fx-control-inner-background: white; -fx-background-color: white; -fx-border-color: #D1C4E9; -fx-border-radius: 5; -fx-focus-color: #7B1FA2; -fx-faint-focus-color: transparent;");
 
+        VBox.setVgrow(txtComment, Priority.ALWAYS);
         commentBox.getChildren().addAll(commentLabel, txtComment);
-        
-        // Esto hace que el área de comentario ocupe todo el ancho sobrante
         HBox.setHgrow(commentBox, Priority.ALWAYS);
 
-        // --- Tags ---
-        VBox tagsBox = new VBox(10);
-        tagsBox.setPadding(new Insets(10));
-        tagsBox.setPrefWidth(250);
-        tagsBox.setMinWidth(250); // Fija el ancho del panel derecho
+        // --- Suggested Tags ---
+        VBox tagsBox = new VBox(15);
+        tagsBox.setPrefWidth(280);
+        tagsBox.setMinWidth(280);
+        // Fondo gris muy suave para separar visualmente las sugerencias
+        tagsBox.setStyle("-fx-background-color: #FAFAFA; -fx-background-radius: 10; -fx-padding: 15;");
 
         tagSuggestionsContainer = new FlowPane(10, 10);
-        Label suggestionLabel = new Label("Suggested Tags:");
-        suggestionLabel.setStyle("-fx-font-weight: bold;");
+        Label suggestionLabel = new Label("Quick Tags (Click to add):");
+        suggestionLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #616161;");
         tagsBox.getChildren().add(suggestionLabel);
 
         List<String> suggestedTags = List.of(
                 "+ Good Explanation",
-                "Punctual",
-                "Clear Teaching",
-                "Helpful",
-                "Friendly"
+                "+ Punctual",
+                "+ Clear Teaching",
+                "+ Helpful",
+                "+ Friendly",
+                "+ Expert"
         );
 
         for (String tag : suggestedTags) {
             Label tagLabel = new Label(tag);
-            tagLabel.setStyle("-fx-background-color: #f2cdf8ff; -fx-border-color: #e384f0ff; -fx-border-radius: 5; -fx-padding: 3 8; -fx-cursor: hand;");
-            tagLabel.setOnMouseClicked(e -> handleTagSuggestionClick(tag));
+            // Estilo Pill Morado Suave
+            tagLabel.setStyle("-fx-background-color: #F3E5F5; -fx-text-fill: #7B1FA2; -fx-background-radius: 15; -fx-padding: 5 10; -fx-cursor: hand; -fx-border-color: #E1BEE7; -fx-border-radius: 15;");
+
+            // Hover effect
+            tagLabel.setOnMouseEntered(e -> tagLabel.setStyle("-fx-background-color: #E1BEE7; -fx-text-fill: #4A148C; -fx-background-radius: 15; -fx-padding: 5 10; -fx-cursor: hand; -fx-border-color: #BA68C8; -fx-border-radius: 15;"));
+            tagLabel.setOnMouseExited(e -> tagLabel.setStyle("-fx-background-color: #F3E5F5; -fx-text-fill: #7B1FA2; -fx-background-radius: 15; -fx-padding: 5 10; -fx-cursor: hand; -fx-border-color: #E1BEE7; -fx-border-radius: 15;"));
+
+            tagLabel.setOnMouseClicked(e -> handleTagSuggestionClick(tag.replace("+ ", "")));
             tagSuggestionsContainer.getChildren().add(tagLabel);
         }
 
@@ -201,20 +219,29 @@ public class WriteReview extends BorderPane {
 
         HBox actionButtons = new HBox(20);
         actionButtons.setAlignment(Pos.CENTER);
-        actionButtons.setPadding(new Insets(10, 0, 10, 0));
+        actionButtons.setPadding(new Insets(20, 0, 0, 0));
 
         btnSkip = new Button("Skip");
         btnSkip.setPrefWidth(120);
-        btnSkip.setStyle("-fx-font-size: 16px; -fx-background-color: #8e8290ff; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
+        btnSkip.setPrefHeight(40);
+        // Botón gris
+        btnSkip.setStyle("-fx-font-size: 16px; -fx-background-color: #E0E0E0; -fx-text-fill: #616161; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-weight: bold;");
+        btnSkip.setOnMouseEntered(e -> btnSkip.setStyle("-fx-font-size: 16px; -fx-background-color: #BDBDBD; -fx-text-fill: #424242; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-weight: bold;"));
+        btnSkip.setOnMouseExited(e -> btnSkip.setStyle("-fx-font-size: 16px; -fx-background-color: #E0E0E0; -fx-text-fill: #616161; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-weight: bold;"));
 
-        btnSend = new Button("Send");
-        btnSend.setPrefWidth(120);
-        btnSend.setStyle("-fx-font-size: 16px; -fx-background-color: #4f1cc7; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
+
+        btnSend = new Button("Submit Review");
+        btnSend.setPrefWidth(180);
+        btnSend.setPrefHeight(40);
+        // Botón Morado Principal
+        btnSend.setStyle("-fx-font-size: 16px; -fx-background-color: #7B1FA2; -fx-text-fill: white; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-weight: bold;");
+        btnSend.setOnMouseEntered(e -> btnSend.setStyle("-fx-font-size: 16px; -fx-background-color: #8E24AA; -fx-text-fill: white; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-weight: bold;"));
+        btnSend.setOnMouseExited(e -> btnSend.setStyle("-fx-font-size: 16px; -fx-background-color: #7B1FA2; -fx-text-fill: white; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-weight: bold;"));
 
         actionButtons.getChildren().addAll(btnSkip, btnSend);
 
         // =========================================================================
-        // Finalmente ensamblar todo
+        // ENSAMBLAJE
         // =========================================================================
 
         mainLayout.getChildren().addAll(headerAndRating, bodySection);
@@ -232,12 +259,14 @@ public class WriteReview extends BorderPane {
             Label star = (Label) ratingStarsContainer.getChildren().get(i);
             if (i < starsSelected) {
                 star.setText("★");
+                star.setStyle("-fx-font-size: 35px; -fx-cursor: hand; -fx-text-fill: #FBC02D;"); // Dorado lleno
             } else {
                 star.setText("☆");
+                star.setStyle("-fx-font-size: 35px; -fx-cursor: hand; -fx-text-fill: #BDBDBD;"); // Gris vacío
             }
         }
 
-        lblRatingValue.setText(String.format("Rating: %.1f / 5.0", currentRating));
+        lblRatingValue.setText(String.format("%.1f / 5.0", currentRating));
         System.out.println("Nuevo Rating: " + currentRating);
     }
 
@@ -246,12 +275,16 @@ public class WriteReview extends BorderPane {
     // =========================================================================
     private void handleSubjectSelection(Label newSelectedTag) {
 
+        // Estilos
+        String unselectedStyle = "-fx-background-color: #EDE7F6; -fx-text-fill: #5E35B1; -fx-background-radius: 15; -fx-padding: 5 12; -fx-cursor: hand; -fx-font-weight: bold;";
+        String selectedStyle = "-fx-background-color: #7B1FA2; -fx-text-fill: white; -fx-background-radius: 15; -fx-padding: 5 12; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(three-pass-box, rgba(123, 31, 162, 0.4), 5, 0, 0, 2);";
+
         if (selectedSubjectTag != null) {
-            selectedSubjectTag.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-padding: 3 8; -fx-cursor: hand;");
+            selectedSubjectTag.setStyle(unselectedStyle);
         }
 
         if (selectedSubjectTag != newSelectedTag) {
-            newSelectedTag.setStyle("-fx-border-color: #4CAF50; -fx-background-color: #DCEDC8; -fx-border-width: 2; -fx-border-radius: 5; -fx-padding: 3 8; -fx-cursor: hand; -fx-font-weight: bold;");
+            newSelectedTag.setStyle(selectedStyle);
             selectedSubjectTag = newSelectedTag;
             System.out.println("Subject Seleccionado: " + selectedSubjectTag.getText());
         } else {

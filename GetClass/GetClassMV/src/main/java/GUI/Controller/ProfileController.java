@@ -27,7 +27,7 @@ public class ProfileController {
         TutorProfile t = new TutorProfile(tutorId);
         UserTeacherDTO tutor = t.defineTutor();
         Stage contactStage = new Stage();
-        ContactView contactView = new ContactView(/**tutor.getTel()*/ "crear columna en BD", tutor.getEmail()); // o pasar stage
+        ContactView contactView = new ContactView(/**tutor.getTel()*/ "3209876765", tutor.getEmail()); // o pasar stage
         contactStage.setScene(contactView.getScene());
         contactStage.show();
     }
@@ -47,7 +47,7 @@ public class ProfileController {
         Stage rateStage = new Stage();
         WriteReview rateform = new WriteReview(rateStage, this.tutorId); // o pasar stage
         Scene scene = new Scene(rateform, 600, 600);
-        //ReviewController controller = new ReviewController(rateform);
+        ReviewController controller = new ReviewController(rateform);
         rateStage.setScene(scene);
         rateStage.setTitle("Calificar Tutor");
         rateStage.show();

@@ -6,60 +6,119 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class LoginForm {
 
+    // Atributos públicos para el controlador
     public TextField txtUser;
     public PasswordField txtPass;
     public Button btnLogin;
     public Label linkRegister;
-    
 
     private Scene scene;
 
     public LoginForm(Stage stage) {
 
-        // TÍTULO DE LA VENTANA
-        stage.setTitle("Login");
+        stage.setTitle("Login - GetClasses");
 
-        // CONTENEDOR PRINCIPAL
-        GridPane grid = new GridPane();
-        grid.setHgap(20);
-        grid.setVgap(20);
-        grid.setPadding(new Insets(20));
-        grid.setAlignment(Pos.CENTER);
+        // 1. FONDO PRINCIPAL (Lavanda)
+        StackPane root = new StackPane();
+        root.setStyle("-fx-background-color: #F3E5F5;");
+        root.setPadding(new Insets(20));
 
-        // CAMPOS Y LABELS
-        Label lblUser = new Label("Email:");
+        // 2. TARJETA DE LOGIN (Blanca y centrada)
+        VBox card = new VBox(20); // Espaciado vertical de 20px
+        card.setAlignment(Pos.CENTER);
+        card.setMaxWidth(380);
+        card.setPadding(new Insets(40));
+
+        // Estilo de la tarjeta: Blanca, bordes redondeados, sombra
+        card.setStyle(
+                "-fx-background-color: white; " +
+                        "-fx-background-radius: 10; " +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);"
+        );
+
+        // --- ICONO / HEADER ---
+        VBox headerBox = new VBox(10);
+        headerBox.setAlignment(Pos.CENTER);
+
+        // Círculo decorativo (simula logo)
+        StackPane logoContainer = new StackPane();
+        Circle bgCircle = new Circle(30, Color.web("#E1BEE7")); // Lila claro
+        Label iconLabel = new Label("🔒");
+        iconLabel.setStyle("-fx-font-size: 24px;");
+        logoContainer.getChildren().addAll(bgCircle, iconLabel);
+
+        Label lblTitle = new Label("Welcome Back");
+        lblTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4A148C;"); // Morado oscuro
+
+        Label lblSubtitle = new Label("Sign in to continue");
+        lblSubtitle.setStyle("-fx-text-fill: #757575;");
+
+        headerBox.getChildren().addAll(logoContainer, lblTitle, lblSubtitle);
+
+        // --- FORMULARIO (Inputs apilados) ---
+        VBox formBox = new VBox(15);
+        formBox.setAlignment(Pos.CENTER_LEFT);
+
+        // Usuario
+        Label lblUser = new Label("Email Address");
+        lblUser.setStyle("-fx-font-weight: bold; -fx-text-fill: #616161;");
+
         txtUser = new TextField();
+        txtUser.setPromptText("example@email.com");
+        txtUser.setPrefHeight(40);
+        // Estilo Input
+        txtUser.setStyle("-fx-background-color: white; -fx-border-color: #D1C4E9; -fx-border-radius: 5; -fx-background-radius: 5;");
 
-        Label lblPass = new Label("Contraseña:");
+        // Contraseña
+        Label lblPass = new Label("Password");
+        lblPass.setStyle("-fx-font-weight: bold; -fx-text-fill: #616161;");
+
         txtPass = new PasswordField();
+        txtPass.setPromptText("Enter your password");
+        txtPass.setPrefHeight(40);
+        txtPass.setStyle("-fx-background-color: white; -fx-border-color: #D1C4E9; -fx-border-radius: 5; -fx-background-radius: 5;");
 
-        btnLogin = new Button("Iniciar sesión");
+        formBox.getChildren().addAll(lblUser, txtUser, lblPass, txtPass);
 
-        Label lblNew = new Label("¿No tienes cuenta aún?");
-        this.linkRegister = new Label("Registrase");
-        this.linkRegister.setCursor(Cursor.HAND);
-        this.linkRegister.setStyle("-fx-text-fill: blue; -fx-underline: true;"); 
+        // --- BOTÓN LOGIN ---
+        btnLogin = new Button("LOGIN");
+        btnLogin.setPrefHeight(45);
+        btnLogin.setMaxWidth(Double.MAX_VALUE); // Ocupar todo el ancho
+        btnLogin.setCursor(Cursor.HAND);
 
-        // UBICACIÓN EN EL GRID
-        grid.add(lblUser, 0, 0);
-        grid.add(txtUser, 1, 0);
+        // Estilo Botón Morado
+        btnLogin.setStyle("-fx-background-color: #7B1FA2; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5;");
 
-        grid.add(lblPass, 0, 1);
-        grid.add(txtPass, 1, 1);
+        // Efecto Hover
+        btnLogin.setOnMouseEntered(e -> btnLogin.setStyle("-fx-background-color: #8E24AA; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5;"));
+        btnLogin.setOnMouseExited(e -> btnLogin.setStyle("-fx-background-color: #7B1FA2; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5;"));
 
-        // espacio y botón
-        grid.add(new Label(), 0, 2);
-        grid.add(btnLogin, 1, 2);
+        // --- FOOTER (Registro) ---
+        HBox footerBox = new HBox(5);
+        footerBox.setAlignment(Pos.CENTER);
 
-        grid.add(lblNew, 0, 3);
-        grid.add(linkRegister, 1, 3);
+        Label lblNew = new Label("Don't have an account?");
+        lblNew.setStyle("-fx-text-fill: #757575;");
 
-        // ESCENA
-        scene = new Scene(grid, 350, 200);
+        linkRegister = new Label("Sign up");
+        linkRegister.setCursor(Cursor.HAND);
+        // Link en morado vibrante
+        linkRegister.setStyle("-fx-text-fill: #9C27B0; -fx-font-weight: bold; -fx-underline: true;");
+
+        footerBox.getChildren().addAll(lblNew, linkRegister);
+
+        // ENSAMBLAJE
+        card.getChildren().addAll(headerBox, formBox, btnLogin, footerBox);
+        root.getChildren().add(card);
+
+        // ESCENA (Un poco más grande para que respire el diseño)
+        scene = new Scene(root, 500, 600);
         stage.setScene(scene);
     }
 
@@ -67,4 +126,3 @@ public class LoginForm {
         return scene;
     }
 }
-
