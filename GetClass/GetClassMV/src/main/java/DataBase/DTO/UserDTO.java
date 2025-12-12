@@ -77,12 +77,6 @@ public class UserDTO {
         return this.password;
     }
 
-<<<<<<< HEAD
-    public int getAge(){
-        return this.age;
-    }
-=======
     public int getAge(){ return this.age;}
->>>>>>> cb3d788b606d18b7c04d075c8d67376816cf3edc
 
 }

@@ -22,16 +22,16 @@ import java.sql.Connection;
 
 public class App extends Application {
 
-
+/** 
     public void start(Stage primaryStage) {
         Stage mainStage = new Stage();
         ProfileView mainView = new ProfileView(mainStage, 1); // o pasar stage
         
         mainStage.setScene(mainView.getScene());
         mainStage.show();
-    }
+    }*/
 
-  /**   
+     
      @Override
     public void start(Stage primaryStage) {
         // Crear la vista
@@ -45,7 +45,7 @@ public class App extends Application {
 
         // Mostrar la ventana
         primaryStage.show();
-    }*/
+    }
 
 /** 
     @Override

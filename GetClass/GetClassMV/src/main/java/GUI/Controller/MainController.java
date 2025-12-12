@@ -4,6 +4,7 @@ import DataBase.ConnectionDB;
 import DataBase.DAOS.UserTeacherDAO;
 import DataBase.DTO.UserTeacherDTO;
 import GUI.MainView;
+import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.util.List;
@@ -29,16 +30,23 @@ public class MainController implements TutorCardListener {
         return UserTeacherDAO.getById(conn, id);
     }
 
-    public void openTutorProfile(int tutorId) {
-
-    }
 
     public void initializeTutorPanel() {
 
     }
 
+    public void openTutorProfile(int tutorId) {
+        System.out.println("Abriendo perfil del tutor ID: " + tutorId);
+        
+        Stage stage = mainView.getStage();
+        
+        
+        new GUI.ProfileView(stage, tutorId);
+    }
+
     @Override
     public void onTutorClicked(int id) {
-        System.out.println("Hola");
+        
+        openTutorProfile(id);
     }
 }

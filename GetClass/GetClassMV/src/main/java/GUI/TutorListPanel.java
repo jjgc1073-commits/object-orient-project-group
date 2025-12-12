@@ -28,7 +28,7 @@ public class TutorListPanel extends ScrollPane {
             );
 
 
-            card.setOnMouseClicked(e -> listener.onTutorClicked(t.id));
+            card.setListener(listener);
 
             content.getChildren().add(card);
         }

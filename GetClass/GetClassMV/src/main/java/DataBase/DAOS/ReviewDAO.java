@@ -5,9 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import Classes.Review;
 import DataBase.DTO.ReviewDTO;
+import DataBase.DTO.TutorInfoDTO;
+import DataBase.DTO.UserTeacherDTO;
 
 public class ReviewDAO {
 
@@ -101,7 +105,43 @@ public class ReviewDAO {
         }
     }
 
+    public static List<ReviewDTO> getByTutorId(Connection conn, int tutorId) {
 
+    List<ReviewDTO> reviews = new ArrayList<>();
+
+    
+    String queryReviews = "SELECT * FROM REVIEW WHERE tutor_user_id = ?";
+    
+    
+    try (PreparedStatement stmtReviews = conn.prepareStatement(queryReviews)) {
+
+        
+        stmtReviews.setInt(1, tutorId); 
+        
+        
+        try (ResultSet rsReviews = stmtReviews.executeQuery()) {
+
+            
+            while (rsReviews.next()) {
+
+                ReviewDTO review = new ReviewDTO(
+                    rsReviews.getInt("review_id"),
+                    rsReviews.getInt("tutor_user_id"),
+                    rsReviews.getInt("student_user_id"),
+                    rsReviews.getInt("score"),
+                    rsReviews.getString("comment"),
+                    LocalDate.parse(rsReviews.getString("review_date"))
+                    );
+                reviews.add(review);
+                }
+            } 
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    
+        return reviews;
+    }
 }
 
 
