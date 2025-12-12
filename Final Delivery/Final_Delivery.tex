@@ -16,23 +16,28 @@
 \usepackage{caption}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
 
 \geometry{a4paper, margin=1in}
 
-\title{Object-Oriented Programming \\ Semester 2025-III \\ GetClass - Final Delivery}
+\title{Object-Oriented Programming \\ Semester 2025-III \\ \vspace{0.5cm} GetClass - Final Delivery}
 \author{Alejandro Escobar 20251020094\\ Jhon Gonzalez 20251020087 \\ Sebastián Zambrano 20251020102\\ \\ Computer Engineering Program \\ Universidad Distrital Francisco José de Caldas}
-\date{}
+\date{December 2025}
 
 \lstset{
-  language=Java,
-  basicstyle=\ttfamily\small,
-  numbers=left,
-  numberstyle=\tiny,
-  stepnumber=1,
-  numbersep=5pt,
-  frame=single,
-  breaklines=true,
-  showstringspaces=false
+    language=Java,
+    basicstyle=\ttfamily\small,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    commentstyle=\color{green!60!black},
+    keywordstyle=\color{blue},
+    stringstyle=\color{red!70!black}
 }
 
 \begin{document}
@@ -43,510 +48,514 @@
 \newpage
 \section{Introduction — Business Model Focus}
 
-GetClasses is a digital marketplace that connects students seeking academic support with qualified tutors. 
-The core business hypothesis is that a centralized platform offering verified profiles, scheduling tools, 
-and trust mechanisms increases match success, platform revenue, and user retention compared to offline alternatives.
+GetClasses is a digital marketplace connecting students with qualified tutors. The core business hypothesis is that a centralized platform offering verified profiles, scheduling tools, and trust mechanisms increases match success, platform revenue, and user retention compared to offline alternatives.
 
 \paragraph{Domain Problem and Target Market}
-Students face difficulty finding qualified, available, and affordable tutors. Tutors struggle to reach a wide audience 
-and manage schedules efficiently. The target market includes high-school and university students seeking flexible 
-academic support and freelance tutors aiming to professionalize their services.
+Students struggle to find qualified, available, and affordable tutors, and to compare them objectively. Tutors lack a wide audience and efficient schedule management tools. The target market includes high-school and university students and freelance tutors aiming to professionalize their services.
 
 \paragraph{Value Proposition and Business Drivers}
 GetClasses provides:
 \begin{itemize}
-    \item \textbf{Efficient Matching:} filters by subject, availability, rating, and cost.
-    \item \textbf{Trust and Credibility:} verified profiles, ratings, and reviews to reduce risk.
-    \item \textbf{Operational Simplicity:} tutors manage schedules, sessions, and communication easily.
-    \item \textbf{Revenue Generation:} predictable income through booking fees or subscriptions.
+    \item \textbf{Efficient Matching:} Filters by subject, availability, rating, and cost.
+    \item \textbf{Trust and Credibility:} Verified profiles, ratings, and reviews to reduce risk.
+    \item \textbf{Operational Simplicity:} Easy management of schedules, sessions, and communication.
+    \item \textbf{Key Metrics (KPIs):} Conversion Rate (Visitor $\rightarrow$ Session), Average Tutor Rating, and User Retention.
 \end{itemize}
 
-\paragraph{Business Justification}
-The platform reduces search friction, increases booking reliability, and enables a two-sided market, 
-directly impacting key metrics: active tutors, conversion rate, and repeat bookings.
+\section{Literature Review}
+
+The development of robust software systems requires the integration of proven architectural patterns and design principles that ensure maintainability and scalability. Below are the theoretical foundations supporting the design of \textit{GetClasses}.
+
+\subsection{Layered Software Architectures}
+Layered architecture is a fundamental pattern in software engineering that promotes Separation of Concerns. According to Sommerville (2015), this approach organizes the system into hierarchical strata where each layer only communicates with the one immediately below it. In the context of desktop applications with graphical interfaces (GUI), separating the presentation logic (View/Controller) from the business logic is critical to avoid excessive coupling, ensuring that interface changes do not affect business rules or data access.
+
+\subsection{Object-Oriented Design Principles (SOLID)}
+To manage code complexity, development is grounded in SOLID principles. These principles, popularized by Robert C. Martin, are essential to avoid software rigidity:
+\begin{itemize}
+    \item \textbf{Single Responsibility Principle (SRP):} States that a class should have only one reason to change.
+    \item \textbf{Open/Closed Principle (OCP):} Software entities should be open for extension but closed for modification, achieved through polymorphism and inheritance.
+    \item \textbf{Interface Segregation (ISP) and Dependency Inversion (DIP):} Promote the use of abstractions over concrete implementations, facilitating modularity and unit testing.
+\end{itemize}
+
+\subsection{Data Persistence and Transactionality (ACID)}
+The choice of persistence mechanism is vital for data integrity. Unlike flat file storage or JSON, which lack native concurrency controls, Relational Database Management Systems (RDBMS) offer ACID properties (Atomicity, Consistency, Isolation, and Durability). For commerce or reservation systems, where referential integrity between users and transactions is critical, the relational model remains the industrial standard compared to NoSQL solutions for this specific domain scope.
+
+\section{Methodology}
+
+The development of the \textit{GetClasses} project followed an incremental and iterative methodology, structured into four main phases. This approach allowed for the refinement of requirements and architecture as the understanding of the problem domain evolved.
+
+\subsection{Phase 1: Analysis and Business Model Definition}
+In this initial stage, business objectives and system scope were defined. Key actors (Students, Tutors, and Administrators) were identified, and their needs were documented through \textbf{User Stories} using the \textit{Gherkin} format (Given/When/Then). This established clear and verifiable acceptance criteria, prioritizing critical functionalities such as user registration, tutor search, and the rating system.
+
+\subsection{Phase 2: Architectural Design and Modeling}
+Before coding, extensive system modeling was conducted:
+\begin{itemize}
+    \item \textbf{CRC Cards:} Used to preliminarily identify classes, their responsibilities, and collaborators.
+    \item \textbf{UML Class Diagram:} The class hierarchy was structured applying inheritance (base class \texttt{User}) and polymorphism. The design was refined by applying \textbf{SOLID} principles, introducing interfaces (\texttt{IAuthentication}, \texttt{IRatingSystem}) to decouple modules.
+    \item \textbf{System Architecture:} A strict layered architecture (Presentation, Domain, Data Access) was defined to organize the source code.
+\end{itemize}
+
+\subsection{Phase 3: Technical Implementation}
+Software construction was carried out using Java, implementing specific design patterns to solve common problems:
+\begin{itemize}
+    \item \textbf{DAO Pattern (Data Access Object):} Implemented to abstract database logic, allowing the business layer to operate with Java objects without knowing SQL query details.
+    \item \textbf{DTO Pattern (Data Transfer Object):} Lightweight objects were designed to transfer data between persistence layers and the graphical interface.
+    \item \textbf{Transaction Management:} Transactional control logic was implemented in critical operations (such as simultaneous registration of users and their profiles) to ensure atomic database consistency.
+\end{itemize}
+
+\subsection{Phase 4: Persistence and User Interface}
+Finally, the \textbf{SQLite} database engine was integrated due to its portability and full SQL support. Concurrently, the graphical user interface (GUI) was developed focusing on usability, ensuring that navigation flows defined in user stories were reflected in the final screens (Login, Search, Profile).
 
 \newpage
-\section{Technical Design — UML and SOLID}
+\section{Technical Design — Updated UML and SOLID Application}
 
-\subsection*{UML Class Diagram}
+\subsection{Updated UML Class Diagram}
+The following UML diagram represents the core structure. Note the emphasis on clear responsibilities and interface use, addressing previous feedback regarding SOLID adherence.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{UMLACTU.drawio.png}
-\caption{UML class diagram reflecting SOLID principles.}
+\includegraphics[width=0.9\textwidth]{UML(1).png} 
+\caption{Updated UML class diagram. The diagram's visual clarity (colors/style) is an external issue, but the structural corrections (inheritance/interfaces) reflect SOLID.}
 \end{figure}
+\FloatBarrier
 
-\subsubsection*{Key Modeling Decisions}
-\begin{itemize}
-    \item \textbf{User} — abstract base class with id, name, email, password; authentication behavior encapsulated.
-    \item \textbf{TutorUser} — aggregates \texttt{Schedule}, \texttt{Reviews}, and \texttt{TutorInfo}.
-    \item \textbf{StudentUser} and \textbf{AdminUser} — specialized subclasses.
-    \item \textbf{ClassRequest} — composes \texttt{Request} and \texttt{Answer}, with \texttt{sendRequest()} as primary responsibility.
-    \item \textbf{Chat} — associates two \texttt{User} instances and contains a list of \texttt{Message} objects.
-\end{itemize}
+\subsubsection{Addressing Previous UML Feedback}
+The abstract \texttt{User} class defines shared fields. Specialized subclasses (\texttt{UserStudent}, \texttt{UserTeacher}, \texttt{UserAdmin}) extend core behaviors. The use of interfaces like \texttt{IAuthentication} and \texttt{IRatingSystem} ensures \textbf{Interface Segregation (ISP)} and \textbf{Dependency Inversion (DIP)}. The composition relationship between \texttt{UserTeacher} and \texttt{TutorInfo} isolates tutor-specific data, reinforcing \textbf{Single Responsibility (SRP)}.
 
-\subsection*{SOLID Principles — Examples}
+\subsection{SOLID Principles in Practice}
+The model ensures a rigorous application of SOLID principles for modularity and extensibility.
 
-\paragraph{Single Responsibility Principle}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{imagen_2025-12-10_191253028.png}
-\caption{Code example: Class Review and his constructor.}
-\end{figure}
-
-\begin{lstlisting}
-// Aggregates reviews; only handles review logic
-//Cuando se crea por primera vez
-    public Review(UserTeacher teacher, int rate, String comment, UserStudent student){
-
-        this.tutorId = teacher.getId();
-        this.studentId = student.getId();
-        this.rate = setRate(rate);
-        this.comment = setText(comment);
-        this.date = LocalDate.now();
+\paragraph{Single Responsibility Principle (SRP)}
+Classes like \texttt{Review} were refined to handle only the review attributes and state. Aggregation logic (calculating averages, storing) is delegated to \texttt{IRatingSystem}.
+\begin{lstlisting}[caption=Class Review (Example of SRP)]
+public class Review {
+    // Only handles review attributes and state
+    private int id;
+    private int rate;
+    private String text;
+    private LocalDate date;
+    
+    public Review(int tutorId, int studentId, int rate, String comment){
+        // Constructor logic
     }
-
-    //Cuando se carga de DB
-    public Review(int id, int tutorId, int studentId, int score, String comment, LocalDate date){
-        this.id = id;
-        this.tutorId = tutorId;
-        this.studentId = studentId;
-        this.rate = score;
-        this.comment = comment;
-        this.date = date;
-    }
+    
+    public void writeReview() { /* Persistence logic moved to DAO/Service */ }
+    public void addTag() { /* Only responsible for modifying self state */ }
+}
 \end{lstlisting}
 
+\paragraph{Open/Closed Principle (OCP)}
+The \texttt{User} hierarchy is open for extension. New user types (e.g., \texttt{EnterpriseUser}) can be added by extending \texttt{User} and implementing interfaces without modifying the core system or base class.
 
-\paragraph{Justification}
-Interfaces enable loose coupling (DIP), while classes maintain single responsibility (SRP). 
-Liskov Substitution is respected via abstract \texttt{User} and its subclasses. 
-Open/Closed is applied to \texttt{ReviewsManager} — new behavior extends class without modifying existing code.
+\paragraph{Liskov Substitution Principle (LSP)}
+\texttt{UserStudent}, \texttt{UserTeacher}, and \texttt{UserAdmin} can replace \texttt{User} in any context that expects the base class (e.g., in a \texttt{showProfile(User u)} method) without breaking functionality. This is enabled by clear inheritance and method overriding.
+
+\paragraph{Interface Segregation Principle (ISP)}
+Multiple, role-specific interfaces (\texttt{IAuthentication}, \texttt{IShowTutorProfile}, \texttt{IUserBase}) are used instead of one large interface. For example, \texttt{UserTeacher} implements \texttt{IAuthentication}, but only \texttt{TutorInfo} would implement \texttt{IShowTutorProfile}.
+
+\paragraph{Dependency Inversion Principle (DIP)}
+High-level modules (e.g., a \texttt{ReviewService}) depend on abstractions (interfaces like \texttt{IRatingSystem} or \texttt{IDataAccessObject}), not on concrete implementations (e.g., \texttt{SQLiteReviewDAO}).
 
 \newpage
-\section{Boundaries and Interactions}
+\section{OOP Principles in Action}
 
-
-\subsubsection*{Narrative}
+\subsection{Inheritance}
+The abstract \texttt{User} class provides a foundation for attributes like \texttt{id}, \texttt{name}, and \texttt{password}. Subclasses extend this foundation with unique responsibilities:
 \begin{itemize}
-    \item UI (JavaFX) triggers events; controllers handle domain logic.
-    \item Domain services operate on entities and call repositories.
-    \item Persistence layer (JSON prototype / SQLite) handles data storage.
-    \item External services (Payment, Email) invoked on domain events.
+    \item \textbf{UserStudent:} Adds \texttt{level}, \texttt{bookClass()}, and \texttt{sendReview()}.
+    \item \textbf{UserTeacher:} Adds \texttt{specialty}, \texttt{availability}, and \texttt{createClass()}.
+    \item \textbf{UserAdmin:} Includes \texttt{manageUsers()} and \texttt{reviewReports()}.
+\end{itemize}
+
+\subsection{Polymorphism}
+Polymorphism is implemented through method overriding (e.g., subclass-specific profile viewing) and the use of interfaces, allowing the system to treat all user subclasses as the generic \texttt{User} object in common operations.
+
+\subsection{Encapsulation}
+All attributes are declared as \texttt{private} or \texttt{protected} to ensure controlled access. Data consistency and security are maintained by forcing modifications through public accessor methods (\texttt{getters} and \texttt{setters}).
+
+\newpage
+\section{System Architecture Diagram (Layered Design)}
+
+A clear layered architecture is used to adhere to best practices, reduce coupling, and enable future scalability. This design ensures that components only interact with the layer immediately below them.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    layer/.style={
+        rectangle, 
+        draw=black!50, 
+        fill=gray!5, 
+        text width=12cm, 
+        text centered, 
+        rounded corners, 
+        minimum height=3cm, 
+        yshift=0.5cm,
+        label={[anchor=north west, xshift=0.5cm, yshift=-0.1cm]above:\textbf{#1}}
+    },
+    package/.style={
+        rectangle, 
+        draw=blue!60, 
+        fill=white, 
+        text width=3cm, 
+        text centered, 
+        rounded corners, 
+        minimum height=1.5cm, 
+        font=\small,
+        drop shadow
+    },
+    db/.style={
+        cylinder, 
+        cylinder uses custom fill, 
+        cylinder body fill=yellow!20, 
+        cylinder end fill=yellow!40, 
+        shape border rotate=90, 
+        draw=black!60, 
+        aspect=0.25, 
+        text width=2.5cm, 
+        text centered, 
+        minimum height=1.2cm,
+        font=\bfseries\small
+    },
+    
+    arrow/.style={
+        ->, 
+        >=stealth, 
+        very thick, 
+        color=black!70
+    }
+]
+
+    
+    \node (gui_layer) [layer={GUI Layer (Presentation)}] at (0,0) {};
+    
+    \node (controllers) [package] at (-2.5, 0) {
+        \textbf{Controllers}\\
+        \scriptsize LoginController\\MainController\\ProfileController
+    };
+    
+    \node (views) [package] at (2.5, 0) {
+        \textbf{Views/Components}\\
+        \scriptsize LoginForm\\TutorCard\\TutorListPanel
+    };
+
+    \node (domain_layer) [layer={Domain Layer (Classes)}] at (0,-4) {};
+    
+    \node (interfaces) [package] at (-3, -4) {
+        \textbf{Interfaces}\\
+        \scriptsize IAuthentication\\IRatingSystem
+    };
+    
+    \node (entities) [package] at (3, -4) {
+        \textbf{Entities}\\
+        \scriptsize User, Student, Teacher\\Review, Request
+    };
+
+    \node (data_layer) [layer={Data Access Layer (Database)}] at (0,-8) {};
+    
+    \node (daos) [package] at (-3, -8) {
+        \textbf{DAOs}\\
+        \scriptsize UserDAO\\ReviewDAO\\ConnectionDB
+    };
+    
+    \node (dtos) [package] at (3, -8) {
+        \textbf{DTOs}\\
+        \scriptsize UserDTO\\ReviewDTO\\TutorInfoDTO
+    };
+
+    \node (sqlite) [db, below=0.5cm of data_layer] {SQLite File\\(GetClassDB.db)};
+
+    \draw [arrow, <->] (controllers) -- (views);
+    
+    \draw [arrow] (controllers.south) -- node[left, font=\tiny] {Uses Logic} (interfaces.north);
+    \draw [arrow] (controllers.south) -- (entities.north);
+    
+    \draw [arrow, dashed] (controllers.south) to [out=-90,in=90] (daos.north);
+    
+    \draw [arrow, <->] (daos) -- node[above, font=\tiny] {Maps} (dtos);
+    \draw [arrow, <->, dashed] (daos) to [out=45,in=-135] (entities);
+    
+    \draw [arrow] (daos.south) -- node[left, font=\tiny] {JDBC / SQL} (sqlite.north);
+
+\end{tikzpicture}
+\caption{System Architecture Diagram: Reflects the actual package structure of the GetClasses project. The Controllers manage the flow, utilizing Domain Entities for logic and interacting with DAOs/DTOs for SQLite persistence.}
+\label{fig:system_diagram}
+\end{figure}
+\FloatBarrier
+
+\newpage
+\section{Requirements Documentation}
+
+\subsection{Functional Requirements}
+\begin{enumerate}
+    \item \textbf{User Registration and Authentication:} Allow both students and tutors to register and securely validate credentials.
+    \item \textbf{Profile Management:} Users can manage personal profiles, rates, schedules, and subjects; tutors can upload credential documentation.
+    \item \textbf{Tutor Search and Filtering:} Students can search and filter tutors by subject, hourly rate, language, and rating.
+    \item \textbf{Scheduling and Notifications:} Students can request sessions; both users receive real-time notifications for confirmations/cancellations.
+    \item \textbf{Payment Processing:} Support secure online payments through integrated modules (simulated in the prototype).
+    \item \textbf{Messaging System:} Private chat feature for pre- and post-session communication with secure history storage.
+    \item \textbf{Reviews and Ratings:} Students can rate tutors after each session, with averaged ratings publicly displayed.
+    \item \textbf{Dispute Resolution:} Administrator tools to manage user complaints and disputes.
+\end{enumerate}
+
+\subsection{Non-Functional Requirements — Quality Attributes}
+The following requirements are oriented toward essential quality attributes for a robust application, backed by technical justifications.
+
+\begin{itemize}
+    \item \textbf{Performance (Response Time):} The application must start in under 5 seconds. Core operations (search, schedule loading) must complete in under 3 seconds on a standard computer.
+    \item \textbf{Security (Data Integrity):} User credentials must be hashed (e.g., BCrypt). Sensitive data (e.g., payment simulations) must be protected; communication features must not expose private data.
+    \item \textbf{Reliability (Availability):} The system must operate without crashes. Session and profile data must be saved persistently using *SQLite transactions (ACID)* to ensure atomic writes.
+    \item \textbf{Maintainability (Modularity):} The layered architecture must enforce low coupling, allowing each component (UI, Service, DAO) to be unit-tested and modified independently.
+    \item \textbf{Scalability (Future Path):} The DAO abstraction layer allows for future migration from SQLite to a full relational server (e.g., MySQL/PostgreSQL) with minimal impact on business logic.
+    \item \textbf{Usability (Intuitiveness):} The interface must be clear, consistent, and allow core tasks (registration, search, scheduling) to be completed without prior training, following standard desktop UI conventions.
 \end{itemize}
 
 \newpage
-\section{Requirements — Functional and Non-Functional}
+\section{User Stories (Gherkin Format)}
 
-\subsection*{Functional Requirements}
-- Student registration, tutor registration, booking, messaging, review creation, schedule management.
+The acceptance criteria are refined to follow a detailed *Given / When / Then* structure (Gherkin format) for clear and testable requirements.
 
-\subsection*{Non-Functional Requirements — Quality Attributes}
-\begin{enumerate}
-    \item \textbf{Performance:} Sub-second response for search operations in local datasets to ensure smooth user experience.
-    \item \textbf{Scalability:} Layered architecture allows server-based deployment in the future.
-    \item \textbf{Maintainability:} Code is modular, unit-testable, and documented.
-    \item \textbf{Security:} Passwords are hashed (BCrypt); sensitive data is encrypted and validated.
-    \item \textbf{Reliability:} SQLite transactions ensure atomic writes; JSON fallback allows safe prototyping.
-    \item \textbf{Usability:} Standard UI patterns; main tasks achievable in ≤3 clicks.
-\end{enumerate}
-
-\newpage
-\section{User Stories — Given / When / Then}
-
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{|p{3cm}|p{11cm}|}
 \hline
 \textbf{ID:} 1 & \textbf{Tutor Registration} \\
 \hline
-\textbf{Priority:} & High \\
-\hline
-\textbf{Effort (hrs):} & 6 \\
-\hline
 \textbf{Description:} & As a tutor, I want to register on the platform by entering my personal and professional information so that I can offer tutoring sessions. \\
 \hline
-\textbf{Acceptance Criteria:} & The tutor account is successfully created after entering valid information. \\
+\textbf{Acceptance Criteria:} & \textbf{Given} I am on the registration page and enter all required personal and professional information correctly. \textbf{When} I click the 'Register' button. \textbf{Then} The tutor account is successfully created and I am logged into the platform. \\
 \hline
 \end{tabular}
 \caption{User Story 1 – Tutor Registration}
 \end{table}
 
-\begin{table}[h!]
+\vspace{0.5cm}
+
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{|p{3cm}|p{11cm}|}
 \hline
 \textbf{ID:} 2 & \textbf{Tutor Profile Picture} \\
 \hline
-\textbf{Priority:} & Medium \\
-\hline
-\textbf{Effort (hrs):} & 3 \\
-\hline
 \textbf{Description:} & As a tutor, I want to upload a profile picture so that students can identify me easily. \\
 \hline
-\textbf{Acceptance Criteria:} & The uploaded image appears correctly on the tutor's profile page. \\
+\textbf{Acceptance Criteria:} & \textbf{Given} I am logged in as a tutor and on my profile editing page. \textbf{When} I select an image file and click 'Upload'. \textbf{Then} The uploaded image appears correctly on my profile page for students to see. \\
 \hline
 \end{tabular}
 \caption{User Story 2 – Tutor Profile Picture}
 \end{table}
 
-\begin{table}[h!]
+\vspace{0.5cm}
+
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{|p{3cm}|p{11cm}|}
 \hline
 \textbf{ID:} 3 & \textbf{Tutor Search} \\
 \hline
-\textbf{Priority:} & High \\
-\hline
-\textbf{Effort (hrs):} & 8 \\
-\hline
 \textbf{Description:} & As a student, I want to search for tutors by subject, rate, or language so that I can find the best match for my learning needs. \\
 \hline
-\textbf{Acceptance Criteria:} & Tutors matching the selected filters are displayed correctly in the search results. \\
+\textbf{Acceptance Criteria:} & \textbf{Given} I am on the tutor search page and I apply filters (e.g., subject, rate, or language). \textbf{When} I execute the search. \textbf{Then} Only tutors matching the selected filters are displayed correctly in the search results list. \\
 \hline
 \end{tabular}
 \caption{User Story 3 – Tutor Search}
 \end{table}
 
-\begin{table}[h!]
+\vspace{0.5cm}
+
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{|p{3cm}|p{11cm}|}
 \hline
 \textbf{ID:} 4 & \textbf{Tutor Listing} \\
 \hline
-\textbf{Priority:} & High \\
-\hline
-\textbf{Effort (hrs):} & 5 \\
-\hline
 \textbf{Description:} & As a student, I want to view a list of available tutors so that I can compare their profiles and select one. \\
 \hline
-\textbf{Acceptance Criteria:} & The system displays a complete list of tutors with names, subjects, and ratings. \\
+\textbf{Acceptance Criteria:} & \textbf{Given} I am on the main tutor listing page. \textbf{When} The page loads. \textbf{Then} The system displays a complete list of tutors, and for each one, their name, subjects taught, and average rating are visible. \\
 \hline
 \end{tabular}
 \caption{User Story 4 – Tutor Listing}
 \end{table}
 
-\begin{table}[h!]
-\centering
-\small
-\begin{tabular}{|p{3cm}|p{11cm}|}
-\hline
-\textbf{ID:} 5 & \textbf{Chat with Tutor} \\
-\hline
-\textbf{Priority:} & High \\
-\hline
-\textbf{Effort (hrs):} & 6 \\
-\hline
-\textbf{Description:} & As a student, I want to chat in real time with tutors so that I can clarify doubts before booking a session. \\
-\hline
-\textbf{Acceptance Criteria:} & The chat allows real-time message exchange between tutor and student. \\
-\hline
-\end{tabular}
-\caption{User Story 5 – Chat with Tutor}
-\end{table}
+\newpage
 
-\begin{table}[h!]
+
+\vspace{0.5cm}
+
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{|p{3cm}|p{11cm}|}
 \hline
-\textbf{ID:} 6 & \textbf{Tutor Rates Student} \\
-\hline
-\textbf{Priority:} & Medium \\
-\hline
-\textbf{Effort (hrs):} & 3 \\
+\textbf{ID:} 5 & \textbf{Tutor Rates Student} \\
 \hline
 \textbf{Description:} & As a tutor, I want to rate students after a session to maintain platform quality and accountability. \\
 \hline
-\textbf{Acceptance Criteria:} & The tutor can submit a rating and review after completing a class. \\
+\textbf{Acceptance Criteria:} & \textbf{Given} I have completed a tutoring session with a student. \textbf{When} I access the post-class rating form and submit a score and optional review. \textbf{Then} My rating and review are successfully recorded and associated with the student's profile. \\
 \hline
 \end{tabular}
-\caption{User Story 6 – Tutor Rates Student}
+\caption{User Story 5 – Tutor Rates Student}
 \end{table}
 
-\begin{table}[h!]
+\vspace{0.5cm}
+
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{|p{3cm}|p{11cm}|}
 \hline
-\textbf{ID:} 7 & \textbf{Student Rates Tutor} \\
-\hline
-\textbf{Priority:} & Medium \\
-\hline
-\textbf{Effort (hrs):} & 3 \\
+\textbf{ID:} 6 & \textbf{Student Rates Tutor} \\
 \hline
 \textbf{Description:} & As a student, I want to rate tutors after a session so that other users can make informed decisions. \\
 \hline
-\textbf{Acceptance Criteria:} & The student can rate the tutor and leave a comment after class. \\
+\textbf{Acceptance Criteria:} & \textbf{Given} I have completed a tutoring session with a tutor. \textbf{When} I access the post-class rating form and submit a score and optional comment. \textbf{Then} My rating and comment are successfully recorded, the tutor's average rating is updated, and the comment is visible on their profile. \\
 \hline
 \end{tabular}
-\caption{User Story 7 – Student Rates Tutor}
+\caption{User Story 6 – Student Rates Tutor}
 \end{table}
 
-\begin{table}[h!]
+\vspace{0.5cm}
+
+\begin{table}[H]
 \centering
 \small
 \begin{tabular}{|p{3cm}|p{11cm}|}
 \hline
-\textbf{ID:} 8 & \textbf{View Ratings} \\
-\hline
-\textbf{Priority:} & Medium \\
-\hline
-\textbf{Effort (hrs):} & 3 \\
+\textbf{ID:} 7 & \textbf{View Ratings} \\
 \hline
 \textbf{Description:} & As a user, I want to view tutor and student ratings so that I can evaluate trust and performance. \\
 \hline
-\textbf{Acceptance Criteria:} & Ratings and feedback are visible and linked to corresponding user profiles. \\
+\textbf{Acceptance Criteria:} & \textbf{Given} I am viewing a tutor's or student's profile. \textbf{When} I navigate to the ratings section. \textbf{Then} Ratings and feedback are visible, clearly displaying the associated rating score and the reviewer's profile. \\
 \hline
 \end{tabular}
-\caption{User Story 8 – View Ratings}
-\end{table}
-
-\begin{table}[h!]
-\centering
-\small
-\begin{tabular}{|p{3cm}|p{11cm}|}
-\hline
-\textbf{ID:} 9 & \textbf{Tutor Auto-Responder} \\
-\hline
-\textbf{Priority:} & Low \\
-\hline
-\textbf{Effort (hrs):} & 2 \\
-\hline
-\textbf{Description:} & As a tutor, I want to enable an auto-responder when I am unavailable so that students receive immediate feedback. \\
-\hline
-\textbf{Acceptance Criteria:} & The system automatically sends a pre-defined message when the tutor is offline. \\
-\hline
-\end{tabular}
-\caption{User Story 9 – Tutor Auto-Responder}
-\end{table}
-
-\begin{table}[h!]
-\centering
-\small
-\begin{tabular}{|p{3cm}|p{11cm}|}
-\hline
-\textbf{ID:} 10 & \textbf{Contact Support/Admin} \\
-\hline
-\textbf{Priority:} & High \\
-\hline
-\textbf{Effort (hrs):} & 4 \\
-\hline
-\textbf{Description:} & As a user, I want to contact platform support or administrators to report issues or request assistance. \\
-\hline
-\textbf{Acceptance Criteria:} & Support requests are sent successfully and confirmation is received. \\
-\hline
-\end{tabular}
-\caption{User Story 10 – Contact Support/Admin}
+\caption{User Story 7 – View Ratings}
 \end{table}
 
 
 \newpage
-\section{CRC Cards — Responsibilities (Detailed)}
+\section{CRC Cards (Detailed Responsibilities)}
+
+Responsibilities are detailed and explicit to improve the clarity of the design model.
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|p{7cm}|p{4cm}|}
 \hline
-\multicolumn{2}{|c|}{\textbf{Class: ProfileUpdate}} \\ 
+\multicolumn{2}{|c|}{\textbf{Class: User}} \\
 \hline
-\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\textbf{Responsibility} & \textbf{Collaborators} \\
 \hline
-Registers and updates the basic profile information for a user; validates input and triggers persistence mechanisms. &
+Representing the general data and behaviors of a user within the system (e.g., ID, Email, Authentication). &
 \begin{tabular}[t]{@{}l@{}}
-User
-\end{tabular} \\ 
+UserAdmin \\
+UserStudent \\
+UserTeacher \\
+IAuthentication \\
+IDataBase
+\end{tabular} \\
 \hline
 \end{tabular}
-\caption{ProfileUpdate CRC — Detailed responsibilities and collaborators}
+\caption{User CRC}
 \end{table}
+
+\vspace{0.5cm}
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|p{7cm}|p{4cm}|}
 \hline
-\multicolumn{2}{|c|}{\textbf{Class: User}} \\ 
+\multicolumn{2}{|c|}{\textbf{Class: TutorInfo}} \\
 \hline
-\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\textbf{Responsibility} & \textbf{Collaborators} \\
 \hline
-Represents general user attributes and behaviors; manages authentication, profile information, and basic interactions with system services. &
+Manage and store the specific data that only the tutor should have (e.g., Hourly Rate, Certificates, Subject/Areas). &
 \begin{tabular}[t]{@{}l@{}}
-ProfileUpdate, Teacher, Student
-\end{tabular} \\ 
+UserTeacher \\
+IBillingSystem \\
+IShowTutorProfile
+\end{tabular} \\
 \hline
 \end{tabular}
-\caption{User CRC — Detailed responsibilities and collaborators}
+\caption{TutorInfo CRC}
 \end{table}
+
+\vspace{0.5cm}
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|p{7cm}|p{4cm}|}
 \hline
-\multicolumn{2}{|c|}{\textbf{Class: TutorInfo}} \\ 
+\multicolumn{2}{|c|}{\textbf{Class: StudentInfo}} \\
 \hline
-\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\textbf{Responsibility} & \textbf{Collaborators} \\
 \hline
-Manages tutor-specific information such as subjects, certifications, hourly rates, and experience; provides data for profile display and business logic. &
+Manage and store the specific data that only the student should have (e.g., Academic Level, List of Reviews sent). &
 \begin{tabular}[t]{@{}l@{}}
-Teacher
-\end{tabular} \\ 
+UserStudent \\
+Review
+\end{tabular} \\
 \hline
 \end{tabular}
-\caption{TutorInfo CRC — Detailed responsibilities and collaborators}
+\caption{StudentInfo CRC}
 \end{table}
+
+\vspace{0.5cm}
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|p{7cm}|p{4cm}|}
 \hline
-\multicolumn{2}{|c|}{\textbf{Class: StudentInfo}} \\ 
+\multicolumn{2}{|c|}{\textbf{Class: Review}} \\
 \hline
-\textbf{Responsibility} & \textbf{Collaborators} \\ 
+\textbf{Responsibility} & \textbf{Collaborators} \\
 \hline
-Manages student-specific information such as enrollment, progress, and preferences; provides data for profile and interaction tracking. &
+Represent a specific rating instance; store the review details (author, date, text, rate). &
 \begin{tabular}[t]{@{}l@{}}
-Student
-\end{tabular} \\ 
+IBillingSystem \\
+UserTeacher \\
+UserStudent
+\end{tabular} \\
 \hline
 \end{tabular}
-\caption{StudentInfo CRC — Detailed responsibilities and collaborators}
+\caption{Review CRC}
 \end{table}
+\newpage
+\section{Persistence Justification: SQLite vs JSON}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{7cm}|p{4cm}|}
-\hline
-\multicolumn{2}{|c|}{\textbf{Class: Teacher}} \\ 
-\hline
-\textbf{Responsibility} & \textbf{Collaborators} \\ 
-\hline
-Represents tutor user; inherits attributes and behaviors from User; manages personal schedule, class requests, reviews, and payment interactions. &
-\begin{tabular}[t]{@{}l@{}}
-User, TutorInfo, Reviews, ClassRequest, Schedule, PaymentSystem
-\end{tabular} \\ 
-\hline
-\end{tabular}
-\caption{Teacher CRC — Detailed responsibilities and collaborators}
-\end{table}
+For persistent storage involving structured, relational data and user-generated content, \textbf{SQLite was selected over JSON}. The use of a relational engine provides more robustness, data integrity, and long-term maintainability, aligning with the complexity of a tutoring platform.
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{7cm}|p{4cm}|}
-\hline
-\multicolumn{2}{|c|}{\textbf{Class: Student}} \\ 
-\hline
-\textbf{Responsibility} & \textbf{Collaborators} \\ 
-\hline
-Represents student user; inherits attributes and behaviors from User; manages class bookings, schedule interaction, and reviews. &
-\begin{tabular}[t]{@{}l@{}}
-User, StudentInfo, Reviews, ClassRequest, Schedule, PaymentSystem
-\end{tabular} \\ 
-\hline
-\end{tabular}
-\caption{Student CRC — Detailed responsibilities and collaborators}
-\end{table}
+\subsection{Why SQLite?}
+SQLite is an embedded relational database that requires no server and naturally fits the domain's need for data relations (Users, Tutors, Reviews).
+\begin{itemize}
+    \item \textbf{ACID Transactions:} Guarantees consistency when storing reviews, updating ratings, or editing profiles, which is critical for a commerce platform.
+    \item \textbf{Relational Integrity:} Foreign keys enforce correct linking between students, tutors, and reviews, preventing orphaned data.
+    \item \textbf{Efficient Queries:} Complex searches (e.g., filtering tutors by subject, location, and rating simultaneously) are efficient.
+    \item \textbf{Maintainability:} Using the DAO pattern with SQL (via JDBC) is standard practice and easier to maintain when the object graph evolves.
+\end{itemize}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{7cm}|p{4cm}|}
-\hline
-\multicolumn{2}{|c|}{\textbf{Class: PaymentSystem}} \\ 
-\hline
-\textbf{Responsibility} & \textbf{Collaborators} \\ 
-\hline
-Handles all payment transactions between students and tutors; validates payment methods, processes refunds, and maintains transaction records. &
-\begin{tabular}[t]{@{}l@{}}
-Teacher, Student
-\end{tabular} \\ 
-\hline
-\end{tabular}
-\caption{PaymentSystem CRC — Detailed responsibilities and collaborators}
-\end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{7cm}|p{4cm}|}
-\hline
-\multicolumn{2}{|c|}{\textbf{Class: Reviews}} \\ 
-\hline
-\textbf{Responsibility} & \textbf{Collaborators} \\ 
-\hline
-Manages creation, modification, and deletion of reviews; aggregates tutor ratings and feedback for system display. &
-\begin{tabular}[t]{@{}l@{}}
-Review, Student, Teacher
-\end{tabular} \\ 
-\hline
-\end{tabular}
-\caption{Reviews CRC — Detailed responsibilities and collaborators}
-\end{table}
-
+\subsection{Why not JSON?}
+JSON storage is suitable for simple data or configuration files, but it presents challenges as a primary persistence mechanism for structured data:
+\begin{itemize}
+    \item \textbf{Lack of Transaction Safety:} Concurrent access can easily lead to data corruption without complex manual locking mechanisms.
+    \item \textbf{Poor Querying:} Searching for data (e.g., finding all tutors in a location) requires manual parsing and iteration of the entire file, which is inefficient.
+    \item \textbf{Weak Integrity:} No built-in support for foreign keys or referential constraints, making data integrity management difficult.
+\end{itemize}
 
 \newpage
-\section{GUI — TutorCard and TutorListPanel}
 
-\subsection*{TutorCard}
-\texttt{TutorCard} is a JavaFX \texttt{BorderPane} that visually represents a tutor's profile. Responsibilities:
-\begin{itemize}
-    \item Display name, age, "about me", subjects (buttons), cost per hour, rating, favorite status.
-    \item Emit click events to controller via \texttt{TutorCardListener}.
-\end{itemize}
-
-\subsubsection*{Design justification}
-\begin{itemize}
-    \item Follows SRP: only rendering, no business logic.
-    \item Listener interface ensures MVC separation; controller handles interactions.
-    \item Modular design supports reuse in \texttt{TutorListPanel} and future extensions.
-\end{itemize}
-
-\subsection*{TutorListPanel}
-\begin{itemize}
-    \item Holds multiple \texttt{TutorCard} instances in a scrollable view.
-    \item Responsible for rendering the tutor list and delegating click events.
-    \item Maintains separation of concerns: UI container only, logic handled by controller.
-\end{itemize}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.45\textwidth,height=0.3\textheight,keepaspectratio]{MainScreen.png}
-\hfill
-\includegraphics[width=0.45\textwidth,height=0.3\textheight,keepaspectratio]{ProfileTutorScreen.png}
-\caption{GUI mockups: Main (Left) y profile (right).}
-\end{figure}
-
-\newpage
-\section{Presentation Layer — Architecture and Execution}
-
-\subsection*{Package Organization}
-\begin{itemize}
-    \item \texttt{com.getclasses.GUI.Controllers} — JavaFX controllers, FXML, views (TutorCard, TutorListPanel).
-    \item \texttt{com.getclasses.Classes} — Entities and services (User, ReviewsManager, BookingService).
-    \item \texttt{com.getclasses.Database} — Repositories (JSON/SQLite).
-    \item \texttt{com.getclasses.GUI} — Repository interfaces, external service adapters.
-\end{itemize}
-
-\subsection*{Runtime Flow}
-\begin{enumerate}
-    \item Application initializes JavaFX and injects repositories into services.
-    \item Controllers call services; services manipulate entities and persist via repositories.
-    \item UI tasks that may block are executed in \texttt{Task}/\texttt{Service} threads.
-\end{enumerate}
-
-\newpage
-\section{Persistence — JSON and SQLite Integration}
-
-
-\subsection*{SQLite Integration}
-\begin{lstlisting}
+\begin{lstlisting}[caption=SQLite Connection Code Example (DAO Layer)]
 public class ConnectionDB {
-
+    // JDBC URL for SQLite database file
     private static final String URL = "jdbc:sqlite:src/main/resources/GetclassDB.db";
+    
     public static Connection getConnection() {
         Connection conn = null;
         try {
+            // Establishes connection to the local DB file
             conn = DriverManager.getConnection(URL);
             System.out.println("Conexión establecida con éxito");
         } catch (SQLException e) {
@@ -557,21 +566,179 @@ public class ConnectionDB {
 }
 \end{lstlisting}
 
-Repositories abstract persistence, enabling UI and domain to remain unchanged when swapping storage.
+\newpage
+\section{GUI Mockups (Standardized Views)}
+
+The UI focuses on clarity and standard desktop conventions. The sizing of elements is consistent to improve usability and optimize screen space.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth, height=5cm, keepaspectratio]{LoginScreen.png}
+\hfill
+\includegraphics[width=0.45\textwidth, height=5cm, keepaspectratio]{RegisterScreen.png}
+\caption{Login (Left) and Register (Right) Pages. Standardized sizing and clear form fields.}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth, height=7cm, keepaspectratio]{MainScreen.png}
+\hfill
+\includegraphics[width=0.45\textwidth, height=7cm, keepaspectratio]{ProfileTutorScreen.png}
+\caption{Main Page (Tutor Search List) and Tutor Profile Page. The list view utilizes modular \texttt{TutorCard} components.}
+\end{figure}
+\FloatBarrier
 
 \newpage
-\section{Conclusions}
+\section{Code Snippets and Best Practices}
 
+The following code snippets demonstrate the application of Object-Oriented Programming principles, robust error handling, and architectural patterns used in the \textbf{GetClasses} system.
+
+\subsection{ACID Transactions in DAO Layer}
+To ensure data integrity, especially when inserting data across multiple related tables (e.g., creating a User, then their TutorInfo, then their Subjects), we utilize JDBC transactions. The setAutoCommit(false) method allow us to treat multiple SQL statements as a single atomic unit.
+
+\begin{lstlisting}[caption=Transaction Management in UserTeacherDAO, label=lst:transaction]
+public static boolean save(Connection conn, UserTeacher teacher) {
+    try {
+        // 1. Disable auto-commit to start transaction
+        conn.setAutoCommit(false); 
+
+        // 2. Insert into USER table
+        stmtUser = conn.prepareStatement(INSERT_USER_SQL, Statement.RETURN_GENERATED_KEYS);
+        // ... (setting parameters)
+        stmtUser.executeUpdate();
+        
+        // 3. Insert into TUTOR_INFO table using the generated User ID
+        stmtInfo = conn.prepareStatement(INSERT_TUTOR_INFO_SQL);
+        // ... (setting parameters)
+        stmtInfo.executeUpdate();
+
+        // 4. Commit if all steps succeed
+        conn.commit(); 
+        return true;
+
+    } catch (SQLException e) {
+        // 5. Rollback to previous state if any error occurs
+        try { conn.rollback(); } catch (SQLException ex) {}
+        e.printStackTrace();
+        return false;
+    } finally {
+        // 6. Restore default commit behavior and close resources
+        try { conn.setAutoCommit(true); } catch (SQLException ex) {}
+    }
+}
+\end{lstlisting}
+
+\subsection{Inheritance and DTO Pattern}
+The system uses *Data Transfer Objects (DTOs)* to move data between the database and the GUI without exposing the database structure directly. We apply *Inheritance* to avoid code duplication; UserDTO holds the common attributes (name, email), while UserStudentDTO extends it to add specific fields.
+
+\begin{lstlisting}[caption=Inheritance in DTOs, label=lst:inheritance_dto]
+// Base Class
+public class UserDTO {
+    public String name;
+    public String email;
+    protected String password;
+    public String role;
+
+    public UserDTO(int id, String name, String lastName, /.../) {
+        this.id = id;
+        this.name = name;
+        // ...
+    }
+}
+
+// Subclass
+public class UserStudentDTO extends UserDTO {
+    public StudentInfoDTO studentInfo;
+
+    public UserStudentDTO(int id, String name, /.../) {
+        // Reuse parent constructor
+        super(id, name, lastName, birthDate, email, age, password, role);
+    }
+
+    public void setStudentInfo(StudentInfoDTO studentInfo){
+        this.studentInfo = studentInfo;
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\subsection{Resource Management (Preventing Memory Leaks)}
+Database resources (ResultSet, PreparedStatement) must be closed strictly to prevent memory leaks and connection pool exhaustion. We implement this using try-finally blocks in every DAO method.
+
+\begin{lstlisting}[caption=Safe Resource Closing in UserDAO, label=lst:resource_management]
+public static UserDTO Login(Connection Conn, String email, String password) {
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
+    try {
+        stmt = Conn.prepareStatement(LOGIN_QUERY);
+        stmt.setString(1, email);
+        stmt.setString(2, password);
+        rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            return new UserDTO(/* data from result set */);
+        }
+        return null; 
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return null;
+    } finally {
+        // Best Practice: Always close resources in reverse order of opening
+        try { if (rs != null) rs.close(); } catch (SQLException e) {}
+        try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\subsection{Separation of Concerns (DAO vs Controller)}
+The architecture strictly separates responsibilities. The *DAO* (Data Access Object) handles purely SQL operations, while the *Controller* manages the flow. The code below shows how the DAO constructs complex objects (like a Student with their Reviews) from the raw database rows.
+
+\begin{lstlisting}[caption=Object Construction in UserStudentDAO, label=lst:object_mapping]
+// Inside UserStudentDAO.getById()
+while (rsReview.next()) {
+    // The DAO is responsible for mapping SQL rows to Java Objects
+    info.addSendedReviews(
+        rsReview.getInt("review_id"), 
+        rsReview.getInt("tutor_user_id"), 
+        rsReview.getInt("student_user_id"),
+        rsReview.getInt("score"), 
+        rsReview.getString("comment"), 
+        LocalDate.parse(rsReview.getString("review_date"))
+    );
+}
+student.setStudentInfo(info);
+return student;
+\end{lstlisting}
+\newpage
+\section{Final Reflection and Next Steps}
+
+This workshop successfully implemented architectural corrections and solidified the domain model according to SOLID principles, with a strong focus on the business justification and quality attributes.
+
+\subsection{Summary of Key Improvements}
 \begin{itemize}
-    \item Architecture respects SOLID and MVC principles.
-    \item TutorCard/TutorListPanel designed for reuse and clear separation of concerns.
-    \item Persistence mechanisms (JSON/SQLite) fully integrated with domain and UI.
-    \item Non-functional requirements are justified with technical reasoning.
-    \item Document reflects business model focus and addresses professor's feedback.
+    \item *Business Model Integration:* Introduction explicitly details the business problem, value proposition, and KPIs.
+    \item *Architecture Clarity:* Introduction of a clear Layered Architecture Diagram and justification for the JavaFX monolithic structure.
+    \item *SOLID Implementation:* Detailed narrative and code examples illustrate the adherence to all five SOLID principles.
+    \item *Persistence Decision:* Detailed justification for choosing SQLite over JSON, ensuring data integrity and maintainability.
+    \item *Testable Requirements:* User Stories were updated to use the \textbf{Given/When/Then} format for clearer and testable acceptance criteria.
+    \item *Detailed CRC Cards:* Responsibilities are now explicit and detailed, reflecting true system behavior.
+\end{itemize}
+
+\subsection{Immediate Next Steps (Addressing Remaining Gaps)}
+\begin{itemize}
+    \item *Code Quality:* Implement robust source code documentation (JavaDoc) and adhere to standard Java file and class naming conventions.
+    \item *Test Automation:* Begin implementing unit tests to validate the business logic layer, especially for core functionality like rating calculations and class scheduling.
+    \item *UI Polish:* Finalize the aesthetic design of the JavaFX UI, ensuring responsiveness and an intuitive user experience.
 \end{itemize}
 
 \newpage
-\section{References}
+\section*{References}
 \begin{itemize}
     \item Overleaf. (2024). \textit{LaTeX tutorial: Learn LaTeX step by step}. Retrieved from \url{https://www.overleaf.com/learn}
     \item Lamport, L. (1994). \textit{LaTeX: A Document Preparation System}. Addison-Wesley.
