@@ -14,7 +14,7 @@ public class TutorCard extends BorderPane {
     private int id;
     private TutorCardListener listener;
 
-    public TutorCard(String name, int age, int id, String about, String[] subjects, double cost, double rating) {
+    public TutorCard(String name, String lastName, int age, int id, String about, String[] subjects, double cost, double rating) {
         this.id = id;
 
         setPadding(new Insets(10));
@@ -35,7 +35,7 @@ public class TutorCard extends BorderPane {
         // --- PANEL CENTRAL (info y materias) ---
         VBox infoPanel = new VBox(5);
 
-        Label nameLabel = new Label(name + " · " + age + " years");
+        Label nameLabel = new Label(name + " " + lastName + "·"  + age + " years");
         nameLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         nameLabel.setCursor(Cursor.HAND);
         nameLabel.setOnMouseClicked(e -> {

@@ -13,9 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import GUI.LoginForm;
-import GUI.MainView;
 import GUI.Controller.LoginController;
-import GUI.Controller.MainController;
 import GUI.Controller.RegisterController;
 import DataBase.DAOS.UserDAO;
 
@@ -33,19 +31,23 @@ public class App extends Application {
         mainStage.show();
     }
 
- /**    
+    /**
      @Override
     public void start(Stage primaryStage) {
         // Crear la vista
-        Stage mainStage = new Stage();
-        LoginForm mainView = new LoginForm(mainStage); // o pasar stage
-        UserDAO dao = new UserDAO();
-        LoginController controller = new LoginController(mainView, dao);
-        mainStage.setScene(mainView.getScene());
-        mainStage.show();
-    }*/
+        LoginForm loginForm = new LoginForm(primaryStage);
 
-/** 
+        // Crear el DAO
+        UserDAO userDao = new UserDAO();
+
+        // Crear el controlador
+        LoginController loginController = new LoginController(loginForm, userDao);
+
+        // Mostrar la ventana
+        primaryStage.show();
+    }
+
+
     @Override
     public void start(Stage primaryStage) {
         // Crear la vista
