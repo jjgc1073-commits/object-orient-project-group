@@ -1,71 +1,81 @@
 package GUI;
 
-import DataBase.DTO.UserTeacherDTO;
-import GUI.Controller.TutorProfile;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class ProfileView extends Stage {
+public class ProfileView extends BorderPane {
 
-    private int id;
-    private UserTeacherDTO tutor;
-    private Stage stage;
+    // ---- CONTROLES QUE MANEJARÁ EL CONTROLADOR ----
+    public ImageView imgProfile;
+    public Label lblName;
+    public Label lblLocation;
+    public Label lblHourlyRate;
+    public Label lblAboutMe;
+    public VBox subjectsContainer;
+    public VBox certificationsContainer;
 
-    public ProfileView(int id) {
-        this.id = id;
-        this.stage = stage;
+    public ProfileView(Stage stage) {
 
-        TutorProfile tut = new TutorProfile(this.id);
-        this.tutor = tut.defineTutor();
+        // ---------- IZQUIERDA (Foto + datos básicos) ----------
+        VBox leftBox = new VBox(15);
+        leftBox.setPadding(new Insets(20));
+        leftBox.setAlignment(Pos.TOP_CENTER);
 
-        BorderPane root = new BorderPane();
+        // Imagen (recuadro vacío)
+        imgProfile = new ImageView();
+        imgProfile.setFitWidth(150);
+        imgProfile.setFitHeight(150);
+        imgProfile.setStyle("-fx-background-color: #cccccc; -fx-border-color: black;");
+        imgProfile.setPreserveRatio(false);
 
-        // --- WEST PANEL ---
-        VBox westPanel = new VBox();
-        westPanel.setSpacing(15);
-        westPanel.setPadding(new Insets(10));
+        lblName = new Label("Nombre del Tutor");
+        lblName.setFont(new Font(20));
 
-        // Back button
-        Button btnBack = new Button("←");
-        westPanel.getChildren().add(btnBack);
+        lblLocation = new Label("Ubicación: ---");
+        lblHourlyRate = new Label("Costo por hora: ---");
 
-        // Title
-        Label title = new Label("Hi! I'm " + tutor.name);
-        title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
-        westPanel.getChildren().add(title);
+        leftBox.getChildren().addAll(imgProfile, lblName, lblLocation, lblHourlyRate);
 
-        // Subjects
-        HBox subjectsBox = new HBox(10);
-        subjectsBox.setAlignment(Pos.CENTER_LEFT);
-        for (String s : tutor.tutorInfo.subjects) {
-            Button btn = new Button(s);
-            subjectsBox.getChildren().add(btn);
-        }
-        westPanel.getChildren().add(subjectsBox);
+        // ---------- CENTRO (About Me + Subjects + Certificaciones) ----------
+        VBox centerBox = new VBox(20);
+        centerBox.setPadding(new Insets(20));
 
         // About Me
-        Label aboutTitle = new Label("About Me:");
-        aboutTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
-        TextArea aboutArea = new TextArea(tutor.tutorInfo.aboutMe);
-        aboutArea.setWrapText(true);
-        aboutArea.setEditable(false);
-        aboutArea.setPrefHeight(100);
+        Label aboutTitle = new Label("Acerca de mí");
+        aboutTitle.setFont(new Font(18));
 
-        VBox aboutBox = new VBox(5, aboutTitle, aboutArea);
-        westPanel.getChildren().add(aboutBox);
+        lblAboutMe = new Label("Descripción del tutor...");
+        lblAboutMe.setWrapText(true);
 
-        ScrollPane scroll = new ScrollPane(westPanel);
-        scroll.setFitToWidth(true);
+        // Subjects
+        Label subjectsTitle = new Label("Especialidades");
+        subjectsTitle.setFont(new Font(18));
 
-        root.setLeft(scroll);
+        subjectsContainer = new VBox(5);
+        subjectsContainer.setPadding(new Insets(10));
+        subjectsContainer.setStyle("-fx-border-color: black; -fx-border-width: 1;");
 
-        Scene scene = new Scene(root, 900, 700);
-        stage.setScene(scene);
-        stage.setTitle("GetClasses");
-        stage.show();
+        // Certifications
+        Label certTitle = new Label("Certificaciones");
+        certTitle.setFont(new Font(18));
+
+        certificationsContainer = new VBox(5);
+        certificationsContainer.setPadding(new Insets(10));
+        certificationsContainer.setStyle("-fx-border-color: black; -fx-border-width: 1;");
+
+        centerBox.getChildren().addAll(
+                aboutTitle, lblAboutMe,
+                subjectsTitle, subjectsContainer,
+                certTitle, certificationsContainer
+        );
+
+        // Añadimos todo al BorderPane
+        this.setLeft(leftBox);
+        this.setCenter(centerBox);
     }
 }

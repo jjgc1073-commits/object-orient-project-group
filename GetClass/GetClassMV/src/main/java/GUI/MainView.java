@@ -2,6 +2,7 @@ package GUI;
 
 import GUI.Controller.MainController;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -29,23 +30,20 @@ public class MainView {
         // Se crea vacío, sin cargar datos todavía
         tutorTabsPanel = new TutorTabsPanel();
         tutorTabsPanel.setPrefSize(900, 450);
-
         root.setBottom(tutorTabsPanel);
 
-        this.stage.setScene(scene);
-        this.stage.show();
-
-        // El controlador se crea DESPUÉS de construir la vista,
-        // y será el encargado de cargar los datos dinámicos.
         MainController controller = new MainController(this);
-        controller.initializeTutorPanel();
-        tutorTabsPanel.setMainController(controller);
+
+
+        tutorTabsPanel.initialize(controller);
+
     }
 
     private void addHeader() {
         HBox header = new HBox();
         header.setPadding(new Insets(10));
         header.setSpacing(10);
+        header.setAlignment(Pos.CENTER);
 
         Label title = new Label("Find Your Ideal Tutor!!");
         title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
@@ -58,10 +56,12 @@ public class MainView {
         VBox searchPanel = new VBox();
         searchPanel.setSpacing(10);
         searchPanel.setPadding(new Insets(10));
+        searchPanel.setAlignment(Pos.CENTER);
 
         // Barra de búsqueda
         HBox topSearch = new HBox();
         topSearch.setSpacing(5);
+        topSearch.setAlignment(Pos.CENTER);
 
         TextField txtSearch = new TextField();
         txtSearch.setPromptText("Search subjects...");
@@ -73,6 +73,8 @@ public class MainView {
         // Categorías
         HBox categoriesPanel = new HBox();
         categoriesPanel.setSpacing(5);
+        categoriesPanel.setAlignment(Pos.CENTER);
+
         String[] cats = {"Training", "Math", "English", "Dance", "Guitar",
                 "Programming", "Piano", "Finance"};
 
@@ -94,4 +96,9 @@ public class MainView {
     public Stage getStage() {
         return stage;
     }
+
+    public Scene getScene(){
+        return scene;
+    }
+
 }

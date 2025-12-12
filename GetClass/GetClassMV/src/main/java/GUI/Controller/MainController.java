@@ -8,8 +8,9 @@ import GUI.MainView;
 import java.sql.Connection;
 import java.util.List;
 
-public class MainController {
+public class MainController implements TutorCardListener {
 
+    Connection conn = ConnectionDB.getConnection();
     private final MainView mainView;
 
     public MainController(MainView mainView) {
@@ -21,12 +22,10 @@ public class MainController {
     // =======================
 
     public List<UserTeacherDTO> getAllTeachers() {
-        Connection conn = ConnectionDB.getConnection();
         return UserTeacherDAO.getAll(conn);
     }
 
     public UserTeacherDTO getTeacherById(int id) {
-        Connection conn = ConnectionDB.getConnection();
         return UserTeacherDAO.getById(conn, id);
     }
 
@@ -35,7 +34,11 @@ public class MainController {
     }
 
     public void initializeTutorPanel() {
-        
+
     }
 
+    @Override
+    public void onTutorClicked(int id) {
+        System.out.println("Hola");
+    }
 }

@@ -3,6 +3,7 @@ package GUI.Controller;
 import GUI.MainView;
 import GUI.RegisterForm;
 import GUI.Controller.*;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
@@ -44,6 +45,7 @@ public class LoginController {
             Stage mainStage = new Stage();
             MainView mainView = new MainView(mainStage); // o pasar stage
             MainController controller = new MainController(mainView);
+            mainStage.setScene(mainView.getScene());
             mainStage.show();
 
             Stage stage = (Stage) view.txtUser.getScene().getWindow();

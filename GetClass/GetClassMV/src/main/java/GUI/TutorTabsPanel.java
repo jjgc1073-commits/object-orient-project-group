@@ -3,7 +3,6 @@ package GUI;
 import DataBase.DTO.UserTeacherDTO;
 import GUI.Controller.MainController;
 import GUI.Controller.TutorCardListener;
-import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -11,34 +10,37 @@ import java.util.List;
 
 public class TutorTabsPanel extends TabPane {
 
-    public MainController mainController;
+    private MainController mainController;
 
     public TutorTabsPanel() {
-
         setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+    }
 
-        //=== TAB 1: LISTA DE TUTORES =========================
+    // Este método se llama DESPUÉS, cuando MainController ya existe
+    public void initialize(MainController controller) {
+        this.mainController = controller;
+
+        // TAB 1
         Tab tab1 = new Tab("Tutores");
 
-        this.mainController = setMainController(mainController);
-        // Obtiene los tutores desde el controller
+        // Obtener tutores solo cuando el controller YA EXISTE
         List<UserTeacherDTO> teachers = mainController.getAllTeachers();
 
         TutorListPanel tutorList = new TutorListPanel(
                 teachers,
-                new TutorCardListener() {
-                    @Override
-                    public void onTutorClicked(int tutorId) {
-                        mainController.openTutorProfile(tutorId);
-                    }
-                }
+                tutorId -> mainController.openTutorProfile(tutorId)
         );
 
         tab1.setContent(tutorList);
-        getTabs().addAll();
+
+        // Agregar tab
+        getTabs().add(tab1);
     }
 
     public MainController setMainController(MainController mainController){
         return mainController;
     }
+
 }
+
+

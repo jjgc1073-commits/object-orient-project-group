@@ -1,22 +1,53 @@
 package org.example;
 
 
-
+import DataBase.DTO.UserTeacherDTO;
+import DataBase.DAOS.UserTeacherDAO;
 import DataBase.ConnectionDB;
 import DataBase.DatabaseInitializer;
+import GUI.Controller.TutorProfile;
+import GUI.ProfileView;
 import GUI.RegisterForm;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import GUI.LoginForm;
 import GUI.Controller.LoginController;
 import GUI.Controller.RegisterController;
 import DataBase.DAOS.UserDAO;
 
-
+import java.sql.Connection;
 
 
 public class App extends Application {
 
+
+    public void start(Stage primaryStage) {
+        Connection conn = ConnectionDB.getConnection();
+        UserTeacherDTO dto = UserTeacherDAO.getById(conn, 1);
+
+        ProfileView view = new ProfileView(primaryStage);
+
+        TutorProfile tutorProfile = new TutorProfile(
+                view.imgProfile,
+                view.lblName,
+                view.lblLocation,
+                view.lblHourlyRate,
+                view.lblAboutMe,
+                view.subjectsContainer,
+                view.certificationsContainer
+        );
+
+        tutorProfile.loadTutorData(dto);
+
+        Scene scene = new Scene(view, 900, 600);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+
+    }
+
+    /**
      @Override
     public void start(Stage primaryStage) {
         // Crear la vista
@@ -32,7 +63,7 @@ public class App extends Application {
         primaryStage.show();
     }
 
-    /** 
+
     @Override
     public void start(Stage primaryStage) {
         // Crear la vista
