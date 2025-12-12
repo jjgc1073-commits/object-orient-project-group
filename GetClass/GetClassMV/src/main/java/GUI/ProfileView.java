@@ -1,214 +1,192 @@
 package GUI;
 
+import DataBase.DTO.UserTeacherDTO;
+import GUI.Controller.TutorProfile;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font; // Usar Font de JavaFX
 import javafx.stage.Stage;
+import javafx.scene.Node;
 
-public class ProfileView extends BorderPane {
+// 🟢 Heredamos de Stage para crear una nueva ventana
+public class ProfileView {
 
-    // ---- CONTROLES QUE MANEJARÁ EL CONTROLADOR ----
-    public ImageView imgProfile;
-    public Label lblName;
-    public Label lblLocation;
-    public Label lblHourlyRate; // ¡CORREGIDO! Ahora inicializado correctamente
-    public Label lblAboutMe;
-    public VBox subjectsContainer;
-    public VBox certificationsContainer; // Usado para la sección de Reviews
+    public final int id;
+    public final UserTeacherDTO tutor;
+    public Stage stage;
+    public Scene scene;
+    
+    // Controles accesibles si se necesita un controlador
+    public Button btnBack;
+    public VBox westPanelContent; // Contenido del panel izquierdo para scroll
+    public VBox eastPanel;      // Contenido del panel derecho
+    
+    // Controles internos para los datos del tutor
+    public Label lblNameTitle;
+    public HBox subjectsContainer;
+    public TextArea txtAboutMe;
 
-    // Nuevas etiquetas introducidas en la última estructura
-    public Label lblCost;
-    public Label lblResponseTime;
+    public ProfileView(Stage stage, int id) {
+        this.id = id;
+        this.stage = stage;
+        // 1. CARGA DE DATOS (Se mantiene la lógica de tu Swing)
+        TutorProfile tut = new TutorProfile(id);
+        this.tutor = tut.defineTutor();
 
-    // Botones (solo declarados, el controlador no interactúa con ellos aquí)
-    public Button btnSchedule;
-    public Button btnContact;
-    public Button btnRate;
-
-    // Contenedor raíz de la vista (necesario para la clase App)
-    public BorderPane root;
-
-
-    public ProfileView(Stage stage) {
-
-        root = this;
-        this.setPadding(new Insets(10));
-
-        // Contenedor principal para la división Izquierda/Derecha
-        HBox mainContent = new HBox(10);
-        this.setCenter(mainContent);
-
-        // =========================================================================
-        // 1. PANEL IZQUIERDO (Información del Tutor, About, Reviews)
-        // =========================================================================
-
-        VBox leftPanel = new VBox(20);
-        leftPanel.setPadding(new Insets(30));
-        leftPanel.setPrefWidth(700);
-
-        // --- HEADER: Título y Tags ---
-        Label backArrow = new Label("<");
-
-
-        HBox header = new HBox(10, backArrow);
-        header.setAlignment(Pos.CENTER_LEFT);
-
-        // Contenedor de Tags
-        HBox tagsContainer = createTagsBox();
-
-        // --- SECCIÓN: About Me ---
-        VBox aboutSection = new VBox(5);
-        Label aboutTitle = new Label("About me");
-
-        // Inicialización de lblAboutMe
-        lblAboutMe = new Label("Descripción del tutor...");
-        lblAboutMe.setWrapText(true);
-        lblAboutMe.setPrefHeight(70);
-        aboutSection.getChildren().addAll(aboutTitle, lblAboutMe);
-
-
-        // --- SECCIÓN: How I teach ---
-        VBox teachSection = new VBox(5);
-        Label teachTitle = new Label("How I teach");
-        // Inicialización de subjectsContainer
-        subjectsContainer = new VBox(5);
-        subjectsContainer.setPrefHeight(70);
-        teachSection.getChildren().addAll(teachTitle, subjectsContainer);
-
-        // --- SECCIÓN: Reviews ---
-        VBox reviewsSection = new VBox(10);
-        reviewsSection.setPadding(new Insets(15));
-
-        Label reviewsTitle = new Label("Reviews");
-
-        // Contenido de la review (simulado)
-        HBox studentHeader = new HBox(10);
-        ImageView studentImg = new ImageView();
-        studentImg.setFitWidth(30);
-        studentImg.setFitHeight(30);
-        Label studentName = new Label("Student  ★★★★★");
-        studentHeader.getChildren().addAll(studentImg, studentName);
-
-        Label reviewText = new Label("[Contenido de la Review]");
-        reviewText.setWrapText(true);
-
-        Button readMoreBtn = new Button("Read more");
-
-        // Inicialización de certificationsContainer
-        certificationsContainer = new VBox(reviewText);
-
-        HBox reviewAction = new HBox(readMoreBtn);
-
-        reviewsSection.getChildren().addAll(
-                reviewsTitle, studentHeader, certificationsContainer, reviewAction
-        );
-        reviewsSection.setAlignment(Pos.CENTER_LEFT);
-
-        // Añadir todas las secciones al panel izquierdo
-        leftPanel.getChildren().addAll(
-                header, tagsContainer,
-                aboutSection,
-                teachSection,
-                reviewsSection
-        );
-
+        // 2. CONFIGURACIÓN DEL STAGE (Equivalente a JFrame)
+        stage.setTitle("GetClasses - Perfil de " + (tutor != null ? tutor.getName() + tutor.getLastName() : "Tutor"));
+        // El tamaño se establece en la escena
+        stage.setResizable(true); // Permitir redimensionar (opcional)
+        // setDefaultCloseOperation(EXIT_ON_CLOSE) se maneja con el cierre de la ventana
+        
+        // 3. ESTRUCTURA PRINCIPAL (BorderPane)
+        BorderPane root = new BorderPane();
+        
+        // Nota: En JavaFX, no usamos directamente BorderLayout.WEST/EAST para la división 50/50,
+        // sino que usamos un HBox en el CENTER, o definimos el LEFT/RIGHT. 
+        
+        // Usaremos un HBox para los dos paneles (West y East)
+        HBox mainContent = new HBox();
 
         // =========================================================================
-        // 2. PANEL DERECHO (Foto del Tutor, Datos Clave, Botones de Acción)
+        // 4. PANEL DERECHO (EAST) - Fijo 300px
         // =========================================================================
-
-        VBox rightPanel = new VBox(15);
-        rightPanel.setPrefWidth(300);
-        rightPanel.setAlignment(Pos.TOP_CENTER);
-        rightPanel.setPadding(new Insets(30, 10, 10, 10));
-
-        // --- HEADER DERECHO (Get Classes) ---
-        Label getClasses = new Label("Get Classes");
-        HBox rightHeader = new HBox(getClasses);
-        rightHeader.setAlignment(Pos.TOP_RIGHT);
-
-        // --- IMAGEN DEL TUTOR ---
-        imgProfile = new ImageView();
-        imgProfile.setFitWidth(150);
-        imgProfile.setFitHeight(150);
-
-        // --- DATOS BÁSICOS ---
-        // Inicialización de lblName
-        lblName = new Label("Name Tutor Age");
-        Label rate = new Label("RATE ★");
-
-        VBox infoBox = new VBox(5);
-        infoBox.setAlignment(Pos.CENTER_LEFT);
-        infoBox.setPadding(new Insets(10, 0, 10, 0));
-
-        // Fila 1: Cost/Hour
-        HBox costRow = new HBox(10);
-        lblCost = new Label("COST/HOUR");
-        // *** ESTA ES LA CORRECCIÓN CLAVE: Asignamos la instancia a lblHourlyRate ***
-        lblHourlyRate = new Label("$");
-        costRow.getChildren().addAll(lblCost, lblHourlyRate);
-
-        // Fila 2: Response Time
-        HBox responseRow = new HBox(10);
-        lblResponseTime = new Label("RESPONSE TIME");
-        Label responseValue = new Label("#H");
-        responseRow.getChildren().addAll(lblResponseTime, responseValue);
-
-        // Fila 3: Location
-        HBox locationRow = new HBox(10);
-        lblLocation = new Label("LOCATED IN");
-        Label locationValue = new Label("XXXXXX");
-        locationRow.getChildren().addAll(lblLocation, locationValue);
-
-        infoBox.getChildren().addAll(costRow, responseRow, locationRow);
-
-        // --- BOTONES DE ACCIÓN ---
-        VBox actionButtons = new VBox(15);
-        actionButtons.setAlignment(Pos.CENTER);
-        actionButtons.setPadding(new Insets(20, 0, 0, 0));
-
-        btnSchedule = new Button("SHCEDULE A CLASS");
-        btnSchedule.setPrefWidth(200);
-        btnContact = new Button("CONTACT");
-        btnContact.setPrefWidth(200);
-        btnRate = new Button("RATE");
-        btnRate.setPrefWidth(200);
-
-        actionButtons.getChildren().addAll(btnSchedule, btnContact, btnRate);
-
-        rightPanel.getChildren().addAll(
-                rightHeader,
-                imgProfile,
-                lblName,
-                rate,
-                infoBox,
-                actionButtons
-        );
-        VBox.setVgrow(infoBox, Priority.ALWAYS);
-
+        eastPanel = createEastPanel();
+        
         // =========================================================================
-        // 3. ENSAMBLAR
+        // 5. PANEL IZQUIERDO (WEST) - 600px de ancho y con Scroll
         // =========================================================================
+        
+        // Crear el contenido del panel izquierdo (sin scroll)
+        westPanelContent = createWestPanelContent();
+        
+        // Envolver el contenido en un ScrollPane (Equivalente a JScrollPane)
+        ScrollPane scrollWest = new ScrollPane();
+        scrollWest.setContent(westPanelContent);
+        scrollWest.setFitToWidth(true); // Permite que el contenido se ajuste al ancho
+        scrollWest.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // No hay scroll horizontal
 
-        mainContent.getChildren().addAll(leftPanel, rightPanel);
-        HBox.setHgrow(leftPanel, Priority.ALWAYS);
+        // Establecer el ancho preferido para el área de desplazamiento (600px)
+        scrollWest.setPrefWidth(600);
+        scrollWest.setMinWidth(300); // Mínimo para que no desaparezca
+
+        // 6. ENSAMBLAR
+        
+        // Añadir el panel de desplazamiento y el panel fijo al HBox
+        mainContent.getChildren().addAll(scrollWest, eastPanel);
+        
+        // Esto asegura que si la ventana crece, el espacio extra va al ScrollPane.
+        HBox.setHgrow(scrollWest, Priority.ALWAYS);
+
+        // Colocar el HBox en el centro del BorderPane (Root)
+        root.setCenter(mainContent);
+        
+        // 7. CONFIGURACIÓN FINAL DE LA ESCENA
+        this.scene = new Scene(root, 900, 700); // Tamaño inicial de 900x700
+        this.stage.setScene(scene);
+    }
+    
+    // --- MÉTODOS DE CREACIÓN DE PANELES ---
+
+    private VBox createEastPanel() {
+        VBox panel = new VBox(15);
+        panel.setPrefWidth(300);
+        panel.setPadding(new Insets(30, 10, 10, 10));
+        panel.setAlignment(Pos.TOP_CENTER);
+        
+        // Implementar aquí la lógica del panel derecho (foto, precio, botones)
+        Label placeholder = new Label("Contenido del Panel Derecho (300px)");
+        panel.getChildren().add(placeholder);
+
+        return panel;
     }
 
-    // --- MÉTODOS AUXILIARES ---
-
-    private HBox createTagsBox() {
-        HBox tags = new HBox(10);
-        tags.setAlignment(Pos.CENTER_LEFT);
-        tags.setPadding(new Insets(0, 0, 10, 0));
-
-        tags.getChildren().addAll(
-                new Button("Maths"),
-                new Button("Programming"),
-                new Button("Finance")
+    private VBox createWestPanelContent() {
+        // Usamos VBox para apilar el header y el aboutme (BoxLayout.Y_AXIS)
+        VBox content = new VBox(20);
+        content.setPadding(new Insets(20));
+        
+        // Añadir las secciones del panel West (Oeste)
+        content.getChildren().addAll(
+            addWestHeader(),
+            addAboutMe()
         );
-        return tags;
+        
+        return content;
+    }
+
+    // --- MÉTODOS AUXILIARES (Migrados de tu Swing) ---
+
+    public Node addWestHeader() {
+        // En Swing usabas un JPanel(BoxLayout.Y_AXIS)
+        VBox header = new VBox(15);
+        header.setAlignment(Pos.CENTER); // Para centrar el título y el FlowLayout
+        
+        // Panel superior (Botón Atrás) - BorderLayout.WEST en Swing
+        HBox topBar = new HBox();
+        btnBack = new Button("←"); // Ahora como atributo
+        topBar.getChildren().add(btnBack);
+        topBar.setAlignment(Pos.CENTER_LEFT);
+
+        header.getChildren().add(topBar);
+
+        // Título: "Hi! I'm [Name]"
+        lblNameTitle = new Label("Hi! I'm " + tutor.getName() + " " + tutor.getLastName());
+        // Equivalente a setFont y setAlignmentX(Component.CENTER_ALIGNMENT)
+        lblNameTitle.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
+
+        header.getChildren().add(lblNameTitle);
+        // Box.createVerticalStrut(15) es VBox(15) en el constructor, pero podemos añadir un separador:
+        header.getChildren().add(new Region());
+        VBox.setVgrow(header.getChildren().get(header.getChildren().size() - 1), Priority.NEVER); // Separa el título de los tags
+
+        // Panel de Materias (Subjects) - FlowLayout.CENTER en Swing
+        subjectsContainer = new HBox(10); // HBox con espaciado 10
+        subjectsContainer.setAlignment(Pos.CENTER); 
+        
+        if (tutor.tutorInfo.getSubjects() != null) {
+            for (String s : tutor.tutorInfo.getSubjects()) {
+                Button btn = new Button(s);
+                subjectsContainer.getChildren().add(btn);
+            }
+        }
+        header.getChildren().add(subjectsContainer);
+        
+        return header; 
+    }
+
+    public Node addAboutMe() {
+        // Equivalente a JPanel(BoxLayout.Y_AXIS)
+        VBox aboutme = new VBox(10);
+        aboutme.setPadding(new Insets(10)); // Borde de 10
+        aboutme.setAlignment(Pos.CENTER_LEFT); // Alineación a la izquierda
+
+        // Título: "About Me:"
+        HBox titlePanel = new HBox(); // Equivalente a FlowLayout.LEFT
+        Label abouttittle = new Label("About Me:");
+        abouttittle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        titlePanel.getChildren().add(abouttittle);
+
+        // Área de texto (JTextArea)
+        txtAboutMe = new TextArea(tutor.tutorInfo.getAboutMe());
+        txtAboutMe.setEditable(false);
+        txtAboutMe.setWrapText(true); // setLineWrap(true) y setWrapStyleWord(true)
+        txtAboutMe.setPrefHeight(150); // Altura preferida
+        txtAboutMe.setMaxHeight(Region.USE_PREF_SIZE); // No permite que se estire demasiado
+
+        aboutme.getChildren().addAll(titlePanel, txtAboutMe);
+        
+        // Nota: En el diseño original, el JScrollPane del westPanel contendría
+        // el header y el aboutme apilados. Al usar VBox como westPanelContent
+        // y añadir estas dos secciones, la estructura se mantiene.
+        
+        return aboutme;
+    }
+
+    public Scene getScene(){
+        return scene;
     }
 }
