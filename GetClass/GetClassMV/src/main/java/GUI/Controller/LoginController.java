@@ -41,13 +41,15 @@ public class LoginController {
             alert.showAndWait();
 
             // Abrir la ventana principal
-            MainView mainView = new MainView((Stage) view.getScene().getWindow()); // o pasar stage
+            Stage mainStage = new Stage();
+            MainView mainView = new MainView(mainStage); // o pasar stage
             MainController controller = new MainController(mainView);
+            mainStage.show();
 
-            // Cerrar la ventana de login
             Stage stage = (Stage) view.txtUser.getScene().getWindow();
             stage.close();
 
+            
             return true;
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
