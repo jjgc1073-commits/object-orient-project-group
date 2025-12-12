@@ -31,7 +31,7 @@ public class App extends Application {
         mainStage.show();
     }
 
-    /**
+  /**   
      @Override
     public void start(Stage primaryStage) {
         // Crear la vista
@@ -45,9 +45,9 @@ public class App extends Application {
 
         // Mostrar la ventana
         primaryStage.show();
-    }
+    }*/
 
-
+/** 
     @Override
     public void start(Stage primaryStage) {
         // Crear la vista
@@ -60,7 +60,7 @@ public class App extends Application {
 
     }*/
     public static void main(String[] args) {
-        DatabaseInitializer.initialize();
+        
         launch(args);
 
     }

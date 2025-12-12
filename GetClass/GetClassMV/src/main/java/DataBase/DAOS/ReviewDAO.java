@@ -66,7 +66,7 @@ public class ReviewDAO {
 
 
 
-    public static ReviewDTO getById(Connection conn, int reviewId) {
+    public static ReviewDTO getById(Connection conn, int tutorId) {
 
         PreparedStatement stmtReview   = null;
 
@@ -74,9 +74,9 @@ public class ReviewDAO {
 
         try {
             stmtReview = conn.prepareStatement(
-                    "SELECT * FROM REVIEW WHERE review_id = ?"
+                    "SELECT * FROM REVIEW WHERE tutor_user_id = ?"
             );
-            stmtReview.setInt(1, reviewId);
+            stmtReview.setInt(2, tutorId);
             rsReview = stmtReview.executeQuery();
 
             if (!rsReview.next())

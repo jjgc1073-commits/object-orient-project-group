@@ -92,14 +92,31 @@ public class ProfileView {
     // --- MÉTODOS DE CREACIÓN DE PANELES ---
 
     private VBox createEastPanel() {
-        VBox panel = new VBox(15);
+        VBox panel = new VBox(20); 
         panel.setPrefWidth(300);
-        panel.setPadding(new Insets(30, 10, 10, 10));
+        panel.setPadding(new Insets(30, 15, 15, 15));
         panel.setAlignment(Pos.TOP_CENTER);
+        panel.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: lightgray; -fx-border-width: 0 0 0 1;");
+
+        // 1. Header (Foto, Nombre y Rating)
+        Node header = addEastHeader();
         
-        // Implementar aquí la lógica del panel derecho (foto, precio, botones)
-        Label placeholder = new Label("Contenido del Panel Derecho (300px)");
-        panel.getChildren().add(placeholder);
+        // 2. Etiqueta de Precio
+        Label priceLabel = new Label("$" + String.format("%d", tutor.tutorInfo.getHourlyRate()) + " / hour");
+        priceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #be0bf5ff;");
+        
+        // 3. Botón de Acción
+        Button btnBook = new Button("Contact with me");
+        btnBook.setMaxWidth(Double.MAX_VALUE);
+        btnBook.setPrefHeight(40);
+        btnBook.setStyle("-fx-font-size: 16px; -fx-background-color: #4f1cc7ff; -fx-text-fill: white; -fx-background-radius: 5;");
+        
+        // 4. Separador (Para empujar el botón al fondo si el panel es alto)
+        Region separator = new Region();
+        VBox.setVgrow(separator, Priority.ALWAYS); 
+        
+        // Añadir elementos al panel
+        panel.getChildren().addAll(header, priceLabel, separator, btnBook);
 
         return panel;
     }
@@ -158,6 +175,30 @@ public class ProfileView {
         return header; 
     }
 
+
+    public Node addEastHeader(){
+        VBox header = new VBox(10);
+        header.setAlignment(Pos.CENTER);
+        header.setPadding(new Insets(30));
+
+        // Foto (Placeholder)
+        Region photo = new Region();
+        photo.setPrefSize(120, 150);
+        photo.setStyle("-fx-background-color: lightgray; -fx-border-radius: 90; -fx-background-radius: 90;"); 
+        
+        // Nombre Completo
+        Label nameLabel = new Label(tutor.getName() + " " + tutor.getLastName() + "-" + tutor.getAge());
+        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+        // Rating
+        Label ratingLabel = new Label("Rate: " + String.format("%.1f", tutor.tutorInfo.getRating()));
+        
+        header.getChildren().addAll(photo, nameLabel, ratingLabel);
+        
+        return header;
+    }
+
+
     public Node addAboutMe() {
         // Equivalente a JPanel(BoxLayout.Y_AXIS)
         VBox aboutme = new VBox(10);
@@ -185,6 +226,13 @@ public class ProfileView {
         
         return aboutme;
     }
+
+    public Node addReviews(){
+        
+    }
+
+
+    
 
     public Scene getScene(){
         return scene;
