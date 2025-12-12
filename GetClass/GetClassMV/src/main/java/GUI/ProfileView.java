@@ -20,6 +20,8 @@ public class ProfileView {
     
     // Controles accesibles
     public Button btnBack;
+    public Button btnRate;
+    public Button btnBook;
     public VBox westPanelContent; 
     public VBox eastPanel;      
     
@@ -88,15 +90,20 @@ public class ProfileView {
         Label priceLabel = new Label("$" + String.format(Locale.US, "%.2f", (double)tutor.tutorInfo.getHourlyRate()) + " / hour");
         priceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #be0bf5;");
         
-        Button btnBook = new Button("Contact with me");
+        btnBook = new Button("Contact with me");
         btnBook.setMaxWidth(Double.MAX_VALUE);
         btnBook.setPrefHeight(40);
         btnBook.setStyle("-fx-font-size: 16px; -fx-background-color: #4f1cc7; -fx-text-fill: white; -fx-background-radius: 5;");
+
+        btnRate = new Button("Rate me");
+        btnRate.setMaxWidth(Double.MAX_VALUE);
+        btnRate.setPrefHeight(40);
+        btnRate.setStyle("-fx-font-size: 16px; -fx-background-color: #4f1cc7; -fx-text-fill: white; -fx-background-radius: 5;");
         
         Region separator = new Region();
         VBox.setVgrow(separator, Priority.ALWAYS); 
         
-        panel.getChildren().addAll(header, priceLabel, separator, btnBook);
+        panel.getChildren().addAll(header, priceLabel, separator, btnBook, btnRate);
         return panel;
     }
 
@@ -218,4 +225,5 @@ public class ProfileView {
     public Scene getScene(){
         return scene;
     }
+
 }

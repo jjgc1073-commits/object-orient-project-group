@@ -4,6 +4,7 @@ import DataBase.ConnectionDB;
 import DataBase.DAOS.UserTeacherDAO;
 import DataBase.DTO.UserTeacherDTO;
 import GUI.MainView;
+import GUI.ProfileView;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -41,7 +42,8 @@ public class MainController implements TutorCardListener {
         Stage stage = mainView.getStage();
         
         
-        new GUI.ProfileView(stage, tutorId);
+        ProfileView profeile = new GUI.ProfileView(stage, tutorId);
+        ProfileController profileController = new ProfileController(profeile);
     }
 
     @Override

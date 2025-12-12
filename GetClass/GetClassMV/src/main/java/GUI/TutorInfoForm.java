@@ -27,8 +27,8 @@ public class TutorInfoForm {
         stage.setTitle("Profile");
 
         GridPane grid = new GridPane();
-        grid.setHgap(75);
-        grid.setVgap(50);
+        grid.setHgap(20);
+        grid.setVgap(10);
         grid.setPadding(new Insets(20));
         grid.setAlignment(Pos.CENTER);
 
@@ -39,9 +39,9 @@ public class TutorInfoForm {
         Label lblSubjects = new Label("Select the subjects you teach: " + 
         "\n for add press Ctrl please");
         subjects = new ListView<>();
-        subjects.getItems().setAll("Math", "Physics", "Chemistry", "Literature", "History", 
+        subjects.getItems().setAll("Math", "Physics", "Chemistry", "English", "Programming", "Literature", "History", 
         "Music", "Personal Training", "Sports", "Geography", "Social Studies", 
-        "Religion");
+        "Religion", "Art", "Philosophy", "Biology", "Economics");
         subjects.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         Label lblcert = new Label("Name all your certificates" + "\n (separated by ,): ");
@@ -87,7 +87,7 @@ public class TutorInfoForm {
         grid.add(btnRegister, 1, 8);
 
         // ESCENA
-        scene = new Scene(grid, 350, 750);
+        scene = new Scene(grid, 500, 750);
         stage.setScene(scene);
     }
 

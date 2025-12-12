@@ -4,10 +4,14 @@ import Classes.TutorInfo;
 import Classes.UserStudent;
 import Classes.UserTeacher;
 import DataBase.ConnectionDB;
+import DataBase.DAOS.UserDAO;
 import DataBase.DAOS.UserStudentDAO;
 import DataBase.DAOS.UserTeacherDAO;
+import GUI.LoginForm;
+import GUI.MainView;
 import GUI.TutorInfoForm;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.time.LocalDate;
@@ -110,7 +114,17 @@ public class TutorInfoController {
                 alert.setContentText(e.getMessage());
                 alert.showAndWait();
             }
-    
+
+
+    Stage loginStage = new Stage();
+    LoginForm loginForm = new LoginForm(loginStage); // o pasar stage
+    UserDAO userDao = new UserDAO();
+    LoginController controller = new LoginController(loginForm, userDao);
+    loginStage.setScene(loginForm.getScene());
+    loginStage.show();
+
+    Stage stage = (Stage) view.txtAboutMe.getScene().getWindow();
+    stage.close();
 
     }
 }

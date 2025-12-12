@@ -149,8 +149,8 @@ public class UserTeacherDAO {
                     rsUser.getInt("user_id"),
                     rsUser.getString("name"),
                     rsUser.getString("last_name"),
-                    rsUser.getString("password_hash"),
                     rsUser.getString("email"),
+                    rsUser.getString("password_hash"),
                     rsUser.getInt("age"),
                     LocalDate.parse(rsUser.getString("birth_date")),
                     rsUser.getString("role"));
