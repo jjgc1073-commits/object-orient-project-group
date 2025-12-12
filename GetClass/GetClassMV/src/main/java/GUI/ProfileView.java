@@ -100,6 +100,8 @@ public class ProfileView {
         btnRate.setPrefHeight(40);
         btnRate.setStyle("-fx-font-size: 16px; -fx-background-color: #4f1cc7; -fx-text-fill: white; -fx-background-radius: 5;");
         
+        
+
         Region separator = new Region();
         VBox.setVgrow(separator, Priority.ALWAYS); 
         

@@ -26,7 +26,7 @@ public class WriteReview extends BorderPane {
     public Label lblClassDate;
     public Label lblClassSubject;
     public HBox ratingStarsContainer;
-    public Label lblRatingValue;      // <<--- NUEVO (texto 0.0 - 5.0)
+    public Label lblRatingValue;      
     public TextArea txtComment;
     public FlowPane tagSuggestionsContainer;
     public Button btnSkip;
@@ -52,10 +52,20 @@ public class WriteReview extends BorderPane {
         TutorProfile tut = new TutorProfile(id);
         this.tutor = tut.defineTutor();
 
+        // -------------------------------------------------------------------------
+        // 1. CAMBIO CLAVE: Definir tamaño ancho por defecto
+        // -------------------------------------------------------------------------
+        this.setPrefSize(1000, 650); 
         this.setPadding(new Insets(20));
 
         VBox mainLayout = new VBox(20);
         mainLayout.setAlignment(Pos.TOP_CENTER);
+        
+        // -------------------------------------------------------------------------
+        // 2. CAMBIO CLAVE: Asegurar que el layout vertical ocupe todo el ancho
+        // -------------------------------------------------------------------------
+        mainLayout.setFillWidth(true);
+        
         this.setCenter(mainLayout);
 
         // =========================================================================
@@ -63,8 +73,8 @@ public class WriteReview extends BorderPane {
         // =========================================================================
 
         HBox headerAndRating = new HBox(40);
-        headerAndRating.setAlignment(Pos.CENTER);
-        headerAndRating.setPadding(new Insets(20));
+        headerAndRating.setAlignment(Pos.CENTER_LEFT); // Alineado a la izquierda
+        headerAndRating.setPadding(new Insets(10));
 
         // --- Tutor Info ---
         HBox tutorInfoBox = new HBox(20);
@@ -73,10 +83,13 @@ public class WriteReview extends BorderPane {
         imgTutorProfile = new ImageView();
         imgTutorProfile.setFitWidth(100);
         imgTutorProfile.setFitHeight(100);
+        imgTutorProfile.setStyle("-fx-background-color: lightgray; -fx-border-radius: 60; -fx-background-radius: 60;"); 
 
         VBox textInfoBox = new VBox(5);
 
         lblTutorName = new Label(tutor.getName() + " " + tutor.getLastName()+ ", " + tutor.getAge());
+        lblTutorName.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;"); // Un poco más grande
+        
         lblClassDate = new Label("CLASS DATE: " + DateNow);
         lblClassSubject = new Label("CLASS SUBJECT:");
 
@@ -102,7 +115,7 @@ public class WriteReview extends BorderPane {
         // =========================================================================
 
         VBox ratingBox = new VBox(5);
-        ratingBox.setAlignment(Pos.CENTER);
+        ratingBox.setAlignment(Pos.CENTER_RIGHT); // Alineado a la derecha
 
         ratingStarsContainer = new HBox(5);
         ratingStarsContainer.setAlignment(Pos.CENTER);
@@ -110,7 +123,7 @@ public class WriteReview extends BorderPane {
         // Crear 5 estrellas iniciales (vacías)
         for (int i = 1; i <= 5; i++) {
             Label star = new Label("☆");
-            star.setStyle("-fx-font-size: 30px; -fx-cursor: hand;");
+            star.setStyle("-fx-font-size: 30px; -fx-cursor: hand; -fx-text-fill: #f0c419;"); // Color dorado opcional
             int index = i; // para usar dentro del lambda
             star.setOnMouseClicked(e -> updateRating(index));
             ratingStarsContainer.getChildren().add(star);
@@ -123,6 +136,8 @@ public class WriteReview extends BorderPane {
         ratingBox.getChildren().addAll(ratingStarsContainer, lblRatingValue);
 
         headerAndRating.getChildren().addAll(tutorInfoBox, ratingBox);
+        
+        // Esto empuja el rating hacia la derecha cuando la ventana es ancha
         HBox.setHgrow(tutorInfoBox, Priority.ALWAYS);
 
         // =========================================================================
@@ -131,27 +146,35 @@ public class WriteReview extends BorderPane {
 
         HBox bodySection = new HBox(20);
         bodySection.setPrefHeight(300);
+        bodySection.setAlignment(Pos.TOP_LEFT);
 
         // --- Comentarios ---
         VBox commentBox = new VBox(10);
-        commentBox.setPadding(new Insets(20));
-
+        commentBox.setPadding(new Insets(10));
+        
         Label commentLabel = new Label("Comment:");
+        commentLabel.setStyle("-fx-font-weight: bold;");
 
         txtComment = new TextArea();
         txtComment.setPromptText("Escribe tu reseña aquí...");
+        txtComment.setWrapText(true); // Permite que el texto baje de línea
+        
         VBox.setVgrow(txtComment, Priority.ALWAYS);
 
         commentBox.getChildren().addAll(commentLabel, txtComment);
+        
+        // Esto hace que el área de comentario ocupe todo el ancho sobrante
         HBox.setHgrow(commentBox, Priority.ALWAYS);
 
         // --- Tags ---
         VBox tagsBox = new VBox(10);
-        tagsBox.setPadding(new Insets(20));
+        tagsBox.setPadding(new Insets(10));
         tagsBox.setPrefWidth(250);
+        tagsBox.setMinWidth(250); // Fija el ancho del panel derecho
 
         tagSuggestionsContainer = new FlowPane(10, 10);
         Label suggestionLabel = new Label("Suggested Tags:");
+        suggestionLabel.setStyle("-fx-font-weight: bold;");
         tagsBox.getChildren().add(suggestionLabel);
 
         List<String> suggestedTags = List.of(
@@ -164,7 +187,7 @@ public class WriteReview extends BorderPane {
 
         for (String tag : suggestedTags) {
             Label tagLabel = new Label(tag);
-            tagLabel.setStyle("-fx-background-color: #e0f7fa; -fx-border-color: #00bcd4; -fx-border-radius: 5; -fx-padding: 3 8; -fx-cursor: hand;");
+            tagLabel.setStyle("-fx-background-color: #f2cdf8ff; -fx-border-color: #e384f0ff; -fx-border-radius: 5; -fx-padding: 3 8; -fx-cursor: hand;");
             tagLabel.setOnMouseClicked(e -> handleTagSuggestionClick(tag));
             tagSuggestionsContainer.getChildren().add(tagLabel);
         }
@@ -178,13 +201,15 @@ public class WriteReview extends BorderPane {
 
         HBox actionButtons = new HBox(20);
         actionButtons.setAlignment(Pos.CENTER);
-        actionButtons.setPadding(new Insets(10, 0, 0, 0));
+        actionButtons.setPadding(new Insets(10, 0, 10, 0));
 
         btnSkip = new Button("Skip");
         btnSkip.setPrefWidth(120);
+        btnSkip.setStyle("-fx-font-size: 16px; -fx-background-color: #8e8290ff; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
 
         btnSend = new Button("Send");
         btnSend.setPrefWidth(120);
+        btnSend.setStyle("-fx-font-size: 16px; -fx-background-color: #4f1cc7; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;");
 
         actionButtons.getChildren().addAll(btnSkip, btnSend);
 
