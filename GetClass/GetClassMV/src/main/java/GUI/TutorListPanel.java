@@ -18,6 +18,7 @@ public class TutorListPanel extends ScrollPane {
         for (UserTeacherDTO t : teachers) {
             TutorCard card = new TutorCard(
                     t.name,
+                    t.lastName,
                     t.age,
                     t.id,
                     t.tutorInfo.getAboutMe(),
